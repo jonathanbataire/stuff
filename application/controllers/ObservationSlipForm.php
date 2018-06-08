@@ -271,11 +271,11 @@ elseif ($userrole=="OC") {
     public 	function update_approval() {
 		$session_data = $this->session->userdata('logged_in');
       $userstation=$session_data['UserStation'];
-	  $user_id=$session_data['Userid'];
+	  $name=$session_data['FirstName'].' '.$session_data['SurName'];
 		$id= $this->input->post('id');
 		$data = array(
 		'Approved' => $this->input->post('approve'),
-		'ApprovedBy' => $user_id
+		'ApprovedBy' => $name
 		);
 		$query=$this->DbHandler->updateApproval($id,$data);
 		if ($query) {
@@ -655,9 +655,9 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
         $approvalStatus = $this->DbHandler->checkifApproved($id);
 	       
 			
-		if($approvalStatus == 0 && $approved=="TRUE" ){
+		if($approvalStatus == "none" && $approved=="TRUE" ){
 			
-				$approvedby=$session_data['Userid'];
+				$approvedby=$session_data['FirstName'].' '.$session_data['SurName'];
 			
 		}else{
 			$approvedby=$approvalStatus;

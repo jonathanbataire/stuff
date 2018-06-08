@@ -1269,7 +1269,7 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
         $this->db->select('*');
         $this->db->from($tablename.' as report');
         $this->db->join('stations as stationsdata', 'report.station = stationsdata.station_id');
-        $this->db->join('systemusers as users', 'report.ApprovedBy = users.Userid');
+       
 $timeInZoo0=explode(":",$timeInZoo);
 $timeInZoo1=$timeInZoo0[0].$timeInZoo0[1];
 $timeInZoo0=explode(" ",$timeInZoo);
