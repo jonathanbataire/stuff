@@ -441,7 +441,7 @@ if(is_array($displayObservationSlipReportHeaderFields) &&
     ?>
 
     <br><br><br>
-  <span><strong>Data Status</strong></span><span class="dotted-line"><?php  if ($data->Approved=="FALSE"){echo "Not Approved";}else{echo "Approved "."&nbsp;"."By "."&nbsp;".$data->ApprovedBy;}?></span>
+    <span><strong>Data Status</strong></span><span class="dotted-line"><?php  if ($data->Approved=="FALSE"){echo "Not Approved";}else{echo "Approved "."&nbsp;"."By "."&nbsp;".$data->FirstName."&nbsp;".$data->SurName;}?></span>
     </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span>
     <span><strong>Observer's Name</strong></span> <span class="dotted-line"><?php echo $data->O_SubmittedBy;?></span>
 
