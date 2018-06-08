@@ -269,13 +269,22 @@ elseif ($userrole=="OC") {
     }
 
     public 	function update_approval() {
+		$session_data = $this->session->userdata('logged_in');
+      $userstation=$session_data['UserStation'];
+	  $user_id=$session_data['Userid'];
 		$id= $this->input->post('id');
 		$data = array(
-		'Approved' => $this->input->post('approve')
-		
+		'Approved' => $this->input->post('approve'),
+		'ApprovedBy' => $user_id
 		);
-		$this->DbHandler->updateApproval($id,$data);
+		$query=$this->DbHandler->updateApproval($id,$data);
+		if ($query) {
+		$this->session->set_flashdata('success', 'Data was updated successfully!');
 		$this->showWebmobiledata();
+		}else{
+		$this->session->set_flashdata('error', 'Sorry, Data was not updated, Please try again!');
+		$this->showWebmobiledata();	
+		}
 		}
     public function DisplayObservationSlipFormForUpdate(){
         $this->unsetflashdatainfo();
@@ -643,9 +652,21 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
 
         $id = $this->input->post('id');
 
+        $approvalStatus = $this->DbHandler->checkifApproved($id);
+	       
+			
+		if($approvalStatus == 0 && $approved=="TRUE" ){
+			
+				$approvedby=$session_data['Userid'];
+			
+		}else{
+			$approvedby=$approvalStatus;
+				
+		}
+
 
         $updateObservationSlipFormData=array(
-            'Date'=>$date,'station'=>$station,
+            'Date'=>$date,'station'=>$station,'ApprovedBy'=>$approvedby,
             'TIME'=> $timeobservationslip,
             'TotalAmountOfAllClouds'=>$totalAmountOfAllClouds,'TotalAmountOfLowClouds'=> $totalAmountOfLowClouds,
             'TypeOfLowClouds1'=> $TypeOfLowClouds1, 'OktasOfLowClouds1'=> $OktasOfLowClouds1,

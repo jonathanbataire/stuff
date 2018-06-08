@@ -884,7 +884,7 @@ return $this->db->count_all_results();
         //$this->db->where("slip.Userid", $userid);//added
         $this->db->order_by("slip.O_CreationDate","DESC");
         $this->db->limit($NoOfRecords);
-
+        
         $query = $this->db->get();
         if($query -> num_rows() > 0)
         {
@@ -898,7 +898,7 @@ return $this->db->count_all_results();
         }
     }
 
-    public function checkforduplicate($date,$station_id,$timeobservationslip){
+    public function checkforduplicate($date6,$station_id,$timeobservationslip){
         $this->db->select('*');
         $this->db->from('observationslip');
         $this->db->where('Date',$date);
@@ -979,9 +979,37 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
             return FALSE;
         }
     }
+
+
+
+    public function checkifApproved($id){
+        $this->db->select('ApprovedBy');
+        $this->db->from('observationslip');
+        $this->db->where("id",$id);
+       $this->db->limit(1); 
+       $query= $this->db->get();
+       
+           
+                
+       
+        if($query->num_rows()>0){
+            
+            $val=$query->row();
+            $value=$val->ApprovedBy;
+            return $value;
+    
+        }
+        else
+        {
+            return "none";
+        }
+    
+    }
+
     //Update the User
       //jovRi
 public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$id2){
+        
         $this->db->where("Userid",$id);
         $this->db->update($tablename,$updateUserData);
         if ($this->db->affected_rows() ==1)
@@ -1241,6 +1269,7 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
         $this->db->select('*');
         $this->db->from($tablename.' as report');
         $this->db->join('stations as stationsdata', 'report.station = stationsdata.station_id');
+        $this->db->join('systemusers as users', 'report.ApprovedBy = users.Userid');
 $timeInZoo0=explode(":",$timeInZoo);
 $timeInZoo1=$timeInZoo0[0].$timeInZoo0[1];
 $timeInZoo0=explode(" ",$timeInZoo);

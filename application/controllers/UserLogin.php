@@ -90,7 +90,7 @@ class UserLogin extends CI_Controller {
 
                     //Load the next page
                     if($userrole== "OC" || $userrole== "Observer" || $userrole=="ObserverDataEntrant")
-                    redirect(base_url()."index.php/ObservationSlipForm");
+                    redirect(base_url()."index.php/ObservationSlipForm/showWebmobiledata");
                     elseif($userrole=="WeatherForecaster")
                     redirect(base_url()."index.php/ObservationSlipForm/showWebmobiledata");
                     elseif($userrole=="ManagerStationNetworks")

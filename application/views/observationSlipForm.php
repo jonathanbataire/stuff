@@ -105,51 +105,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 						</td>
 					</tr>
-					<tr>
-						<td colspan="6">
 
-								<div class="input-group">
-									<span class="input-group-addon">Total amount of all clouds</span>
-									<select name="totalamountofallclouds_observationslipform"  id="totalamountofallclouds_observationslipform"  onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder=" Enter total amount of All clouds" required>
-										<option value="">--Select Total Amount Of All Clouds </option>
-										<option value="0">0</option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
-										<option value="7">7</option>
-										<option value="8">8</option>
-									</select>
-								</div>
-
-						</td>
-						<td colspan="6">
-
-
-								<div class="input-group">
-									<span class="input-group-addon">Total amount of low clouds</span>
-									<select  name="totalamountoflowclouds_observationslipform" id="totalamountoflowclouds_observationslipform" onkeyup="allowIntegerInputOnly(this)"   class="form-control"  placeholder="Enter total amount of Low clouds" >
-										<option value="">--Select Total Amount of Low Clouds </option>
-										<option value="0">0</option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
-										<option value="7">7</option>
-										<option value="8">8</option>
-
-
-									</select>
-								</div>
-
-						</td>
-					</tr>
-
-					<tr>
+                    <tr>
 						<td colspan="6">
               <div class="input-group"   >
                   <span class="input-group-addon">Time category</span>
@@ -163,7 +120,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</td>
 						<td colspan="6">
 
-              <div class="input-group" id="metartimeId" style="display:block;" >
+              <div class="input-group" id="metartimeId"  >
                   <span class="input-group-addon">NORMAL TIME</span>
                   <select name="metar_time_observationslipform" id="metar_time_observationslipform"  class="form-control compulsory">
                     <option value="<?php $datetime= new DateTime('now',new DateTimeZone('UTC'));  echo $datetime->format('H').":"; echo date('i')>=30? "30Z":"00Z"; ?>"> <?php $datetime= new DateTime('now',new DateTimeZone('UTC'));  echo $datetime->format('H').":"; echo date('i')>=30? "30Z":"00Z"; ?></option>
@@ -235,6 +192,51 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</td>
 
 					</tr>
+					<tr>
+						<td colspan="6">
+
+								<div class="input-group">
+									<span class="input-group-addon">Total amount of all clouds</span>
+									<select name="totalamountofallclouds_observationslipform"  id="totalamountofallclouds_observationslipform"  onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder=" Enter total amount of All clouds" required>
+										<option value="">--Select Total Amount Of All Clouds </option>
+										<option value="0">0</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+									</select>
+								</div>
+
+						</td>
+						<td colspan="6">
+
+
+								<div class="input-group">
+									<span class="input-group-addon">Total amount of low clouds</span>
+									<select  name="totalamountoflowclouds_observationslipform" id="totalamountoflowclouds_observationslipform" onkeyup="allowIntegerInputOnly(this)"   class="form-control"  placeholder="Enter total amount of Low clouds" >
+										<option value="">--Select Total Amount of Low Clouds </option>
+										<option value="0">0</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+
+
+									</select>
+								</div>
+
+						</td>
+					</tr>
+
+					
 
 					<tr>
 						<td colspan = "4">
@@ -1207,50 +1209,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 						</td>
 					</tr>
-					<tr>
-						<td colspan="6">
 
-								<div class="input-group">
-									<span class="input-group-addon">Total amount of all clouds</span>
-									<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="totalamountofallclouds_observationslipform"  id="totalamountofallclouds_observationslipform"  onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder=" Enter total amount of All clouds" required>
-										 <option value="<?php echo $observationslipformidupdate->TotalAmountOfAllClouds;?>"><?php echo $observationslipformidupdate->TotalAmountOfAllClouds;?> </option>
-										<option value="0">0</option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
-										<option value="7">7</option>
-										<option value="8">8</option>
-									</select>
-								</div>
-
-						</td>
-						<td colspan="6">
-
-
-								<div class="input-group">
-									<span class="input-group-addon">Total amount of low clouds</span>
-									<select  <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="totalamountoflowclouds_observationslipform" id="totalamountoflowclouds_observationslipform" onkeyup="allowIntegerInputOnly(this)"   class="form-control"  placeholder="Enter total amount of Low clouds" >
-										<option value="<?php echo $observationslipformidupdate->TotalAmountOfLowClouds;?>"><?php echo $observationslipformidupdate->TotalAmountOfLowClouds;?> </option>
-										<option value="0">0</option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
-										<option value="7">7</option>
-										<option value="8">8</option>
-
-
-									</select>
-								</div>
-						</td>
-					</tr>
-
-					<tr>
+                    <tr>
 						<td colspan="6">
 
 							<div class="input-group">
@@ -1281,7 +1241,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             </div>
 
 
-                <div class="input-group" id="metartimeId"  style="display:<?php echo $observationslipformidupdate->speciOrMetar=="speci"? "none":"block";?>;" >
+                <div class="input-group" id="metartimeId"   >
                     <span class="input-group-addon">METAR TIME</span>
                     <input type="hidden" name="metar_time_observationslipform" id="metar_time_observationslipform" value="<?php echo $observationslipformidupdate->TIME;?>">
                     <select <?php if(1) echo "disabled"; ?> name="" id="" required class="form-control">
@@ -1340,6 +1300,51 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</td>
 
 					</tr>
+
+					<tr>
+						<td colspan="6">
+
+								<div class="input-group">
+									<span class="input-group-addon">Total amount of all clouds</span>
+									<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="totalamountofallclouds_observationslipform"  id="totalamountofallclouds_observationslipform"  onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder=" Enter total amount of All clouds" required>
+										 <option value="<?php echo $observationslipformidupdate->TotalAmountOfAllClouds;?>"><?php echo $observationslipformidupdate->TotalAmountOfAllClouds;?> </option>
+										<option value="0">0</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+									</select>
+								</div>
+
+						</td>
+						<td colspan="6">
+
+
+								<div class="input-group">
+									<span class="input-group-addon">Total amount of low clouds</span>
+									<select  <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="totalamountoflowclouds_observationslipform" id="totalamountoflowclouds_observationslipform" onkeyup="allowIntegerInputOnly(this)"   class="form-control"  placeholder="Enter total amount of Low clouds" >
+										<option value="<?php echo $observationslipformidupdate->TotalAmountOfLowClouds;?>"><?php echo $observationslipformidupdate->TotalAmountOfLowClouds;?> </option>
+										<option value="0">0</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+
+
+									</select>
+								</div>
+						</td>
+					</tr>
+
+					
 
 					<tr>
 						<td colspan = "4">

@@ -456,8 +456,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 <div class="box">
 
                     <?php require_once(APPPATH . 'views/error.php'); ?>
-                    <div class="box-body table-responsive">
-                        <table id="example1" class="table table-bordered table-striped">
+                   <div class="box-body table-responsive" style="overflow:auto;">
+                        <table id="example1" class="table table-bordered table-fixed table-striped">
                             <thead>
                             <tr>
                                 <th>No.</th>
@@ -494,13 +494,15 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <td ><?php echo $userdetails->StationNumber;?></td>
                                         <td ><?php echo $userdetails->station==0? $userdetails->region_zone: $userdetails->StationRegion;?></td>
                                         <td><?php echo $userdetails->UserRole;?></td>
-                                        <?php if($userrole=='Manager' || $userrole=='ManagerData'|| $userrole=='OC'){ ?><td class="no-print">
-
-                                            <a href="<?php echo base_url() . "index.php/Users/DisplayStationUsersFormForUpdate/" .$userdetailsid ;?>" style="cursor:pointer;">Edit</a>
-                                          <?php if(  $userrole=='ManagerData'){ ?>
-                                            <a href="<?php echo base_url() . "index.php/Users/deleteUser/" .$userdetailsid ;?>"
-                                                  onClick="return confirm('Are you sure you want to delete <?php echo $userdetails->FirstName.' '.$userdetails->SurName;?>');">Deactivate</a></td>
-                                           <?php }}?>
+                                        <?php if($userrole=='Manager' || $userrole=='ManagerData'|| $userrole=='OC'){ ?>
+										<td class="no-print">
+                                            <table><tr><td>
+                                            <a class="btn btn-primary" href="<?php echo base_url() . "index.php/Users/DisplayStationUsersFormForUpdate/" .$userdetailsid ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li>Edit</a></td>
+                                         <?php if(  $userrole=='ManagerData'){ ?><td> 
+                                            <a class="btn btn-danger" href="<?php echo base_url() . "index.php/Users/deleteUser/" .$userdetailsid ;?>"
+                                                  onClick="return confirm('Are you sure you want to delete <?php echo $userdetails->FirstName.' '.$userdetails->SurName;?>');"><li class="fa fa-times"></li> Deactivate</a>
+												  </td><?php }?></tr></table></td>
+                                           <?php }?>
                                     </tr>
 
                                 <?php
