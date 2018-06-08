@@ -491,7 +491,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
             'CI_OfPrecipitation'=>$CI_OfPrecipitation_mff, 'BE_OfPrecipitation'=>$BE_OfPrecipitation_mff,
             'IndicatorOfTypeOfIntrumentation'=>$IndicatorOfTypeOfIntrumentation_mff, 	'SignOfPressureChange'=>$SignOfPressureChange_mff,
             'Supp_Info'=>$supplementaryinformation_mff, 'VapourPressure'=>$VapourPressure_mff,
-            'T_H_Graph'=>$thgraph_mff ,'SubmittedBy'=>$user);
+            'T_H_Graph'=>$thgraph_mff ,'O_SubmittedBy'=>$user);
 
 
             $checkduplicateform = $this->DbHandler->checkforduplicate($date,$station_id,$timeobservationslip);
