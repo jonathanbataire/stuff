@@ -1262,20 +1262,57 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
         $result = $query->result();
         return $result;
     }
+
+
+    public function checkwhetherapprovedd($timeInZoo,$date){
+        $this->db->select('ApprovedBy');
+        $this->db->from('observationslip as slip');
+        $timeInZoo0=explode(":",$timeInZoo);
+        $timeInZoo1=$timeInZoo0[0].$timeInZoo0[1];
+        $timeInZoo0=explode(" ",$timeInZoo);
+        $timeInZoo2=($timeInZoo0[0]<10?"0":"").$timeInZoo0[0].$timeInZoo0[1];
+        $timeInZoo0=explode(":",$timeInZoo2);
+        $timeInZoo3=$timeInZoo0[0].$timeInZoo0[1];
+        $this->db->where('slip.TIME', $timeInZoo2);
+        $this->db->where('slip.Date', $date);
+        $this->db->limit(1);
+        // Run the query
+        $query = $this->db->get();
+
+        if($query -> num_rows() >0)
+        {
+            $val = $query->row();
+            $result=$val->ApprovedBy;
+            return $result;
+            //return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+
+        
+    }
     ////////////////////////
     //Select Reports for Certain Forms
     //OBSERVATION SLIP DATA
     public function selectObservationSlipReportForSpecificTimeOfADay($timeInZoo,$date,$stationName,$stationNumber,$tablename){
+       $approve = $this->checkwhetherapprovedd($timeInZoo,$date);
+
         $this->db->select('*');
         $this->db->from($tablename.' as report');
         $this->db->join('stations as stationsdata', 'report.station = stationsdata.station_id');
-        $this->db->join('systemusers as users', 'report.ApprovedBy = users.Userid');
-$timeInZoo0=explode(":",$timeInZoo);
-$timeInZoo1=$timeInZoo0[0].$timeInZoo0[1];
-$timeInZoo0=explode(" ",$timeInZoo);
-$timeInZoo2=($timeInZoo0[0]<10?"0":"").$timeInZoo0[0].$timeInZoo0[1];
-$timeInZoo0=explode(":",$timeInZoo2);
-$timeInZoo3=$timeInZoo0[0].$timeInZoo0[1];
+
+        if($approve != 0 && $approve != false){
+            $this->db->join('systemusers as users', 'report.ApprovedBy = users.Userid');
+        }
+        
+        $timeInZoo0=explode(":",$timeInZoo);
+        $timeInZoo1=$timeInZoo0[0].$timeInZoo0[1];
+        $timeInZoo0=explode(" ",$timeInZoo);
+        $timeInZoo2=($timeInZoo0[0]<10?"0":"").$timeInZoo0[0].$timeInZoo0[1];
+        $timeInZoo0=explode(":",$timeInZoo2);
+        $timeInZoo3=$timeInZoo0[0].$timeInZoo0[1];
 
 //die($timeInZoo3.$timeInZoo2);
 
