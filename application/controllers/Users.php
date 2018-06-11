@@ -353,12 +353,6 @@ class Users extends CI_Controller {
             'UserEmail' => $useremail, 'UserPhone' => $userphone,'UserRole' => $userRoleAssigned);
 
 
-        $updatesuccess=$this->DbHandler->updateUser($updateUserData, $updateUserData2,'systemusers',$id,$stationId);
-
-        //Redirect the user back with  message
-        if($updatesuccess){
-            //Store User logs.
-            //Create user Logs
             $session_data = $this->session->userdata('logged_in');
             $userrole=$session_data['UserRole'];
             $userstation=$session_data['UserStation'];
@@ -368,12 +362,32 @@ class Users extends CI_Controller {
             $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
             $userlogs = array('User' => $name,
+            'UserRole' => $userrole,'Action' => 'Updated user details',
+            'Details' => $name . ' updated user details in the system ',
+            'station' => $userstationId ,
+            'IP' => $this->input->ip_address());
+        
+        $updatesuccess=$this->DbHandler->updateUser($updateUserData, $updateUserData2,'systemusers',$id,$stationId,$userlogs);
+
+        //Redirect the user back with  message
+        if($updatesuccess){
+            //Store User logs.
+            //Create user Logs
+           /* $session_data = $this->session->userdata('logged_in');
+            $userrole=$session_data['UserRole'];
+            $userstation=$session_data['UserStation'];
+            $userstationNo=$session_data['StationNumber'];
+            $StationRegion=$session_data['StationRegion'];
+            $userstationId=$session_data['StationId'];
+            $name=$session_data['FirstName'].' '.$session_data['SurName'];
+
+           /* $userlogs = array('User' => $name,
                 'UserRole' => $userrole,'Action' => 'Updated user details',
                 'Details' => $name . ' updated user details in the system ',
                 'station' => $userstationId ,
                 'IP' => $this->input->ip_address());
             //  save user logs
-            $this->DbHandler->saveUserLogs($userlogs);
+            $this->DbHandler->saveUserLogs($userlogs);*/
 
 
 
@@ -438,7 +452,9 @@ class Users extends CI_Controller {
         $userstation=$session_data['UserStation'];
 
 
+
         $query = $this->DbHandler->selectAllFromSystemData($userstation,'StationName','userlogs');  //value,field,table
+        //$query1 = $this->DbHandler->SelectFieldsForUserUpdate();
         //  var_dump($query);
         if ($query) {
             $data['userlogs'] = $query;

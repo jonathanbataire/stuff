@@ -686,6 +686,30 @@ return $this->db->count_all_results();
             return FALSE;
         }
     }
+
+    //select field modified by user
+    public function SelectFieldsForUserUpdate(){
+        $this->db->select('*');
+        $this->db->from('data_tracking as tracking');
+        $this->db->join('systemusers as user', 'tracking.modifiedBy= user.Userid');
+        $this->db->order_by("tracking.id", "desc");
+
+        $query = $this->db->get();
+                if($query -> num_rows() > 0)
+                {
+                    $result = $query->result();  //$query -> result_array();
+                    return $result;
+                    //return $query->result();
+                }
+                else
+                {
+                    //$results = $query->result();
+                    return false;
+                }
+
+    }
+
+
     //Select all from the tables(Stations,Instruments,Elements,UserLogs) in the DB.
     //jovRi
   public function selectAllFromSystemData($value, $field,$tablename,$id_to_use){ //$stationame ,field StationName
@@ -713,12 +737,16 @@ return $this->db->count_all_results();
                     $this->db->order_by("station_id", "desc");
   }else{
     $this->db->select('*');
-    $this->db->from($tablename.' as tab');
+    $this->db->from($tablename.' as tab');//select from userlogs
     $this->db->join('stations as stationsdata', 'tab.station= stationsdata.station_id');
-  $this->db->where_not_in('tab.station','0');
+    $this->db->where_not_in('tab.station','0');
     if($userrole=='OC' ){
         $this->db->where('tab.'.$field, $value);
     }
+
+    //$this->db->join('data_tracking as tracking','tracking.modified = tab.Date');
+    //$this->db->where('tracking.modifiedBy','tab.Userid');
+    
     $this->db->order_by("tab.id", "desc");
   }
               // Run the query
@@ -1023,7 +1051,24 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
 
     //Update the User
       //jovRi
-public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$id2){
+public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$id2,$userlogs){
+
+    $user=$userlogs['User'];
+    $UserRole=$userlogs['UserRole'];
+    $Action=$userlogs['Action'];
+    $Details=$userlogs['Details'];
+    $station=$userlogs['station'];
+    $IP=$userlogs['IP'];
+
+    $session_data = $this->session->userdata('logged_in');
+        $name=$session_data['Userid'];
+        $this->db->query("SET @var1= $name");
+        $this->db->query("SET @User= '$user'");
+        $this->db->query("SET @UserRole= '$UserRole'");
+        $this->db->query("SET @Action= '$Action'");
+        $this->db->query("SET @Details='$Details'");
+        $this->db->query("SET @station= $station");
+        $this->db->query("SET @IP= '$IP'");
         
         $this->db->where("Userid",$id);
         $this->db->update($tablename,$updateUserData);
@@ -1177,10 +1222,10 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
     }
     //jovRi
     public function selectUserById($value, $field, $tablename){  //$value, $field,$table
+        
         $this->db->select('*');
         $this->db->from($tablename.' as user');
         $this->db->join('stations as stationsdata', 'user.station= stationsdata.station_id');
-
         $this->db->where('user.'.$field, $value);
         $this->db->order_by("user.Userid", "desc");
         // Run the query
@@ -1196,6 +1241,7 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
             //$results = $query->result();
             return false;
         }
+
     }
 //jovRi
     function checkforDuplicateUserDetails($firstname, $surname,$email,$stationName,$stationNumber,$stationRegion) {
