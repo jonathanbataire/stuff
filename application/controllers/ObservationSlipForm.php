@@ -492,13 +492,13 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
             'IndicatorOfTypeOfIntrumentation'=>$IndicatorOfTypeOfIntrumentation_mff, 	'SignOfPressureChange'=>$SignOfPressureChange_mff,
             'Supp_Info'=>$supplementaryinformation_mff, 'VapourPressure'=>$VapourPressure_mff,
             'T_H_Graph'=>$thgraph_mff ,'O_SubmittedBy'=>$user);
-
-
+                   
+            
             $checkduplicateform = $this->DbHandler->checkforduplicate($date,$station_id,$timeobservationslip);
 
             if($checkduplicateform){
                 $this->session->set_flashdata('error', 'Sorry, A Record for this time has Already Been Submitted');
-                $this->index();
+                $this->showWebmobiledata();
             }
             else{
 
@@ -527,12 +527,12 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
         
         
                     $this->session->set_flashdata('success', 'New Observation Slip info was added successfully!');
-                    $this->index();
+                    $this->showWebmobiledata();
         
                 }
                 else{
-                    $this->session->set_flashdata('error', '"Sorry, we encountered an issue Observation Slip Data uninserted! ');
-                    $this->index();
+                    $this->session->set_flashdata('error', '"Sorry, we encountered an issue Observation Slip Data not inserted! ');
+                    $this->showWebmobiledata();
         
                 }
 
@@ -798,7 +798,7 @@ foreach ($updateObservationSlipFormData as $key => $value) {
     ///Check DB against the DATE,STATIONName,StationNumber,TIME,METAR/SPECI OPTION
     function checkInDBIfObservationSlipFormRecordExistsAlready($date,$time_OfObservationSlipForm,$stationName,$stationNumber) {  //Pass the StationName to get the Station Number.
         $this->load->helper(array('form', 'url'));
-
+        
         $stationName = ($stationName == "") ? $this->input->post('stationName') : $stationName;
         $date = ($date == "") ? $this->input->post('date') : $date;
         $stationNumber = ($stationNumber == "") ? $this->input->post('stationNumber') : $stationNumber;

@@ -324,7 +324,22 @@ return $this->db->count_all_results();
     }
     //Check DB if the form being inserted exists(check against the date,stationName,StationNumber and Time)
     function checkInDBIfObservationSlipFormRecordExistsAlready($date,$time,$stationName,$stationNumber,$tablename) {
-        $this->db->select('*');
+        $this->db->select('station_id');
+        $this->db->from('stations');
+        
+        $this->db->where('StationName', $stationName);
+        $this->db->where('StationNumber', $stationNumber);
+         $this->db->limit(1);
+		  $query = $this->db->get();
+		   if($query -> num_rows() >0){
+			   $result= $query->row();
+			   
+			   return $result;
+		   }else{
+			   return 0;
+		   }
+		  
+		$this->db->select('*');
         $this->db->from($tablename);
         $this->db->where('DATE', $date);
         $this->db->where('StationName', $stationName);
@@ -898,11 +913,11 @@ return $this->db->count_all_results();
         }
     }
 
-    public function checkforduplicate($date6,$station_id,$timeobservationslip){
+    public function checkforduplicate($date,$station_id,$timeobservationslip){
         $this->db->select('*');
         $this->db->from('observationslip');
         $this->db->where('Date',$date);
-        $this->db->where('station',$station_id);
+        $this->db->where('Station',$station_id);
         $this->db->where('TIME',$timeobservationslip);
         $this->db->limit(1);
 

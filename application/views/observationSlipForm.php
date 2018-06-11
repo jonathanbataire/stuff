@@ -2005,17 +2005,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</div>
 						</td>
 						<td>
-							<div class="input-group">
-                        <span class="input-group-addon">Approved</span>
-                        <?phpif($userrole=="WeatherForecaster"){?>
-                            <input type="hidden" name="approval" id="approval" value="<?php echo $observationslipformidupdate->Approved; ?>">
-                        <?php}?>
-                        <select <?php if($userrole=="WeatherForecaster" ||  $observationslipformidupdate->Approved=='TRUE') echo "disabled"; ?> name="approval" id="approval"  required class="form-control">
-                            <option value="<?php echo $observationslipformidupdate->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
-                            <option value="TRUE">TRUE</option>
-                            <option value="FALSE">FALSE</option>
-                        </select>
-                    </div>
+							 
 						</td>
 					</tr>
 
@@ -2219,6 +2209,19 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
               <span class="input-group-addon">TREND</span>
               <textarea <?php if($userrole=="WeatherForecaster") echo ""; else echo "disabled"; ?> name="Trend_mff" value="<?php echo $observationslipformidupdate->trend;?>"  class="form-control" style="height:40px;" id="Trend_mff" onkeyup=""></textarea>
             </td>
+			<td>
+							<div class="input-group">
+                        <span class="input-group-addon">Approved</span>
+                        <?phpif($userrole=="WeatherForecaster"){?>
+                            <input type="hidden" name="approval" id="approval" value="<?php echo $observationslipformidupdate->Approved; ?>">
+                        <?php}?>
+                        <select <?php if($userrole=="WeatherForecaster" ||  $observationslipformidupdate->Approved=='TRUE') echo "disabled"; ?> name="approval" id="approval"  required class="form-control">
+                            <option value="<?php echo $observationslipformidupdate->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
+                            <option value="TRUE">TRUE</option>
+                          
+                        </select>
+                    </div>
+						</td>
           </tr>
         </table>
       </div>
@@ -2482,8 +2485,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                       <th><?php echo $observationslipdata->VapourPressure;?></th>
                                       <th><?php echo $observationslipdata->T_H_Graph;?></th>
                                       <th><?php echo $observationslipdata->DeviceType;?></th>
-                                      <td><?php echo $observationslipdata->FirstName; echo '<br>';//SubmittedBy;
-                                      echo $observationslipdata->SurName;?></td>
+                                      <td><?php if($observationslipdata->DeviceType=="AWS"){echo "AWS";}else{echo $observationslipdata->FirstName; echo '<br>';
+                                      echo $observationslipdata->SurName;}?></td>
                                       <th><?php echo $observationslipdata->Remarks;?></th>
                                       <td><?php echo $observationslipdata->Approved; ?></td>
                                       <?php if(  $observationslipformdata[0]->DeviceType!="AWS" && ( $userrole=='OC' || $userrole== "WeatherForecaster" || $userrole=='Observer' || $userrole=="ObserverDataEntrant" || $userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer' )){ ?>
