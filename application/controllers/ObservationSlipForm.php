@@ -495,6 +495,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
 
 
             $checkduplicateform = $this->DbHandler->checkforduplicate($date,$station_id,$timeobservationslip);
+            
 
             if($checkduplicateform){
                 $this->session->set_flashdata('error', 'Sorry, A Record for this time has Already Been Submitted');
