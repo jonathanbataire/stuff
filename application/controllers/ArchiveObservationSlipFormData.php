@@ -18,13 +18,16 @@ class ArchiveObservationSlipFormData extends CI_Controller {
         //$userrole=$session_data['UserRole'];
         $userstation=$session_data['UserStation'];
         $query = $this->DbHandler->selectAll($userstation,'StationName','archiveobservationslipformdata');
-
+         //
 
         //  var_dump($query);
         if ($query) {
             $data['archivedobservationslipformdata'] = $query;
+			
         } else {
-            $data['archivedobservationslipformdata'] = array();
+            //$data['archivedobservationslipformdata'] = array();
+			$data['archivedobservationslipformdata'] = $query;
+			//exit("make dat");
         }
 
         $this->load->view('archiveObservationSlipFormData', $data);
@@ -98,8 +101,9 @@ class ArchiveObservationSlipFormData extends CI_Controller {
 
             $station = firstcharuppercase(chgtolowercase($this->input->post('station_archiveobservationslipformdata')));
             $stationNumber = $this->input->post('stationNo_archiveobservationslipformdata');
+            $station_id= $this->DbHandler->identifyStationById($station,$stationNumber);
 
-
+            
 
         $timeobservationslipform = $this->input->post('time_archiveobservationslipformdata');
 
@@ -197,7 +201,7 @@ class ArchiveObservationSlipFormData extends CI_Controller {
 
 
         $insertObservationSlipFormData=array(
-            'Date'=>$date,'StationName'=>$station,'StationNumber'=>$stationNumber,
+            'Date'=>$date,'Station'=>$station_id,
             'TIME'=> $timeobservationslipform,
             'TotalAmountOfAllClouds'=>$totalAmountOfAllClouds,
 

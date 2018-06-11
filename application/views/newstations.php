@@ -144,7 +144,19 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <input type="text" name="altitudestation" id="altitudestation" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter altitude" >
                             </div>
                         </div>
+						
+						 <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">Status Of Station</span>
+                                <select name="statusstation" id="statusstation" onchange="Disabled()" onkeyup="allowCharactersInputOnly(this)"  class="form-control"   placeholder="Enter Status" >
+                                    <option value="">--Select Status Of Station--</option>
+                                    <option value="Active">Active</option>
+                                    <option value="InActive">InActive</option>
 
+
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Opened</span>
@@ -159,18 +171,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon">Status Of Station</span>
-                                <select name="statusstation" id="statusstation" onkeyup="allowCharactersInputOnly(this)"  class="form-control"   placeholder="Enter Status" >
-                                    <option value="">--Select Status Of Station--</option>
-                                    <option value="Active">Active</option>
-                                    <option value="InActive">InActive</option>
-
-
-                                </select>
-                            </div>
-                        </div>
+                       
 
                         <div class="form-group">
                             <div class="input-group">
@@ -1052,5 +1053,18 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             });
         });
     </script>
+	
+	<script>
+
+function Disabled(){
+    if(document.getElementById("statusstation").value === "Active"){
+
+        document.getElementById("expdate").disabled=true;
+    }
+    else{
+        document.getElementById("expdate").disabled='';
+    }
+}s
+</script>
 
 <?php require_once(APPPATH . 'views/footer.php'); ?>

@@ -97,7 +97,7 @@ class ArchiveWeatherSummaryFormReportData extends CI_Controller {
         $station = firstcharuppercase(chgtolowercase($this->input->post('station_archiveweathersummaryformreportdata')));
 
         $stationNumber = $this->input->post('stationNo_archiveweathersummaryformreportdata');
-
+         $station_id= $this->DbHandler->identifyStationById($station,$stationNumber);
 
 
 
@@ -179,7 +179,7 @@ class ArchiveWeatherSummaryFormReportData extends CI_Controller {
 
 
         $insertArchiveWeatherSummaryFormReportDataIntoDB=array(
-            'Date'=>$date,'StationName'=>$station,'StationNumber'=> $stationNumber,
+            'Date'=>$date,'Station'=>$station_id,
             'SubmittedBy' => $SubmittedBy ,'Approved'=>$Approved,
             'TEMP_MAX'=> $max, 'TEMP_MIN'=>$min,'SUNSHINE'=>$sunshine,
 
