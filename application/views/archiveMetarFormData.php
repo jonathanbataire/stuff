@@ -279,7 +279,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
         <div class="modal-footer clearfix">
 
-            <a href="<?= base_url(); ?>index.php/ArchiveMetarForm/" class="btn btn-danger"><i class="fa fa-times"></i> Cancel</a>
+            <a href="<?= base_url(); ?>index.php/ArchiveMetarFormData" class="btn btn-danger"><i class="fa fa-times"></i> Cancel</a>
 
             <button type="submit" id="postarchivemetarformdata_button" name="postarchivemetarformdata_button" class="btn btn-primary pull-left"><i class="fa fa-plus"></i> Save  New Archive metar Form</button>
         </div>
@@ -531,7 +531,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 <div class="box">
                     <?php require_once(APPPATH . 'views/error.php'); ?>
-                    <div class="box-body table-responsive">
+                    <div class="box-body table-responsive"style="overflow:auto;">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
@@ -595,7 +595,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <td><?php echo $metardata->SubmittedBy;?></td>
                                     <td class="no-print">
 
-                                            <a href="<?php echo base_url() . "index.php/ArchiveMetarFormData/DisplayArchivedMetarFormForUpdate/" .$metarid ;?>" style="cursor:pointer;">Edit</a>
+                                            <a  class="btn btn-primary " href="<?php echo base_url() . "index.php/ArchiveMetarFormData/DisplayArchivedMetarFormForUpdate/" .$metarid ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li> Edit</a>
                                     </tr>
 
                                 <?php

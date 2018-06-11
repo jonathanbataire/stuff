@@ -798,13 +798,14 @@ return $this->db->count_all_results();
 
                     }
 
-                    $this->db->order_by("slip.O_CreationDate", "desc");
+                    $this->db->order_by("slip.CreationDate", "desc");
                     $this->db->limit($NoOfRecords);
                     // Run the query
                     $query = $this->db->get();
                     if($query -> num_rows() > 0)
                     {
-                        $result = $query->result();  //$query -> result_array();
+                        $result = $query->result();
+						//$query -> result_array();
                         return $result;
                     }
                     else

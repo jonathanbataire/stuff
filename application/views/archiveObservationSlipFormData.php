@@ -1748,7 +1748,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                      <td><?php echo $archiveobservationslipdata->SubmittedBy;?></td>
                                      <td class="no-print">
 
-                                            <a href="<?php echo base_url()."index.php/ArchiveObservationSlipFormData/DisplayArchiveObservationSlipFormForUpdate/" .$archiveobservationslipdataid; ?>" style="cursor:pointer;">Edit</a>
+                                            <a class="btn btn-primary" href="<?php echo base_url()."index.php/ArchiveObservationSlipFormData/DisplayArchiveObservationSlipFormForUpdate/" .$archiveobservationslipdataid; ?>" style="cursor:pointer;"><li class="fa fa-edit"></li> Edit</a>
 
                                     </tr>
 
