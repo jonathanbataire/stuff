@@ -69,8 +69,13 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <td ><?php echo $userlogsdata->Date;?></td>
                                         <td ><?php echo $userlogsdata->User;?></td>
                                         <td ><?php echo $userlogsdata->UserRole;?></td>
-                                        <td ><?php echo $userlogsdata->Action;?></td>
-                                        <td ><?php echo $userlogsdata->Details;?></td>
+                                        <td ><?php echo $action=$userlogsdata->Action;?></td>
+                                        <td ><?php echo $userlogsdata->Details;
+                                        if($action == 'Updated user details'){
+                                            echo " <br> Changed <b>".$userlogsdata->field."</b> from <b>"
+                                            .$userlogsdata->old_value."</b> to <b>".$userlogsdata->new_value."</b>";
+                                        }
+                                        ?></td>
                                         <td ><?php echo $userlogsdata->StationName;?></td>
                                         <td ><?php echo $userlogsdata->StationNumber;?></td>
                                         <td ><?php echo $userlogsdata->IP;?></td>
