@@ -826,7 +826,7 @@ return $this->db->count_all_results();
 
                     }
 
-                    $this->db->order_by("slip.CreationDate", "desc");
+                    $this->db->order_by("slip.O_CreationDate", "desc");
                     $this->db->limit($NoOfRecords);
                     // Run the query
                     $query = $this->db->get();
@@ -969,6 +969,7 @@ return $this->db->count_all_results();
     //Insertion for all Forms in the DB
     function  insertData($FormDataToInsert,$tablename){
 
+
         $this->db->insert($tablename,$FormDataToInsert);
         if ($this->db->affected_rows() ==1)
         {
@@ -1002,24 +1003,27 @@ return $this->db->count_all_results();
 public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, $id){
 
     
+    //print_r($FormDataToUpdate);exit();
 
         if($tablename=="stations")
            $this->db->where('station_id',$id);
-        else{
-            $this->db->where('id',$id);
-        }
+       // else{
+        //    $this->db->where('id',$id);
+        //}
 
         $this->db->where('id',$id);
-        $this->db->update($tablename,$FormDataToUpdate);  
+        $this->db->update('observationslip',$FormDataToUpdate);  
 
-        
+        exit('hety...'.$this->db->affected_rows());
         
         if ($this->db->affected_rows() ==1)
         {
+            //exit('true');
             return TRUE;
         }
         else
         {
+            //exit('false');
             return FALSE;
         }
     }
@@ -1326,35 +1330,7 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
     }
 
 
-    public function checkwhetherapprovedd($timeInZoo,$date){
-        $this->db->select('ApprovedBy');
-        $this->db->from('observationslip as slip');
-        $timeInZoo0=explode(":",$timeInZoo);
-        $timeInZoo1=$timeInZoo0[0].$timeInZoo0[1];
-        $timeInZoo0=explode(" ",$timeInZoo);
-        $timeInZoo2=($timeInZoo0[0]<10?"0":"").$timeInZoo0[0].$timeInZoo0[1];
-        $timeInZoo0=explode(":",$timeInZoo2);
-        $timeInZoo3=$timeInZoo0[0].$timeInZoo0[1];
-        $this->db->where('slip.TIME', $timeInZoo2);
-        $this->db->where('slip.Date', $date);
-        $this->db->limit(1);
-        // Run the query
-        $query = $this->db->get();
-
-        if($query -> num_rows() >0)
-        {
-            $val = $query->row();
-            $result=$val->ApprovedBy;
-            return $result;
-            //return $query->result();
-        }
-        else
-        {
-            return false;
-        }
-
-        
-    }
+    
     ////////////////////////
     //Select Reports for Certain Forms
     //OBSERVATION SLIP DATA

@@ -747,13 +747,13 @@ foreach ($updateObservationSlipFormData as $key => $value) {
 
 
             $this->session->set_flashdata('success', 'Observation Slip info was updated successfully!');
-            $this->index();
+            $this->showWebmobiledata();
 
         }
         else{
 
             $this->session->set_flashdata('error', 'Sorry, we encountered an issue! Observation Slip did not update');
-            $this->index();
+            $this->showWebmobiledata();
 
         }
 
