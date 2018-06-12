@@ -826,7 +826,7 @@ return $this->db->count_all_results();
 
                     }
 
-                    $this->db->order_by("slip.CreationDate", "desc");
+                    $this->db->order_by("slip.O_CreationDate", "desc");
                     $this->db->limit($NoOfRecords);
                     // Run the query
                     $query = $this->db->get();
@@ -1010,7 +1010,7 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
             $this->db->where('id',$id);
         }
 
-        $this->db->where('id',$id);
+        //$this->db->where('id',$id);
         $this->db->update($tablename,$FormDataToUpdate);  
 
         
@@ -1086,9 +1086,12 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
     }
     ///////////////////////////////////////////////////////
     //Delete for all Forms
-  public  function  deleteData($tablename,$deleteFormDataId){  //$tablename and id of the record
-        $deletesql = "DELETE FROM $tablename WHERE id =? ";
-
+  public  function  deleteData($tablename,$deleteFormDataId){ 
+        if ($tablename=="stations"){  //$tablename and id of the record
+           $deletesql = "DELETE FROM $tablename WHERE station_id =? ";
+		}else{
+			 $deletesql = "DELETE FROM $tablename WHERE id =? ";
+		}
         // Run the query
         $this->db->query($deletesql, array($deleteFormDataId));
         //return $this->db->affected_rows();

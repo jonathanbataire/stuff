@@ -518,7 +518,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                          <table>
 										 <tr><td>
                                             <a class="btn btn-primary" href="<?php echo base_url() . "index.php/Stations/DisplayStationsFormForUpdate/" .$stationdata->station_id;?>" style="cursor:pointer;"><li class="fa fa-edit"></li>Edit</a>
-                                           </td><td> <a class="btn btn-danger" href="<?php echo base_url() . "index.php/Stations/deleteStation/" .$stationid ;?>"
+                                           </td><td> <a class="btn btn-danger" href="<?php echo base_url() . "index.php/Stations/deleteStation/" .$stationdata->station_id ;?>"
                                                   onClick="return confirm('Are you sure you want to delete <?php echo $stationdata->StationName;?>');"><li class="fa fa-times"></li> Delete</a></td></tr></table> </td>
                                     </tr>
 

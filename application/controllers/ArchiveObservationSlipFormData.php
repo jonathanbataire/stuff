@@ -25,9 +25,9 @@ class ArchiveObservationSlipFormData extends CI_Controller {
             $data['archivedobservationslipformdata'] = $query;
 			
         } else {
-            //$data['archivedobservationslipformdata'] = array();
-			$data['archivedobservationslipformdata'] = $query;
-			//exit("make dat");
+            $data['archivedobservationslipformdata'] = array();
+			
+			exit("make dat");
         }
 
         $this->load->view('archiveObservationSlipFormData', $data);
