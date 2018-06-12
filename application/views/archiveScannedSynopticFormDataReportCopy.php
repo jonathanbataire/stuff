@@ -402,7 +402,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                    <?php if($userrole=="OC"|| $userrole=="ObserverArchive"){ ?>
                                      <td class="no-print">
 
-                                            <a href="<?php echo base_url() . "index.php/ArchiveScannedSynopticFormDataReportCopy/DisplayFormToArchiveScannedSynopticFormReportForUpdate/" .$data->id ;?>" style="cursor:pointer;">Edit</a>
+                                            <a  class= "btn btn-primary" href="<?php echo base_url() . "index.php/ArchiveScannedSynopticFormDataReportCopy/DisplayFormToArchiveScannedSynopticFormReportForUpdate/" .$data->id ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li> Edit</a>
                                     </td>
                                     </tr>
 

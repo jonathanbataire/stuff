@@ -475,10 +475,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                                         <?php if($userrole=='ManagerStationNetworks'){ ?><td class="no-print">
-
-                                            <a href="<?php echo base_url() . "index.php/NewStations/DisplayStationsFormForUpdate/" .$stationid ;?>" style="cursor:pointer;">Edit</a>
-                                            <!--  or <a href="<?php echo base_url() . "index.php/NewStations/deleteStation/" .$stationid ;?>"
-                                                  onClick="return confirm('Are you sure you want to delete <?php echo $stationdata->StationName;?>');">Delete</a></td><?php }?> -->
+                                          <table><tr><td>
+                                            <a class="btn btn-primary" href="<?php echo base_url() . "index.php/NewStations/DisplayStationsFormForUpdate/" .$stationid ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li> Edit</a>
+                                          </td> <td> <a class="btn btn-danger" href="<?php echo base_url() . "index.php/NewStations/deleteStation/" .$stationid ;?>"
+                                                  onClick="return confirm('Are you sure you want to delete <?php echo $stationdata->StationName;?>');"> <li class="fa fa-times"></li> Delete</a></td></tr></table></td><?php }?> 
                                     </tr>
 
                                 <?php

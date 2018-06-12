@@ -1685,7 +1685,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <h3 class="box-title"> Archive Observation Slip Form</h3>
                     </div><!-- /.box-header -->
                     <?php require_once(APPPATH . 'views/error.php'); ?>
-                    <div class="box-body table-responsive">
+                    <div class="box-body table-responsive" style="overflow:auto">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>

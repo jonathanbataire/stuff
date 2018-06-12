@@ -1539,7 +1539,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 <div class="box">
 
-                    <div class="box-body table-responsive">
+                    <div class="box-body table-responsive" style="overflow:auto">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
@@ -1606,8 +1606,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                  <td ><?php echo $data->Approved;?></td>
                                  <td ><?php echo $data->SubmittedBy;?></td>
                                  <td class="no-print">
-                                        <a href="<?php echo base_url()."index.php/ArchiveSynopticFormReportData/DisplaySynopticFormForUpdate/" .$data->id ;?>"
-                                           style="cursor:pointer;">Edit</a>
+                                        <a class="btn btn-primary" href="<?php echo base_url()."index.php/ArchiveSynopticFormReportData/DisplaySynopticFormForUpdate/" .$data->id ;?>"
+                                           style="cursor:pointer;"><li class="fa fa-edit"></li> Edit</a>
 
                                 </tr>
 
