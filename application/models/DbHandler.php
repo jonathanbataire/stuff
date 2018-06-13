@@ -949,6 +949,7 @@ return $this->db->count_all_results();
         $this->db->where('Date',$date);
         $this->db->where('Station',$station_id);
         $this->db->where('TIME',$timeobservationslip);
+		 $this->db->where('DeviceType','web');
         $this->db->limit(1);
 
         $query = $this->db->get();
