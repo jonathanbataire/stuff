@@ -1230,7 +1230,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
               <span class="input-group-addon">SPECI TIME</span>
 
                 <div class="input-group bootstrap-timepicker timepicker">
-                  <input id="timepicker1" type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="speci_time_observationslipform" value="<?php echo $observationslipformidupdate->TIME;?>" id="time_observationslipform" required class="form-control">
+                  <input id="timepicker1" type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="speci_time" value="<?php echo $observationslipformidupdate->TIME;?>" id="time_observationslipform" required class="form-control">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                 </div>
                 <span ng-hide="Timerequired" class="validator">Time required please</span>
@@ -1243,7 +1243,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 <div class="input-group" id="metartimeId"   >
                     <span class="input-group-addon">METAR TIME</span>
-                    <input type="hidden" name="metar_time_observationslipform" id="metar_time_observationslipform" value="<?php echo $observationslipformidupdate->TIME;?>">
+                    <input type="hidden" name="metar_time" id="metar_time" value="<?php echo $observationslipformidupdate->TIME;?>">
                     <select <?php if(1) echo "disabled"; ?> name="" id="" required class="form-control">
                       <option value="<?php echo $observationslipformidupdate->TIME;?>"><?php echo $observationslipformidupdate->TIME;?></option>
                       <option value="00:00Z">00:00Z</option>
@@ -1303,10 +1303,9 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 					<tr>
 						<td colspan="6">
-
 								<div class="input-group">
 									<span class="input-group-addon">Total amount of all clouds</span>
-									<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="totalamountofallclouds_observationslipform"  id="totalamountofallclouds_observationslipform"  onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder=" Enter total amount of All clouds" required>
+									<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="totalamountofallclouds"  id="totalamountofallclouds"  onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder=" Enter total amount of All clouds" required>
 										 <option value="<?php echo $observationslipformidupdate->TotalAmountOfAllClouds;?>"><?php echo $observationslipformidupdate->TotalAmountOfAllClouds;?> </option>
 										<option value="0">0</option>
 										<option value="1">1</option>
@@ -1326,7 +1325,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 								<div class="input-group">
 									<span class="input-group-addon">Total amount of low clouds</span>
-									<select  <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="totalamountoflowclouds_observationslipform" id="totalamountoflowclouds_observationslipform" onkeyup="allowIntegerInputOnly(this)"   class="form-control"  placeholder="Enter total amount of Low clouds" >
+									<select  <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="totalamountoflowclouds" id="totalamountoflowclouds" onkeyup="allowIntegerInputOnly(this)"   class="form-control"  placeholder="Enter total amount of Low clouds" >
 										<option value="<?php echo $observationslipformidupdate->TotalAmountOfLowClouds;?>"><?php echo $observationslipformidupdate->TotalAmountOfLowClouds;?> </option>
 										<option value="0">0</option>
 										<option value="1">1</option>
@@ -1367,7 +1366,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 					<tr>
 						<td>
-						<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfLowClouds1_observationslipform"  id="TypeOfLowClouds1_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter Type of LOW Cloud" >
+						<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfLowClouds1"  id="TypeOfLowClouds1" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter Type of LOW Cloud" >
 						<option value="<?php echo $observationslipformidupdate->TypeOfLowClouds1;?>"><?php echo $observationslipformidupdate->TypeOfLowClouds1;?> </option>
 						<option value="0">0</option>
 						<option value="1">1</option>
@@ -1384,7 +1383,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</td>
 
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfLowClouds1_observationslipform" id="OktasOfLowClouds1_observationslipform" onkeyup="allowIntegerInputOnly(this)" class="form-control" placeholder="Enter OKTAS  for LOW CLOUD" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfLowClouds1" id="OktasOfLowClouds1" onkeyup="allowIntegerInputOnly(this)" class="form-control" placeholder="Enter OKTAS  for LOW CLOUD" >
 							<option value="<?php echo $observationslipformidupdate->OktasOfLowClouds1;?>"><?php echo $observationslipformidupdate->OktasOfLowClouds1;?> </option>
 							<option value="0">0</option>
 							<option value="1">1</option>
@@ -1401,11 +1400,11 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</td>
 
 						<td>
-							<input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfLowClouds1_observationslipform"  id="HeightLowClouds1_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfLowClouds1;?>" style = 'width:70px;'>
+							<input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfLowClouds1"  id="HeightLowClouds1" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfLowClouds1;?>" style = 'width:70px;'>
 						</td>
 
 						<td>
-							<select  <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfLowClouds1_observationslipform"  id="CLCODEOfLowClouds1_observationslipform" onkeyup="allowCharactersInputOnly(this)"  class="form-control" >
+							<select  <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfLowClouds1"  id="CLCODEOfLowClouds1" onkeyup="allowCharactersInputOnly(this)"  class="form-control" >
 							<option value="<?php echo $observationslipformidupdate->CLCODEOfLowClouds1;?>"><?php echo $observationslipformidupdate->CLCODEOfLowClouds1;?> </option>
 							<option value="Sc">Sc</option>
 							<option value="St">St</option>
@@ -1416,7 +1415,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</td>
 
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfMediumClouds1_observationslipform"  id="TypeOfMediumClouds1_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE OF MEDIUM CLOUD" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfMediumClouds1"  id="TypeOfMediumClouds1" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE OF MEDIUM CLOUD" >
 							<option value="<?php echo $observationslipformidupdate->TypeOfMediumClouds1;?>"><?php echo $observationslipformidupdate->TypeOfMediumClouds1;?> </option>
 							<option value="0">0</option>
 							<option value="1">1</option>
@@ -1432,7 +1431,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</td>
 
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfMediumClouds1_observationslipform" id="OktasOfMediumClouds1_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS  OF MEDIUM CLOUD" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfMediumClouds1" id="OktasOfMediumClouds1" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS  OF MEDIUM CLOUD" >
 							 <option value="<?php echo $observationslipformidupdate->OktasOfMediumClouds1;?>"><?php echo $observationslipformidupdate->OktasOfMediumClouds1;?> </option>
 							<option value="0">0</option>
 							<option value="1">1</option>
@@ -1447,11 +1446,11 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</td>
 
 						<td>
-							<input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfMediumClouds1_observationslipform"  id="HeightOfMediumClouds1_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfMediumClouds1;?>" style = "width:70px;">
+							<input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfMediumClouds1"  id="HeightOfMediumClouds1" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfMediumClouds1;?>" style = "width:70px;">
 						</td>
 
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfMediumClouds1_observationslipform"  id="CLCODEOfMediumClouds1_observationslipform" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CL CODE MEDIUM CLOUD " >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfMediumClouds1"  id="CLCODEOfMediumClouds1" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CL CODE MEDIUM CLOUD " >
 							 <option value="<?php echo $observationslipformidupdate->CLCODEOfMediumClouds1;?>"><?php echo $observationslipformidupdate->CLCODEOfMediumClouds1;?> </option>
 							<option value="Ac">Ac</option>
 							<option value="As">As</option>
@@ -1459,7 +1458,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfHighClouds1_observationslipform"  id="TypeOfHighClouds1_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE OF HIGH CLOUD" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfHighClouds1"  id="TypeOfHighClouds1" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE OF HIGH CLOUD" >
 								<option value="<?php echo $observationslipformidupdate->TypeOfHighClouds1;?>"><?php echo $observationslipformidupdate->TypeOfHighClouds1;?> </option>
 								<option value="0">0</option>
 								<option value="1">1</option>
@@ -1474,7 +1473,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfHighClouds1_observationslipform" id="OktasOfHighClouds1_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS OF HIGH CLOUD" >
+							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfHighClouds1" id="OktasOfHighClouds1" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS OF HIGH CLOUD" >
 								<option value="<?php echo $observationslipformidupdate->OktasOfHighClouds1;?>"><?php echo $observationslipformidupdate->OktasOfHighClouds1;?> </option>
 								<option value="0">0</option>
 								<option value="1">1</option>
@@ -1488,10 +1487,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							 <input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfHighClouds1_observationslipform"  id="HeightOfHighClouds1_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfLowClouds3;?>" style = "width:70px;">
+							 <input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfHighClouds1"  id="HeightOfHighClouds1" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfLowClouds3;?>" style = "width:70px;">
 						</td>
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfHighClouds1_observationslipform"  id="CLCODEOfHighClouds1_observationslipform" onkeyup="allowCharactersInputOnly(this)"  class="form-control" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfHighClouds1"  id="CLCODEOfHighClouds1" onkeyup="allowCharactersInputOnly(this)"  class="form-control" >
 								<option value="<?php echo $observationslipformidupdate->CLCODEOfHighClouds1;?>"><?php echo $observationslipformidupdate->CLCODEOfHighClouds1;?> </option>
 								<option value="Cl">Cl</option>
 								<option value="Cc">Cc</option>
@@ -1556,7 +1555,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfMediumClouds2_observationslipform"  id="TypeOfMediumClouds2_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE OF MEDIUM CLOUD" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfMediumClouds2"  id="TypeOfMediumClouds2" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE OF MEDIUM CLOUD" >
 							<option value="<?php echo $observationslipformidupdate->TypeOfMediumClouds2;?>"><?php echo $observationslipformidupdate->TypeOfMediumClouds2;?> </option>
 							<option value="0">0</option>
 							<option value="1">1</option>
@@ -1571,7 +1570,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfMediumClouds2_observationslipform" id="OktasOfMediumClouds2_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS OF MEDIUM CLOUD" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfMediumClouds2" id="OktasOfMediumClouds2" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS OF MEDIUM CLOUD" >
 							<option value="<?php echo $observationslipformidupdate->OktasOfMediumClouds2;?>"><?php echo $observationslipformidupdate->OktasOfMediumClouds2;?> </option>
 							<option value="0">0</option>
 							<option value="1">1</option>
@@ -1585,10 +1584,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							 <input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfMediumClouds2_observationslipform"  id="HeightOfMediumClouds2_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfMediumClouds2;?>"  style = "width: 70px">
+							 <input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfMediumClouds2"  id="HeightOfMediumClouds2" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfMediumClouds2;?>"  style = "width: 70px">
 						</td>
 						<td>
-							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfMediumClouds2_observationslipform"  id="CLCODEOfMediumClouds2_observationslipform" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CL CODE OF MEDIUM CLOUD " >
+							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfMediumClouds2"  id="CLCODEOfMediumClouds2" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CL CODE OF MEDIUM CLOUD " >
 							 <option value="<?php echo $observationslipformidupdate->CLCODEOfMediumClouds2;?>"><?php echo $observationslipformidupdate->CLCODEOfMediumClouds2;?> </option>
 							<option value="Ac">Ac</option>
 							<option value="As">As</option>
@@ -1598,7 +1597,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfHighClouds2_observationslipform"  id="TypeOfHighClouds2_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE OF HIGH CLOUD" >
+							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfHighClouds2"  id="TypeOfHighClouds2" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE OF HIGH CLOUD" >
 								<option value="<?php echo $observationslipformidupdate->TypeOfHighClouds2;?>"><?php echo $observationslipformidupdate->TypeOfHighClouds2;?> </option>
 								<option value="0">0</option>
 								<option value="1">1</option>
@@ -1613,7 +1612,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfHighClouds2_observationslipform" id="OktasOfHighClouds2_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS OF HIGH CLOUD" >
+							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfHighClouds2" id="OktasOfHighClouds2" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS OF HIGH CLOUD" >
 								  <option value="<?php echo $observationslipformidupdate->OktasOfHighClouds2;?>"><?php echo $observationslipformidupdate->OktasOfHighClouds2;?> </option>
 								<option value="0">0</option>
 								<option value="1">1</option>
@@ -1627,10 +1626,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							<input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfHighClouds2_observationslipform"  id="HeightOfHighClouds2_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfHighClouds2;?>" style = "width:70px;">
+							<input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfHighClouds2"  id="HeightOfHighClouds2" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfHighClouds2;?>" style = "width:70px;">
 						</td>
 						<td>
-							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfHighClouds2_observationslipform"  id="CLCODEOfHighClouds2_observationslipform" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CL CODE MEDIUM CLOUD " >
+							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfHighClouds2"  id="CLCODEOfHighClouds2" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CL CODE MEDIUM CLOUD " >
 								<option value="<?php echo $observationslipformidupdate->CLCODEOfHighClouds2;?>"><?php echo $observationslipformidupdate->CLCODEOfHighClouds2;?> </option>
 								<option value="Cl">Cl</option>
 								<option value="Cc">Cc</option>
@@ -1658,7 +1657,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</td>
 
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfLowClouds3_observationslipform" id="OktasOfLowClouds3_observationslipform" onkeyup="allowIntegerInputOnly(this)" class="form-control" placeholder="Enter OKTAS of LOW CLOUD" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfLowClouds3" id="OktasOfLowClouds3" onkeyup="allowIntegerInputOnly(this)" class="form-control" placeholder="Enter OKTAS of LOW CLOUD" >
 							<option value="<?php echo $observationslipformidupdate->OktasOfLowClouds3;?>"><?php echo $observationslipformidupdate->OktasOfLowClouds3;?> </option>
 							<option value="0">0</option>
 							<option value="1">1</option>
@@ -1673,11 +1672,11 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</td>
 
 						<td>
-							<input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfLowClouds3_observationslipform"  id="HeightLowClouds3_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control"   style = "width: 70px;">
+							<input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfLowClouds3"  id="HeightLowClouds3" onkeyup="allowIntegerInputOnly(this)"  class="form-control"   style = "width: 70px;">
 						</td>
 
 						<td>
-							<select  <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfLowClouds3_observationslipform"  id="CLCODEOfLowClouds3_observationslipform" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CLCODE of LOW CLOUD " >
+							<select  <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfLowClouds3"  id="CLCODEOfLowClouds3" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CLCODE of LOW CLOUD " >
 							<option value="<?php echo $observationslipformidupdate->CLCODEOfLowClouds3;?>"><?php echo $observationslipformidupdate->CLCODEOfLowClouds3;?> </option>
 							<option value="Sc">Sc</option>
 							<option value="St">St</option>
@@ -1687,7 +1686,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</select>
 						</td>
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfMediumClouds3_observationslipform"  id="TypeOfMediumClouds3_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE OF MEDIUM CLOUD" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfMediumClouds3"  id="TypeOfMediumClouds3" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE OF MEDIUM CLOUD" >
 							<option value="<?php echo $observationslipformidupdate->TypeOfMediumClouds3;?>"><?php echo $observationslipformidupdate->TypeOfMediumClouds3;?> </option>
 							<option value="0">0</option>
 							<option value="1">1</option>
@@ -1702,7 +1701,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfMediumClouds3_observationslipform" id="OktasOfMediumClouds3_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS OF MEDIUM CLOUD" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfMediumClouds3" id="OktasOfMediumClouds3" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS OF MEDIUM CLOUD" >
 							<option value="<?php echo $observationslipformidupdate->OktasOfMediumClouds3;?>"><?php echo $observationslipformidupdate->OktasOfMediumClouds3;?> </option>
 							<option value="0">0</option>
 							<option value="1">1</option>
@@ -1716,10 +1715,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							 <input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfMediumClouds3_observationslipform"  id="HeightOfMediumClouds3_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfMediumClouds3;?>" style = "width:70px;">
+							 <input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfMediumClouds3"  id="HeightOfMediumClouds3" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfMediumClouds3;?>" style = "width:70px;">
 						</td>
 						<td>
-							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfMediumClouds3_observationslipform"  id="CLCODEOfMediumClouds3_observationslipform" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CL CODE OF MEDIUM CLOUD " >
+							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfMediumClouds3"  id="CLCODEOfMediumClouds3" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CL CODE OF MEDIUM CLOUD " >
 							   <option value="<?php echo $observationslipformidupdate->CLCODEOfMediumClouds3;?>"><?php echo $observationslipformidupdate->CLCODEOfMediumClouds3;?> </option>
 								<option value="Ac">Ac</option>
 								<option value="As">As</option>
@@ -1727,7 +1726,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfHighClouds3_observationslipform"  id="TypeOfHighClouds3_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE HIGH CLOUD" >
+							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="TypeOfHighClouds3"  id="TypeOfHighClouds3" onkeyup="allowIntegerInputOnly(this)"  class="form-control"  placeholder="Enter TYPE HIGH CLOUD" >
 							   <option value="<?php echo $observationslipformidupdate->TypeOfHighClouds3;?>"><?php echo $observationslipformidupdate->TypeOfHighClouds3;?> </option>
 								<option value="0">0</option>
 								<option value="1">1</option>
@@ -1742,7 +1741,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							</select>
 						</td>
 						<td>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfHighClouds3_observationslipform" id="OktasOfHighClouds3_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS HIGH CLOUD" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="OktasOfHighClouds3m" id="OktasOfHighClouds3" onkeyup="allowIntegerInputOnly(this)"  class="form-control" placeholder="Enter OKTAS HIGH CLOUD" >
 							<option value="<?php echo $observationslipformidupdate->OktasOfHighClouds3;?>"><?php echo $observationslipformidupdate->OktasOfHighClouds3;?> </option>
 							<option value="0">0</option>
 							<option value="1">1</option>
@@ -1756,10 +1755,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						</select>
 						</td>
 						<td>
-							<input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfHighClouds3_observationslipform"  id="HeightOfHighClouds3_observationslipform" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfHighClouds3;?>" style = "width:70px;">
+							<input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="HeightOfHighClouds3"  id="HeightOfHighClouds3" onkeyup="allowIntegerInputOnly(this)"  class="form-control" value="<?php echo $observationslipformidupdate->HeightOfHighClouds3;?>" style = "width:70px;">
 						</td>
 						<td>
-							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfHighClouds3_observationslipform"  id="CLCODEOfHighClouds3_observationslipform" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CL CODE MEDIUM CLOUD " >
+							 <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="CLCODEOfHighClouds3"  id="CLCODEOfHighClouds3" onkeyup="allowCharactersInputOnly(this)"  class="form-control" placeholder=" Enter CL CODE MEDIUM CLOUD " >
 								 <option value="<?php echo $observationslipformidupdate->CLCODEOfHighClouds3;?>"><?php echo $observationslipformidupdate->CLCODEOfHighClouds3;?> </option>
 								<option value="Cl">Cl</option>
 								<option value="Cc">Cc</option>
@@ -1891,7 +1890,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						<td>
 							<div class="input-group">
 							<span class="input-group-addon">PRESENT WEATHER</span>
-							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="presentweather_observationslipform" id="presentweather_observationslipform"   class="form-control" placeholder="Enter PRESENT WEATHER" >
+							<select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="presentweather" id="presentweather"   class="form-control" placeholder="Enter PRESENT WEATHER" >
 								<option value="<?php echo $observationslipformidupdate->Present_Weather;?>"><?php echo $observationslipformidupdate->Present_Weather;?> </option>
 								<option value="FG">FG</option>  <!--FOG -->
 								<option value="HZ">HZ</option>  <!--HAZE -->
@@ -1911,7 +1910,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             <td>
               <div class="input-group">
                <span class="input-group-addon">Past Weather</span>
-               <input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="pastweather_observationslipform"  value="<?php echo $observationslipformidupdate->Past_Weather;?>"  id="pastweather_observationslipform"   class="form-control" placeholder=" Enter Past Weather " >
+               <input type="text" <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="pastweather"  value="<?php echo $observationslipformidupdate->Past_Weather;?>"  id="pastweather"   class="form-control" placeholder=" Enter Past Weather " >
              </div>
 						</td>
 						<td>
