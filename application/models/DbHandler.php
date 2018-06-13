@@ -1003,7 +1003,7 @@ return $this->db->count_all_results();
 
 public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, $id,$userlogs){
 
-    
+    //exit('hey....'.$FormDataToUpdate['TotalAmountOfAllClouds'] );
     $user=$userlogs['User'];
     $UserRole=$userlogs['UserRole'];
     $Action=$userlogs['Action'];
@@ -1027,7 +1027,7 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
         //    $this->db->where('id',$id);
         //}
 
-        //$this->db->where('id',$id);
+        $this->db->where('id',$id);
         $this->db->update($tablename,$FormDataToUpdate);  
 
        

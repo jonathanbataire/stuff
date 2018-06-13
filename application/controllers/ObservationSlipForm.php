@@ -560,6 +560,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
 
         $totalAmountOfAllClouds = $this->input->post('totalamountofallclouds');
        // $totalAmountOfAllClouds =intval( $this->input->post('totalamountofallclouds_observationslipform'));
+       //exit('hey....'.$totalAmountOfAllClouds );
         $totalAmountOfLowClouds = $this->input->post('totalamountoflowclouds');
         $TypeOfLowClouds1 = $this->input->post('TypeOfLowClouds1');
         $OktasOfLowClouds1= $this->input->post('OktasOfLowClouds1');
