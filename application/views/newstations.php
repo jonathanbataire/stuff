@@ -181,7 +181,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <option value="Synoptic">Synoptic</option>
                                     <option value="Agrometeorological">Agrometeorological</option>
                                     <option value="Rainfall">Rainfall</option>
-                                    <option value="Hygrometeorological">Hygrometeorological</option>
+                                    <option value="Hydrometeorological">Hydrometeorological</option>
                                     <option value="Climatological">Climatological</option>
 
 
@@ -374,7 +374,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <option value="Synoptic">Synoptic</option>
                                         <option value="Agrometeorological">Agrometeorological</option>
                                         <option value="Rainfall">Rainfall</option>
-                                        <option value="Hygrometeorological">Hygrometeorological</option>
+                                        <option value="Hydrometeorological">Hydrometeorological</option>
                                         <option value="Climatological">Climatological</option>
 
 
@@ -391,7 +391,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             </div>
             <div class="modal-footer clearfix">
 
-                <a  href="<?php echo base_url(); ?>index.php/NewStations/" class="btn btn-danger"><i class="fa fa-times"></i> Cancel</a>
+                <a  href="<?php echo base_url(); ?>index.php/Stations/" class="btn btn-danger"><i class="fa fa-times"></i> Cancel</a>
 
                 <button type="submit" name="update_stationInformation" id="update_stationInformation" class="btn btn-primary pull-left"><i class="fa fa-plus"></i> Update Station</button>
             </div>
@@ -475,10 +475,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                                         <?php if($userrole=='ManagerStationNetworks'){ ?><td class="no-print">
-
-                                            <a href="<?php echo base_url() . "index.php/NewStations/DisplayStationsFormForUpdate/" .$stationid ;?>" style="cursor:pointer;">Edit</a>
-                                            <!--  or <a href="<?php echo base_url() . "index.php/NewStations/deleteStation/" .$stationid ;?>"
-                                                  onClick="return confirm('Are you sure you want to delete <?php echo $stationdata->StationName;?>');">Delete</a></td><?php }?> -->
+                                          <table><tr><td>
+                                            <a class="btn btn-primary" href="<?php echo base_url() . "index.php/Stations/DisplayStationsFormForUpdate/" .$stationid ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li> Edit</a>
+                                          </td> <td> <a class="btn btn-danger" href="<?php echo base_url() . "index.php/Stations/deleteStation/" .$stationid ;?>"
+                                                  onClick="return confirm('Are you sure you want to delete <?php echo $stationdata->StationName;?>');"> <li class="fa fa-times"></li> Delete</a></td></tr></table></td><?php }?> 
                                     </tr>
 
                                 <?php

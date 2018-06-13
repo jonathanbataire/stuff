@@ -811,8 +811,8 @@ return $this->db->count_all_results();
                     $lowerLimit=$total_row-($NoOfRecords*$pageNo);
                     $upperLimit=$lowerLimit+$NoOfRecords;
 
-                    $this->db->where("slip.id >", $lowerLimit);
-                    $this->db->where("slip.id <=", $upperLimit);
+                    //$this->db->where("slip.id >", $lowerLimit);
+                    //$this->db->where("slip.id <=", $upperLimit);
 
                     if($userrole=='Manager' || $userrole=='ManagerData'){
 
@@ -820,7 +820,7 @@ return $this->db->count_all_results();
 
                      }elseif($userrole=='OC' ){
                         $this->db->where('stationsdata.'.$field, $value); //field is StationName
-                        $this->db->where('stationsdata.'.$field, $value);
+                        //$this->db->where('stationsdata.'.$field, $value);
                     }elseif( $userrole=='Observer' || $userrole=='ObserverDataEntrant' || $userrole=='ObserverArchive'){
                         $this->db->where('stationsdata.'.$field, $value);
 
@@ -839,6 +839,7 @@ return $this->db->count_all_results();
                     else
                     {
                         //$results = $query->result();
+						
                         return false;
                     }
                 }
@@ -1026,7 +1027,7 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
         //    $this->db->where('id',$id);
         //}
 
-        $this->db->where('id',$id);
+        //$this->db->where('id',$id);
         $this->db->update($tablename,$FormDataToUpdate);  
 
        
@@ -1104,9 +1105,12 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
     }
     ///////////////////////////////////////////////////////
     //Delete for all Forms
-  public  function  deleteData($tablename,$deleteFormDataId){  //$tablename and id of the record
-        $deletesql = "DELETE FROM $tablename WHERE id =? ";
-
+  public  function  deleteData($tablename,$deleteFormDataId){ 
+        if ($tablename=="stations"){  //$tablename and id of the record
+           $deletesql = "DELETE FROM $tablename WHERE station_id =? ";
+		}else{
+			 $deletesql = "DELETE FROM $tablename WHERE id =? ";
+		}
         // Run the query
         $this->db->query($deletesql, array($deleteFormDataId));
         //return $this->db->affected_rows();
