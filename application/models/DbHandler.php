@@ -1000,21 +1000,36 @@ return $this->db->count_all_results();
     
 
 
-public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, $id){
+public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, $id,$userlogs){
 
     
-    //print_r($FormDataToUpdate);exit();
+    $user=$userlogs['User'];
+    $UserRole=$userlogs['UserRole'];
+    $Action=$userlogs['Action'];
+    $Details=$userlogs['Details'];
+    $station=$userlogs['station'];
+    $IP=$userlogs['IP'];
 
-        if($tablename=="stations")
+    $session_data = $this->session->userdata('logged_in');
+        $name=$session_data['Userid'];
+        $this->db->query("SET @var1= $name");
+        $this->db->query("SET @User= '$user'");
+        $this->db->query("SET @UserRole= '$UserRole'");
+        $this->db->query("SET @Action= '$Action'");
+        $this->db->query("SET @Details='$Details'");
+        $this->db->query("SET @station= $station");
+        $this->db->query("SET @IP= '$IP'");
+    
+    if($tablename=="stations")
            $this->db->where('station_id',$id);
        // else{
         //    $this->db->where('id',$id);
         //}
 
         $this->db->where('id',$id);
-        $this->db->update('observationslip',$FormDataToUpdate);  
+        $this->db->update($tablename,$FormDataToUpdate);  
 
-        exit('hety...'.$this->db->affected_rows());
+       
         
         if ($this->db->affected_rows() ==1)
         {

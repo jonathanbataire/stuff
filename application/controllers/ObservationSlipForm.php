@@ -310,7 +310,6 @@ elseif ($userrole=="OC") {
             $data['observationslipidupdate'] = array();
         }
 
-
         $this->load->view('observationSlipForm', $data);
     }
 
@@ -435,6 +434,8 @@ $TimeMarksHygro =floatval( $this->input->post('timemarksHygro_observationslipfor
 $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationslipform'));
 
 
+        
+
         $insertObservationSlipFormData=array(
             'Date'=>$date,'station'=>$station_id,'Userid'=>$id,
             'TIME'=> $timeobservationslip,'DeviceType '=> $InputType,
@@ -549,7 +550,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
 
         $date = $this->input->post('date');
         $metarOrSpeci=$this->input->post('metar_speci');
-        $timeobservationslip= $metarOrSpeci=="speci"? $this->input->post('speci_time_observationslipform'):$this->input->post('metar_time_observationslipform');
+        $timeobservationslip= $metarOrSpeci=="speci"? $this->input->post('speci_time'):$this->input->post('metar_time');
 
         $stationName = firstcharuppercase(chgtolowercase($this->input->post('station')));
         $stationNumber = $this->input->post('stationNo');
@@ -558,6 +559,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
         
 
         $totalAmountOfAllClouds = $this->input->post('totalamountofallclouds');
+       // $totalAmountOfAllClouds =intval( $this->input->post('totalamountofallclouds_observationslipform'));
         $totalAmountOfLowClouds = $this->input->post('totalamountoflowclouds');
         $TypeOfLowClouds1 = $this->input->post('TypeOfLowClouds1');
         $OktasOfLowClouds1= $this->input->post('OktasOfLowClouds1');
@@ -665,6 +667,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
 				
 		}
 
+        
 
         $updateObservationSlipFormData=array(
             'Date'=>$date,'station'=>$station,'ApprovedBy'=>$approvedby,
@@ -721,7 +724,19 @@ foreach ($updateObservationSlipFormData as $key => $value) {
   $updateObservationSlipFormData[$key]=NULL;
 }
 
-        $updatesuccess=$this->DbHandler->updateData($updateObservationSlipFormData,"",'observationslip',$id);
+        $session_data = $this->session->userdata('logged_in');
+        $userrole=$session_data['UserRole'];
+        $userstation=$session_data['UserStation'];
+        $userstationId=$session_data['StationId'];
+        $StationRegion=$session_data['StationRegion'];
+        $name=$session_data['FirstName'].' '.$session_data['SurName'];
+
+        $userlogs = array('User' => $name,
+            'UserRole' => $userrole,'Action' => 'Updated Observation Slip info',
+            'Details' => $name . ' updated Observation Slip info into the system',
+            'station' => $userstationId,
+            'IP' => $this->input->ip_address());
+        $updatesuccess=$this->DbHandler->updateData($updateObservationSlipFormData,"",'observationslip',$id,$userlogs);
 
      //Redirect the user back with  message
         if($updatesuccess){
@@ -729,20 +744,9 @@ foreach ($updateObservationSlipFormData as $key => $value) {
            $this->sendObservationEditEmail($stationName,$stationNumber,$date,$timeobservationslip);
             //Store User logs.
             //Create user Logs
-            $session_data = $this->session->userdata('logged_in');
-            $userrole=$session_data['UserRole'];
-            $userstation=$session_data['UserStation'];
-            $userstationId=$session_data['StationId'];
-            $StationRegion=$session_data['StationRegion'];
-            $name=$session_data['FirstName'].' '.$session_data['SurName'];
-
-            $userlogs = array('User' => $name,
-                'UserRole' => $userrole,'Action' => 'Updated Observation Slip info',
-                'Details' => $name . ' updated Observation Slip info into the system',
-                'station' => $userstationId,
-                'IP' => $this->input->ip_address());
+            
             //  save user logs
-             $this->DbHandler->saveUserLogs($userlogs);
+            // $this->DbHandler->saveUserLogs($userlogs);
 
 
 
