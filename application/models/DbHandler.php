@@ -825,8 +825,12 @@ return $this->db->count_all_results();
                         $this->db->where('stationsdata.'.$field, $value);
 
                     }
-
-                    $this->db->order_by("slip.O_CreationDate", "desc");
+                     if($tablename=='observationslip'){
+						 $this->db->order_by("slip.O_CreationDate", "desc"); 
+					 }else{
+						 $this->db->order_by("slip.CreationDate", "desc"); 
+					 }
+                   
                     $this->db->limit($NoOfRecords);
                     // Run the query
                     $query = $this->db->get();
@@ -1019,7 +1023,7 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
         $this->db->query("SET @UserRole= '$UserRole'");
         $this->db->query("SET @Action= '$Action'");
         $this->db->query("SET @Details='$Details'");
-        $this->db->query("SET @station= $station");
+        $this->db->query("SET @station= '$station'");
         $this->db->query("SET @IP= '$IP'");
     
     if($tablename=="stations")
@@ -1355,13 +1359,12 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
     //Select Reports for Certain Forms
     //OBSERVATION SLIP DATA
     public function selectObservationSlipReportForSpecificTimeOfADay($timeInZoo,$date,$stationName,$stationNumber,$tablename){
-       $approve = $this->checkwhetherapprovedd($timeInZoo,$date);
-
+        
         $this->db->select('*');
         $this->db->from($tablename.' as report');
         $this->db->join('stations as stationsdata', 'report.station = stationsdata.station_id');
 
-        if($approve != 0 && $approve != false){
+        if($approve != 0 && $approve != FALSE){
             $this->db->join('systemusers as users', 'report.ApprovedBy = users.Userid');
         }
         
@@ -1879,6 +1882,20 @@ public function  selectCustomisedRainfallReportFromObservationSlipTable($dateOne
 public  function  updateApproval($id,$data){
     $this->db->where("id",$id);
     $this->db->update("observationslip",$data);
+    if ($this->db->affected_rows() ==1)
+    {
+        return TRUE;
+
+    }
+    else
+    {
+        return FALSE;
+    }
+}
+//update the archive  slips data for ms from false to true 
+public  function  updateApproval1($id,$data,$table){
+    $this->db->where("id",$id);
+    $this->db->update($table,$data);
     if ($this->db->affected_rows() ==1)
     {
         return TRUE;

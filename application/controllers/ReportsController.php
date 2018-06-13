@@ -673,9 +673,10 @@ public function  sendMail($htmlmsgbody,$msgreceiver)
 
 }
 public function displayobservationslipreport(){
+	
     $session_data = $this->session->userdata('logged_in');
     $userrole=$session_data['UserRole'];
-
+    
 
     $ObservationslipTimeInZoo = $this->input->post('ObservationSlipTime');
 
@@ -693,15 +694,16 @@ public function displayobservationslipreport(){
 
     }
 
-
+      
     $data['displayObservationSlipReportHeaderFields'] = array('stationName'=>$stationName,'stationNumber'=>$stationNumber,
         'TimeInZoo'=>$ObservationslipTimeInZoo,'date'=>$date);
-
+   
     //$query = $this->DbHandler->selectAll($stationName,'StationName','observationslip');  //value,field,table
     $query = $this->DbHandler->selectObservationSlipReportForSpecificTimeOfADay($ObservationslipTimeInZoo,$date,$stationName,$stationNumber,'observationslip');  //value,field,table
-
+    // exit("am here");
     if ($query) {
         $data['observationslipdataforspecifictimeofaday'] = $query;
+		
     } else {
         $data['observationslipdataforspecifictimeofaday'] = array();
     }
