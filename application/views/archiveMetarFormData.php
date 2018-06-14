@@ -491,12 +491,32 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">Approved</span>
-                        <select name="approval" id="approval"  required class="form-control">
-                            <option value="<?php echo $metadataform->Approved;?>"><?php echo $metadataform->Approved;?> </option>
-                            <option value="">--Select Approval Options--</option>
-                            <option value="TRUE">TRUE</option>
-                            <option value="FALSE">FALSE</option>
-                        </select>
+                        	<?php if($userrole=="DataOfficer"||$metadataform->Approved=='TRUE'){?>
+								<select name="approval" id="approval" disabled  class="form-control" >
+									<option value="<?php echo $metadataform->Approved;?>"><?php echo $metadataform->Approved;?></option>
+									<option value="TRUE">TRUE</option>
+									<option value="FALSE">FALSE</option>
+								</select>
+								<input type="hidden" name="approval" value="<?php echo $metadataform->Approved;?>">
+								<?php }else{?>
+								   <select name="approval" id="approval"  class="form-control" >
+									<option value="<?php echo $metadataform->Approved;?>"><?php echo $metadataform->Approved;?></option>
+									<option value="TRUE">TRUE</option>
+									<option value="FALSE">FALSE</option>
+								</select>
+								<?php }?>
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
                     </div>
                 </div>
 
@@ -565,8 +585,12 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             $count = 0;
                             if (is_array($archivedmetarformdata) && count($archivedmetarformdata)) {
                                 foreach($archivedmetarformdata as $metardata){
-                                    $count++;
+                                   ;
                                     $metarid = $metardata->id;
+									 if($userrole =='DataOfficer'&& $metardata->Approved =='TRUE' ){
+									   $count++;
+									   }else{
+										   $count++;
 
                                     ?>
                                     <tr>
@@ -595,12 +619,23 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <td><?php echo $metardata->SubmittedBy;?></td>
                                     <td class="no-print">
 
+									<table>
+                                         <tr><td>
                                             <a  class="btn btn-primary " href="<?php echo base_url() . "index.php/ArchiveMetarFormData/DisplayArchivedMetarFormForUpdate/" .$metarid ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li> Edit</a>
-                                    </tr>
+                                    </td>
+											<?php if($userrole=='SeniorDataOfficer'){?>
+											<td>
+											
+											<form method="post" action="<?php echo base_url() . "index.php/ArchiveMetarFormData/update_approval/" .$metarid;?>"> <input type="hidden" name="id" value="<?php echo $metarid; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success" <?php if($metardata->Approved=='TRUE'){ echo "disabled";}?> type="submit"  ><li class='fa fa-check'></li>Approve</button></form>
+											</td><?php }?> 
+									     </tr>
+										 </table>
+									</td>
+									</tr>
 
                                 <?php
                                 }
-                            }
+								}}
                           }
                             ?>
                             </tbody>

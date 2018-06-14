@@ -167,7 +167,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
             <a href="<?php echo base_url(); ?>index.php/ArchiveScannedObservationSlipFormDataCopy/" class="btn btn-danger"><i class="fa fa-arrow-left"></i> BACK </a>
 
-            <button type="submit" id="postScannedObservationSlipFormCopy_button" name="postScannedObservationSlipFormCopy_button" class="btn btn-primary"><i class="fa fa-plus"></i> SUBMIT </button>
+            <button type="submit"  name="postScannedObservationSlipFormCopy_button" class="btn btn-primary"><i class="fa fa-plus"></i> SUBMIT </button>
         </center>
         </form>
         </div>
@@ -348,7 +348,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <th>Description</th>
                                 <th>Approved</th>
                                 <th>By</th>
-                            <?php if($userrole=="OC"|| $userrole=="ObserverArchive"){ ?>
+                            <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="ObserverArchive"||$userrole=='SeniorDataOfficer' ){ ?>
                                     <th class="no-print">Action</th><?php }?>
                             </tr>
                             </thead>
@@ -358,8 +358,12 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                             if (is_array($archivedscannedobservationslipformcopydetails) && count($archivedscannedobservationslipformcopydetails)) {
                                 foreach($archivedscannedobservationslipformcopydetails as $data){
-                                    $count++;
+                                    
                                     $scannedobservationslipformdatadetails = $data->id;
+									 if($userrole =='DataOfficer' && $data->Approved =='TRUE' ){
+									   $count++;
+									   }else{
+										   $count++;
 
                                     ?>
                                     <tr>
@@ -369,17 +373,27 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <td ><?php echo $data->form_date;?></td>
                                         <td ><?php echo $data->TIME;?></td>
                                         <td><?php echo $data->Description;?></td>
-                                        <td ><?php echo $data->Approved?"TRUE":"FALSE";?></td>
+                                        <td ><?php echo $data->Approved;?></td>
                                         <td><?php echo $data->SubmittedBy;?></td>
-                                   <?php if($userrole=="OC"|| $userrole=="ObserverArchive"){ ?>
+                                   <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=='SeniorDataOfficer' ){ ?>
                                      <td class="no-print">
 
-                                            <a class="btn btn-primary" href="<?php echo base_url() . "index.php/ArchiveScannedObservationSlipFormDataCopy/DisplayFormToArchiveScannedObservationSlipFormForUpdate/" .$data->id ;?>" style="cursor:pointer;"> <li class="fa fa-edit"></li>Edit</a>
-                                  </td>
+								   <table>
+                                         <tr><td>
+                                           <a class="btn btn-primary" href="<?php echo base_url() . "index.php/ArchiveScannedObservationSlipFormDataCopy/DisplayFormToArchiveScannedObservationSlipFormForUpdate/" .$data->id ;?>" style="cursor:pointer;"> <li class="fa fa-edit"></li>Edit</a>
+                                   </td>
+											<?php if($userrole=='SeniorDataOfficer'){?>
+											<td>
+											
+											<form method="post" action="<?php echo base_url() . "index.php/ArchiveScannedObservationSlipFormDataCopy/update_approval/" .$data->id;?>"> <input type="hidden" name="id" value="<?php echo $data->id; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success" <?php if($data->Approved=='TRUE'){ echo "disabled";}?> type="submit"  ><li class='fa fa-check'></li>Approve</button></form>
+											</td><?php }?> 
+									     </tr>
+										 </table>
+								  </td>
                                     </tr>
 
                                 <?php
-                                }
+                                }}
                             }
                           }
                             ?>

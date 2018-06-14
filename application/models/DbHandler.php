@@ -563,11 +563,13 @@ return $this->db->count_all_results();
     }
     //Check DB if the form being inserted exists(check against the date,stationName,StationNumber and Time)
     function checkInDBIfArchiveScannedObservationSlipFormDataCopyRecordExistsAlready($date,$time,$stationName,$stationNumber, $tablename) {
-        $this->db->select('*');
+        $station = $this->identifyStationById($stationName,$stationNumber);
+		
+		$this->db->select('*');
         $this->db->from($tablename);
         $this->db->where('DATE', $date);
-        $this->db->where('StationName', $stationName);
-        $this->db->where('StationNumber', $stationNumber);
+        $this->db->where('station', $station);
+       
         $this->db->where('TIME', $time);
 
         $this->db->order_by("id", "desc");

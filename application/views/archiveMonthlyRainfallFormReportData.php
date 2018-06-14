@@ -171,12 +171,20 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon">Approved</span>
-                                            <select name="approval" id="approval"  required class="form-control">
-                                                <option value="<?php echo $rainfalldata->Approved;?>"><?php echo $rainfalldata->Approved;?> </option>
-                                                <option value="">--Select Approval Options--</option>
-                                                <option value="TRUE">TRUE</option>
-                                                <option value="FALSE">FALSE</option>
-                                            </select>
+                                           <?php if($userrole=="DataOfficer" || $rainfalldata->Approved=='TRUE'){?>
+									<select name="approval" id="approval" disabled  class="form-control" >
+										<option value="<?php echo $rainfalldata->Approved;?>"><?php echo $rainfalldata->Approved;?></option>
+										<option value="TRUE">TRUE</option>
+										<option value="FALSE">FALSE</option>
+									</select>
+									<input type="hidden" name="approval" value="<?php echo $rainfalldata->Approved;?>">
+									<?php }else{?>
+									   <select name="approval" id="approval"  class="form-control" >
+										<option value="<?php echo $rainfalldata->Approved;?>"><?php echo $rainfalldata->Approved;?></option>
+										<option value="TRUE">TRUE</option>
+										<option value="FALSE">FALSE</option>
+									</select>
+									<?php }?>
                                         </div>
                                     </div>
 
@@ -218,7 +226,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <h3 class="box-title"> Archive Monthly Rainfall Report</h3>
                             </div><!-- /.box-header -->
                             <?php require_once(APPPATH . 'views/error.php'); ?>
-                            <div class="box-body table-responsive">
+                            <div class="box-body table-responsive" style="overflow:auto">
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
@@ -228,12 +236,12 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <th>Station No</th>
 
                                         <th>RAINFALL</th>
-                                    <?php if($userrole=='SeniorDataOfficer'){ ?>
+                                   
                                             <th>Approved</th>
 
                                             <th>By</th>
                                             <th class="no-print">Action</th>
-                                        <?php }?>
+                                        
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -241,8 +249,12 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     $count = 0;
                                     if (is_array($archivedrainfalldata) && count($archivedrainfalldata)) {
                                         foreach($archivedrainfalldata as $data){
-                                            $count++;
+                                         
                                             $id = $data->id;
+											 if($userrole =='DataOfficer'&& $data->Approved =='TRUE' ){
+										   $count++;
+										   }else{
+											   $count++;
 
                                             ?>
                                             <tr>
@@ -251,17 +263,27 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                                 <td ><?php echo $data->StationName;?></td>
                                                 <td ><?php echo $data->StationNumber;?></td>
                                                 <td ><?php echo $data->Rainfall;?></td>
-                                           <?php if($userrole=='SeniorDataOfficer'  ){ ?>
+                                           
                                              <td><?php echo $data->Approved;?></td>
 
                                              <td><?php echo $data->SubmittedBy;?></td>
                                              <td class="no-print">
-                                                    <a class="btn btn-primary" href="<?php echo base_url() . "index.php/ArchiveMonthlyRainfallFormReportData/DisplayArchivedMonthlyRainfallFormForUpdate/" .$id ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li>Edit</a>
-                                              </tr>
+										  <table>
+                                         <tr><td>
+                                            <a class="btn btn-primary" href="<?php echo base_url() . "index.php/ArchiveMonthlyRainfallFormReportData/DisplayArchivedMonthlyRainfallFormForUpdate/" .$id ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li>Edit</a>
+                                           </td>
+											<?php if($userrole=='SeniorDataOfficer'){?>
+											<td>
+											<form method="post" action="<?php echo base_url() . "index.php/ArchiveMonthlyRainfallFormReportData/update_approval/" .$id ;?>"> <input type="hidden" name="id" value="<?php echo $id; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success" <?php if($data->Approved=='TRUE'){ echo "disabled";}?> type="submit"  ><li class='fa fa-check'></li>Approve</button></form>
+											</td><?php }?> 
+									     </tr>
+										 </table>
+											  </td>
+											  </tr>
 
                                             <?php
-                                        }
-                                    }
+										   }}
+                                    
                                   }
                                     ?>
                                     </tbody>

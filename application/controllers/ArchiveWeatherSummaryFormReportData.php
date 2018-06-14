@@ -238,6 +238,24 @@ class ArchiveWeatherSummaryFormReportData extends CI_Controller {
         }
 
     }
+	 public 	function update_approval() {
+		$session_data = $this->session->userdata('logged_in');
+      $userstation=$session_data['UserStation'];
+	  $user_id=$session_data['Userid'];
+		$id= $this->input->post('id');
+		$data = array(
+		'Approved' => $this->input->post('approve')
+		
+		);
+		$query=$this->DbHandler->updateApproval1($id,$data,"archiveweathersummaryformreportdata");
+		if ($query) {
+		$this->session->set_flashdata('success', 'Data was updated successfully!');
+		$this->index();
+		}else{
+		$this->session->set_flashdata('error', 'Sorry, Data was not updated, Please try again!');
+		$this->index();	
+		}
+		}
     public function updateArchiveWeatherSummaryFormReportData(){
         $session_data = $this->session->userdata('logged_in');
         $role=$session_data['UserRole'];

@@ -1630,7 +1630,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						<td colspan = "2" align = "center">
 							<div class="input-group">
 								<span class="input-group-addon">Approved</span>
-								<?php if($userrole=="DataOfficer"){?>
+								<?php if($userrole=="DataOfficer" || $observationslipformidupdate->Approved=='TRUE'){?>
 								<select name="approval" id="approval" disabled  class="form-control" >
 									<option value="<?php echo $observationslipformidupdate->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
 									<option value="TRUE">TRUE</option>
