@@ -710,33 +710,61 @@ return $this->db->count_all_results();
                 }
 
     }
+     public function SelectZonal($user){
+        $this->db->select('region_zone');
+        $this->db->from('systemusers');
+        $this->db->where('Userid',$user);
+		$this->db->limit(1);
+       
+
+        $query = $this->db->get();
+                if($query -> num_rows() > 0)
+                {
+                    $result = $query->row();
+                   				//$query -> result_array();
+                    return $result->region_zone;
+                    //return $query->result();
+                }
+                else
+                {
+                    //$results = $query->result();
+                    return false;
+                }
+
+    }
 
 
     //Select all from the tables(Stations,Instruments,Elements,UserLogs) in the DB.
     //jovRi
   public function selectAllFromSystemData($value, $field,$tablename,$id_to_use){ //$stationame ,field StationName
-  if($tablename=="stations"){
+		$session_data = $this->session->userdata('logged_in');
+        $userrole=$session_data['UserRole'];
+        $userid=$session_data['Userid'];
+		$region =$this->SelectZonal($userid);
+ if($tablename=="stations"){
+	
         $this->db->select('*');
         $this->db->from($tablename );
         
-
-        $session_data = $this->session->userdata('logged_in');
-        $userrole=$session_data['UserRole'];
-
+		
+        
             if($userrole=='ManagerData' ){
-            $this->db->where('StationStatus','Active');
-
+            $this->db->where('StationStatus','on');
+              $this->db->where_not_in('station_id','0');
             }elseif($userrole=="ManagerStationNetworks"){
-
+                $this->db->where_not_in('station_id','0');
 
                     }
                     elseif($userrole=='ZonalOfficer' || $userrole=="SeniorZonalOfficer"  || $userrole=="Director" ){
-                            $this->db->where('StationStatus','Active');
+                          $this->db->where('StationStatus','on');
+                          $this->db->where('StationRegion', $region);
+							
                     }elseif($userrole=='OC' ){
-                        $this->db->where('StationStatus','Active');
+                        $this->db->where('StationStatus','on');
+						  $this->db->where_not_in('station_id','0');
                     }
-                      $this->db->where_not_in('station_id','0');
-                    $this->db->order_by("station_id", "desc");
+                    
+                  $this->db->order_by("station_id", "desc");
   }else{
     $this->db->select('*');
     $this->db->from($tablename.' as tab');//select from userlogs
@@ -755,6 +783,7 @@ return $this->db->count_all_results();
                 $query = $this->db->get();
                 if($query -> num_rows() > 0)
                 {
+					
                     $result = $query->result();  //$query -> result_array();
                     return $result;
                     //return $query->result();
@@ -769,7 +798,7 @@ return $this->db->count_all_results();
                 public function selectAllscanDaily($value, $field,$tablename,$form){ //$stationame ,field StationName
                     $this->db->select('*');
                     $this->db->from($tablename.' as slip');
-                    $this->db->join('stations as stationsdata', 'slip.station= stationsdata.station_id');
+                    $this->db->join('stations as stationsdata', 'slip.station = stationsdata.station_id');
                     $this->db->where('slip.Form_scanned', $form);
                     $session_data = $this->session->userdata('logged_in');
                     $userrole=$session_data['UserRole'];
@@ -851,13 +880,22 @@ return $this->db->count_all_results();
                 }
 
       public function selectAll2conditionsOneNegative($value, $field,$tablename,$value2, $field2,$NoOfRecords,$pageNo,$total_row){ //$stationame ,field StationName
-        $this->db->select('*');
+         $session_data = $this->session->userdata('logged_in');
+          $userrole=$session_data['UserRole'];
+		  $userid =$session_data['Userid'];
+		  $region =$this->SelectZonal($userid);
+		$this->db->select('*');
         $this->db->from($tablename.' as slip');
         $this->db->join('systemusers as users', 'slip.Userid= users.Userid');
-        $this->db->join('stations as stationsdata', 'users.station= stationsdata.station_id');
-
-          $session_data = $this->session->userdata('logged_in');
-          $userrole=$session_data['UserRole'];
+		if($userrole=="ZonalOfficer"||$userrole=="SeniorZonalOfficer"){
+        //$this->db->join('stations as stationsdata', 'users.region_zone = stationsdata.StationRegion');
+		 $this->db->join('stations as stationsdata', 'users.station = stationsdata.station_id');
+		  $this->db->where('stationsdata.StationRegion', $region);
+		}else{
+			 $this->db->join('stations as stationsdata', 'users.station = stationsdata.station_id');
+		     $this->db->where('stationsdata.'.$field, $value);
+		}
+         
 
 
           $lowerLimit=$total_row-($NoOfRecords*$pageNo);
@@ -865,7 +903,7 @@ return $this->db->count_all_results();
 
           //$this->db->where("slip.id >", $lowerLimit);
           //$this->db->where("slip.id <=", $upperLimit);
-          $this->db->where('stationsdata.'.$field, $value);
+           
           $this->db->where_not_in('slip.'.$field2, $value2);
           $this->db->order_by("slip.O_CreationDate","DESC");
           $this->db->limit($NoOfRecords);
@@ -884,20 +922,26 @@ return $this->db->count_all_results();
       }//Select all from the tables(ObservationSlip,MoreFormFields,ALL THE ARCHIVE TABLES) in the DB.
 
     public function selectAll2conditions($value, $field,$tablename,$value2, $field2,$NoOfRecords,$pageNo,$total_row){ //$stationame ,field StationName
-
+         $session_data = $this->session->userdata('logged_in');
+        $userrole=$session_data['UserRole'];
+          $userid =$session_data['Userid'];
+		  $region =$this->SelectZonal($userid); 
         $this->db->select('*');
         $this->db->from($tablename.' as slip');
         $this->db->join('stations as stationsdata', 'slip.station= stationsdata.station_id');
 
-        $session_data = $this->session->userdata('logged_in');
-        $userrole=$session_data['UserRole'];
-
+          
         $lowerLimit=$total_row-($NoOfRecords*$pageNo);
         $upperLimit=$lowerLimit+$NoOfRecords;
 
         $this->db->where("slip.id >", $lowerLimit);
         $this->db->where("slip.id <=", $upperLimit);
-        $this->db->where('stationsdata.'.$field, $value);
+		if($userrole=="ZonalOfficer"|| $userrole=="SeniorZonalOfficer"){
+			 $this->db->where('stationsdata.StationRegion', $region);
+		}else{
+			$this->db->where('stationsdata.'.$field, $value);
+		} 
+        
         $this->db->where('slip.'.$field2, $value2);
         $this->db->order_by("slip.O_CreationDate","DESC");
         $this->db->limit($NoOfRecords);
@@ -2721,7 +2765,7 @@ public function identifyStationById($stationName,$stationNumber){
     ///////////////////////////////////
     // ARCHIVED SCANNED METAR FORM DETAILS FOR A SPECIFIC DAY
     public function selectArchivedScannedMetarFormForSpecificDay($date,$stationName,$stationNumber,$tablename){
-       $station=(int) $this->identifyStationById($stationName,$stationNumber);
+       $station= $this->identifyStationById($stationName,$stationNumber);
         $this->db->select('*');
         $this->db->from($tablename);
         $this->db->join('stations', 'stations.station_id = '.$tablename.'.station');

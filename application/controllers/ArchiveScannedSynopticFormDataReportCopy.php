@@ -85,7 +85,24 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
 
         $this->load->view('archiveScannedSynopticFormDataReportCopy', $data);
     }
-
+       public 	function update_approval() {
+		$session_data = $this->session->userdata('logged_in');
+      $userstation=$session_data['UserStation'];
+	  $user_id=$session_data['Userid'];
+		$id= $this->input->post('id');
+		$data = array(
+		'Approved' => $this->input->post('approve')
+		
+		);
+		$query=$this->DbHandler->updateApproval1($id,$data,"scans_daily");
+		if ($query) {
+		$this->session->set_flashdata('success', 'Data was updated successfully!');
+		$this->index();
+		}else{
+		$this->session->set_flashdata('error', 'Sorry, Data was not updated, Please try again!');
+		$this->index();	
+		}
+		}
 
     public function insertInformationForArchiveScannedSynopticFormReport(){
         $this->unsetflashdatainfo();
@@ -183,7 +200,7 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
                 'Description'=>$description,'FileName_FirstPage' => $filename_firstpage,'FileName_SecondPage' => $filename_secondpage);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);
-            $insertsuccess= $this->DbHandler->insertData($insertScannedSynopticFormReportDataCopyDetails,'scannedarchivesynopticformreportcopydetails'); //Array for data to insert then  the Table Name
+            $insertsuccess= $this->DbHandler->insertData($insertScannedSynopticFormReportDataCopyDetails,'scans_daily'); //Array for data to insert then  the Table Name
 
             //Redirect the user back with  message
             if($insertsuccess){
@@ -358,7 +375,7 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
 
         $id = $this->uri->segment(3); // URL Segment Three.
 
-        $rowsaffected = $this->DbHandler->deleteData('scannedarchivesynopticformreportcopydetails',$id);  //$rowsaffected > 0
+        $rowsaffected = $this->DbHandler->deleteData('scans_daily',$id);  //$rowsaffected > 0
 
         if ($rowsaffected) {
             //Store User logs.
@@ -431,7 +448,7 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
         else {
 
 
-            $get_result = $this->DbHandler->checkInDBIfArchiveScannedSynopticFormDataReportCopyRecordExistsAlready($date,$stationName,$stationNumber,'scannedarchivesynopticformreportcopydetails');   // $value, $field, $table
+            $get_result = $this->DbHandler->checkInDBIfArchiveScannedSynopticFormDataReportCopyRecordExistsAlready($date,$stationName,$stationNumber,'scans_daily');   // $value, $field, $table
 
             if( $get_result){
                 echo json_encode($get_result);

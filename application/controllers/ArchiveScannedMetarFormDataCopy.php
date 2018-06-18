@@ -127,7 +127,8 @@ class ArchiveScannedMetarFormDataCopy extends CI_Controller {
 
 
             $station = $this->input->post('station_ArchiveScannedMetarForm');
-            $stationNo = $this->input->post('stationNo_ArchiveScannedMetarForm');
+            $stationNumber = $this->input->post('stationNo_ArchiveScannedMetarForm');
+			$station_id= $this->DbHandler->identifyStationById($station,$stationNumber);
 
 
 
@@ -140,15 +141,15 @@ class ArchiveScannedMetarFormDataCopy extends CI_Controller {
         $Approved="FALSE";
         $firstname=$session_data['FirstName'];
         $surname=$session_data['SurName'];
-        $SubmittedBy=$firstname.' '.$surname;
+        $SubmittedBy=$session_data['Userid'];
 
         $insertScannedMetarFormDataDetails=array(
-            'Form' => $formname, 'StationName' => $station,
-            'StationNumber' => $stationNo, 'Date' => $dateOnScannedMetarForm,'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
-            'Description'=>$description,'FileName' => $filename);
+            'Form_scanned' => $formname, 'station' => $station_id,
+            'form_date' => $dateOnScannedMetarForm,'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
+            'Description'=>$description,'FileRef' => $filename);
 
         //$this->DbHandler->insertInstrument($insertInstrumentData);
-        $insertsuccess= $this->DbHandler->insertData($insertScannedMetarFormDataDetails,'scannedarchivemetarformcopydetails'); //Array for data to insert then  the Table Name
+        $insertsuccess= $this->DbHandler->insertData($insertScannedMetarFormDataDetails,'scans_daily'); //Array for data to insert then  the Table Name
 
         //Redirect the user back with  message
         if($insertsuccess){
@@ -263,7 +264,7 @@ class ArchiveScannedMetarFormDataCopy extends CI_Controller {
                     'station' => $userstationId ,
                     'IP' => $this->input->ip_address());
                 //  save user logs
-                // $this->DbHandler->saveUserLogs($userlogs);
+               // $this->DbHandler->saveUserLogs($userlogs);
 
 
                 $this->session->set_flashdata('success', 'New Scanned Metar Form details info was added successfully!');
@@ -279,12 +280,30 @@ class ArchiveScannedMetarFormDataCopy extends CI_Controller {
        // }
 
     }
+	public 	function update_approval() {
+		$session_data = $this->session->userdata('logged_in');
+      $userstation=$session_data['UserStation'];
+	  $user_id=$session_data['Userid'];
+		$id= $this->input->post('id');
+		$data = array(
+		'Approved' => $this->input->post('approve')
+		
+		);
+		$query=$this->DbHandler->updateApproval1($id,$data,"scans_daily");
+		if ($query) {
+		$this->session->set_flashdata('success', 'Data was updated successfully!');
+		$this->index();
+		}else{
+		$this->session->set_flashdata('error', 'Sorry, Data was not updated, Please try again!');
+		$this->index();	
+		}
+		}
     public function deleteInformationForArchiveScannedMetarForm() {
         $this->unsetflashdatainfo();
 
         $id = $this->uri->segment(3); // URL Segment Three.
 
-        $rowsaffected = $this->DbHandler->deleteData('scannedarchivemetarformcopydetails',$id);  //$rowsaffected > 0
+        $rowsaffected = $this->DbHandler->deleteData('scans_daily',$id);  //$rowsaffected > 0
 
         if ($rowsaffected) {
             //Store User logs.
@@ -356,7 +375,7 @@ class ArchiveScannedMetarFormDataCopy extends CI_Controller {
         else {
 
 
-            $get_result = $this->DbHandler->checkInDBIfArchiveScannedMetarFormDataCopyRecordExistsAlready($date,$stationName,$stationNumber,'scannedarchivemetarformcopydetails');   // $value, $field, $table
+            $get_result = $this->DbHandler->checkInDBIfArchiveScannedMetarFormDataCopyRecordExistsAlready($date,$stationName,$stationNumber,'scans_daily');   // $value, $field, $table
 
             if( $get_result){
                 echo json_encode($get_result);

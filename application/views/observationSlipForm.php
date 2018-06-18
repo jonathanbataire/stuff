@@ -2211,14 +2211,22 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 			<td>
 							<div class="input-group">
                         <span class="input-group-addon">Approved</span>
-                        <?phpif($userrole=="WeatherForecaster"){?>
-                            <input type="hidden" name="approval" id="approval" value="<?php echo $observationslipformidupdate->Approved; ?>">
-                        <?php}?>
-                        <select <?php if($userrole=="WeatherForecaster" ||  $observationslipformidupdate->Approved=='TRUE') echo "disabled"; ?> name="approval" id="approval"  required class="form-control">
-                            <option value="<?php echo $observationslipformidupdate->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
-                            <option value="TRUE">TRUE</option>
-                          
-                        </select>
+						
+								<?php if($userrole=="Observer" || $observationslipformidupdate->Approved=='TRUE'||$userrole=="WeatherForecaster"){?>
+								<select name="approval" id="approval" disabled  class="form-control" >
+									<option value="<?php echo $observationslipformidupdate->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
+									<option value="TRUE">TRUE</option>
+									<option value="FALSE">FALSE</option>
+								</select>
+								<input type="hidden" name="approval" value="<?php echo $observationslipformidupdate->Approved;?>">
+								<?php }else{?>
+								   <select name="approval" id="approval"  class="form-control" >
+									<option value="<?php echo $observationslipformidupdates->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
+									<option value="TRUE">TRUE</option>
+									<option value="FALSE">FALSE</option>
+								</select>
+								<?php }?>
+                       
                     </div>
 						</td>
           </tr>
@@ -2391,8 +2399,12 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             $count = 0;
                             if(is_array($observationslipformdata) && count($observationslipformdata)) {
                               foreach($observationslipformdata as $observationslipdata){
-                                  $count++;
+                                 
                                   $observationslipid = $observationslipdata->id;
+								  if($userrole=='Observer'&& $observationslipformdata[0]->DeviceType!="AWS" && ($observationslipdata->Approved=='TRUE' || $observationslipdata->Userid!=$session_data['Userid'])){
+									  $count++; 
+								  }else{
+									   $count++;
                                   ?>
                                   <tr>
                                       <td  style="position: absolute;height:57px;width:68px;background-color:white;
@@ -2490,13 +2502,13 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                       <td><?php echo $observationslipdata->Approved; ?></td>
                                       <?php if(  $observationslipformdata[0]->DeviceType!="AWS" && ( $userrole=='OC' || $userrole== "WeatherForecaster" || $userrole=='Observer' || $userrole=="ObserverDataEntrant" || $userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer' )){ ?>
                                         <td class="no-print" >
-										<?php if(($observationslipdata->Approved=='FALSE' && ($observationslipdata->Userid==$session_data['Userid'] || $userrole=='OC'|| $userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer' )) || $userrole=='OC' || $userrole=='WeatherForecaster' ){ ?>
+										<?php if(( $userrole=='Observer'|| $userrole=='OC'|| $userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer' ) || $userrole=='OC' || $userrole=='WeatherForecaster' ){ ?>
                                              <table>
 											 <tr>
                                          <td> <a class="btn btn-primary" style="color:white;" href="<?php if($observationslipdata->DeviceType!="AWS") echo base_url() . "index.php/ObservationSlipForm/DisplayObservationSlipFormForUpdate/" .$observationslipid ;
                                            else echo "#";?>" style="cursor:pointer;" onClick="<?php if($observationslipdata->DeviceType=="AWS") 
                                            echo "return confirm('AWS data cannot be edited ');"; ?>" ><li class="fa fa-edit"></li> Edit </a> </td>
-										   <td><?php if(($userrole=='OC' || $userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer') && $observationslipdata->DeviceType!="AWS" && $observationslipdata->Approved !='TRUE'){?><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success"  type="submit"  ><li class='fa fa-check'></li>Approve</button></form><?php }?>
+										   <td><?php if(($userrole=='OC' || $userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer') && $observationslipdata->DeviceType!="AWS" ){?><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success" <?php if($observationslipdata->Approved =='TRUE'){echo "disabled";}?> type="submit"  ><li class='fa fa-check'></li>Approve</button></form><?php }?>
                                               </td> 
 											</tr>
 											 </table>
@@ -2505,7 +2517,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                   <?php  } ?>
                                   </tr>
 
-                          <?php } } ?>
+							<?php } }} ?>
                             </tbody>
                         </table>
                         <div id="pagination">

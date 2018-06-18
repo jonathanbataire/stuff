@@ -148,7 +148,7 @@ class ArchiveScannedWeatherSummaryFormDataReportCopy extends CI_Controller {
                 'Description'=>$description,'FileName' => $filename);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);
-            $insertsuccess= $this->DbHandler->insertData($insertScannedWeatherSummaryFormReportDataDetails,'scannedarchiveweathersummaryformreportcopydetails'); //Array for data to insert then  the Table Name
+            $insertsuccess= $this->DbHandler->insertData($insertScannedWeatherSummaryFormReportDataDetails,'scans_monthly'); //Array for data to insert then  the Table Name
 
             //Redirect the user back with  message
             if($insertsuccess){
@@ -182,7 +182,24 @@ class ArchiveScannedWeatherSummaryFormDataReportCopy extends CI_Controller {
 
         }
     }
-
+    public 	function update_approval() {
+		$session_data = $this->session->userdata('logged_in');
+      $userstation=$session_data['UserStation'];
+	  $user_id=$session_data['Userid'];
+		$id= $this->input->post('id');
+		$data = array(
+		'Approved' => $this->input->post('approve')
+		
+		);
+		$query=$this->DbHandler->updateApproval1($id,$data,"scans_monthly");
+		if ($query) {
+		$this->session->set_flashdata('success', 'Data was updated successfully!');
+		$this->index();
+		}else{
+		$this->session->set_flashdata('error', 'Sorry, Data was not updated, Please try again!');
+		$this->index();	
+		}
+		}
 
 
     public function updateInformationForArchiveScannedWeatherSummaryFormReport(){
@@ -365,7 +382,7 @@ class ArchiveScannedWeatherSummaryFormDataReportCopy extends CI_Controller {
         else {
 
 
-            $get_result = $this->DbHandler->checkInDBIfArchiveScannedWeatherSummaryFormDataReportCopyRecordExistsAlready($month,$year,$stationName,$stationNumber,'scannedarchiveweathersummaryformreportcopydetails');   // $value, $field, $table
+            $get_result = $this->DbHandler->checkInDBIfArchiveScannedWeatherSummaryFormDataReportCopyRecordExistsAlready($month,$year,$stationName,$stationNumber,'scans_monthly');   // $value, $field, $table
 
             if( $get_result){
                 echo json_encode($get_result);

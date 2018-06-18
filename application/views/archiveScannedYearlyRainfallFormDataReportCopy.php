@@ -245,12 +245,20 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">Approved</span>
-                                    <select name="approval" id="approval"  required class="form-control">
-                                        <option value="<?php echo $idDetails->Approved;?>"><?php echo $idDetails->Approved;?></option>
-                                        <option value="">--Select Approval Options--</option>
-                                        <option value="TRUE">TRUE</option>
-                                        <option value="FALSE">FALSE</option>
-                                    </select>
+                                    <?php if($userrole=="DataOfficer" || $idDetails->Approved=='TRUE'){?>
+								<select name="approval" id="approval" disabled  class="form-control" >
+									<option value="<?php echo $idDetails->Approved;?>"><?php echo $idDetails->Approved;?></option>
+									<option value="TRUE">TRUE</option>
+									<option value="FALSE">FALSE</option>
+								</select>
+								<input type="hidden" name="approval" value="<?php echo $idDetails->Approved;?>">
+								<?php }else{?>
+								   <select name="approval" id="approval"  class="form-control" >
+									<option value="<?php echo $idDetails->Approved;?>"><?php echo $idDetails->Approved;?></option>
+									<option value="TRUE">TRUE</option>
+									<option value="FALSE">FALSE</option>
+								</select>
+								<?php }?>
                                 </div>
                             </div>
 
@@ -296,10 +304,11 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <th>Station Name</th>
                                 <th>Station Number</th>
                                 <th>Year</th>
+								<th>File Name</th>
                                 <th>Description</th>
                                 <th>Approved</th>
                                 <th>By</th>
-                             <?php if($userrole=="OC"|| $userrole=="ObserverArchive"){ ?>
+                             <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="DataOfficer"||$userrole=="SeniorDataOfficer"){  ?>
                                     <th class="no-print">Action</th><?php }?>
                             </tr>
                             </thead>
@@ -312,7 +321,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     $count++;
 
                                     $scannedweathersummaryformreportdetails = $data->id;
-
+                                      if($userrole =='DataOfficer' && $data->Approved =='TRUE' ){
+									   $count++;
+									   }else{
+										   $count++;
 
                                     ?>
                                     <tr>
@@ -320,17 +332,30 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <td ><?php echo $data->StationName;?></td>
                                         <td ><?php echo $data->StationNumber;?></td>
                                         <td ><?php echo $data->year;?></td>
-                                        <td><?php echo $data->Description;?></td>
-                                        <td ><?php echo $data->Approved?"TRUE":"FALSE";?></td>
+										 <td>
+											<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedYearlyRainfallFormDataReportCopy/ViewImageFromBrowser/<?php echo $data->FileRef;?>" target = "blank"> <?php echo $data->FileRef;?> </a>
+											</td><td><?php echo $data->Description;?></td>
+                                        <td ><?php echo $data->Approved;?></td>
                                         <td><?php echo $data->SubmittedBy;?></td>
-                                   <?php if($userrole=="OC"|| $userrole=="ObserverArchive"){ ?>
+                                   <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="DataOfficer"||$userrole=="SeniorDataOfficer"){ ?>
                                      <td class="no-print">
-                                          <a class="btn btn-primary" href="<?php echo base_url() . "index.php/ArchiveScannedYearlyRainfallFormDataReportCopy/DisplayFormToArchiveScannedYearlyRainfallFormReportForUpdate/" .$data->id ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li> Edit</a>
-                                      </td>
+                                          
+									  <table>
+												<tr><td>
+                                           <a class="btn btn-primary" href="<?php echo base_url() . "index.php/ArchiveScannedYearlyRainfallFormDataReportCopy/DisplayFormToArchiveScannedYearlyRainfallFormReportForUpdate/" .$data->id ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li> Edit</a>
+                                      	</td>
+												<?php if($userrole=='SeniorDataOfficer'){?>
+												<td>
+											
+											<form method="post" action="<?php echo base_url() . "index.php/ArchiveScannedYearlyRainfallFormDataReportCopy/update_approval/" .$data->id;?>"> <input type="hidden" name="id" value="<?php echo $data->id; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success" <?php if($data->Approved=='TRUE'){ echo "disabled";}?> type="submit"  ><li class='fa fa-check'></li>Approve</button></form>
+											</td><?php }?> 
+									     </tr>
+										 </table>
+									  </td>
                                     </tr>
 
                                 <?php
-                                }
+									   }}
                             }
                           }
                             ?>

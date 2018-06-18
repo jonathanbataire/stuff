@@ -1772,11 +1772,11 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 									     </tr>
 										 </table>
 									 </td>
-								   <?php }?>
+								   
                                     </tr>
 
                                 <?php
-								     }
+								   }}
                             }
                           }
                             ?>

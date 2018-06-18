@@ -293,12 +293,21 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">Approved</span>
-                                    <select name="approval" id="approval"  required class="form-control">
-                                        <option value="<?php echo $idDetails->Approved;?>"><?php echo $idDetails->Approved;?></option>
-                                        <option value="">--Select Approval Options--</option>
-                                        <option value="TRUE">TRUE</option>
-                                        <option value="FALSE">FALSE</option>
-                                    </select>
+                                     
+										<?php if($userrole=="DataOfficer" || $idDetails->Approved=='TRUE'){?>
+								<select name="approval" id="approval" disabled  class="form-control" >
+									<option value="<?php echo $idDetails->Approved;?>"><?php echo $idDetails->Approved;?></option>
+									<option value="TRUE">TRUE</option>
+									<option value="FALSE">FALSE</option>
+								</select>
+								<input type="hidden" name="approval" value="<?php echo $idDetails->Approved;?>">
+								<?php }else{?>
+								   <select name="approval" id="approval"  class="form-control" >
+									<option value="<?php echo $idDetails->Approved;?>"><?php echo $idDetails->Approved;?></option>
+									<option value="TRUE">TRUE</option>
+									<option value="FALSE">FALSE</option>
+								</select>
+								<?php }?>
                                 </div>
                             </div>
 
@@ -345,6 +354,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <th>Station Number</th>
                                 <th>Date</th>
                                 <th>TIME</th>
+								<th>File Name</th>
                                 <th>Description</th>
                                 <th>Approved</th>
                                 <th>By</th>
@@ -372,6 +382,11 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <td ><?php echo $data->StationNumber;?></td>
                                         <td ><?php echo $data->form_date;?></td>
                                         <td ><?php echo $data->TIME;?></td>
+										<td class="no-print">
+										   <a title="click to view file" href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedObservationSlipFormDataCopy/ViewImageFromBrowser/<?php echo $data->FileRef; ?>" target = "blank"><?php echo $data->FileRef; ?></a> 
+										   <!--  <?php echo $data->FileRef;?>-->
+
+										</td>
                                         <td><?php echo $data->Description;?></td>
                                         <td ><?php echo $data->Approved;?></td>
                                         <td><?php echo $data->SubmittedBy;?></td>

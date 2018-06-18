@@ -131,8 +131,8 @@ class ArchiveScannedObservationSlipFormDataCopy extends CI_Controller {
 
 
                     $station = $this->input->post('station_ArchiveScannedObservationSlipForm');
-                    $stationNo = $this->input->post('stationNo_ArchiveScannedObservationSlipForm');
-
+                    $stationNumber = $this->input->post('stationNo_ArchiveScannedObservationSlipForm');
+                    $station_id= $this->DbHandler->identifyStationById($station,$stationNumber);
 
 
 
@@ -150,14 +150,14 @@ class ArchiveScannedObservationSlipFormDataCopy extends CI_Controller {
                 $SubmittedBy=$firstname.' '.$surname;
 
                 $insertScannedObservationSlipFormDataCopyDetails=array(
-                    'Form' => $formname, 'StationName' => $station,
-                    'StationNumber' => $stationNo, 'TIME'=>$time,
+                    'Form_scanned' => $formname, 'station' => $station_id,
+                     'TIME'=>$time,
 
-                    'Date' => $dateOnScannedObservationSlipForm,'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
-                    'Description'=>$description,'FileName' => $filename);
+                    'form_date' => $dateOnScannedObservationSlipForm,'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
+                    'Description'=>$description,'FileRef' => $filename);
 
                 //$this->DbHandler->insertInstrument($insertInstrumentData);
-                $insertsuccess= $this->DbHandler->insertData($insertScannedObservationSlipFormDataCopyDetails,'scannedarchiveobservationslipformcopydetails'); //Array for data to insert then  the Table Name
+                $insertsuccess= $this->DbHandler->insertData($insertScannedObservationSlipFormDataCopyDetails,'scans_daily'); //Array for data to insert then  the Table Name
 
                 //Redirect the user back with  message
                 if($insertsuccess){

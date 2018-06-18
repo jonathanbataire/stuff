@@ -33,6 +33,26 @@ class ReportsController extends CI_Controller {
         $this->load->view('yearlyRainfallReport',$data);
 
     }
+	 public function initializeRainfallCustomReport(){
+        //$this->unsetflashdatainfo();
+        $session_data = $this->session->userdata('logged_in');
+        $userrole=$session_data['UserRole'];
+        $userstation=$session_data['UserStation'];
+
+        //Get all Stations.
+        $query = $this->DbHandler->selectAllFromSystemData($userstation,'StationName','stations');  //value,field,table
+        //  var_dump($query);
+        if ($query) {
+            $data['stationsdata'] = $query;
+        } else {
+            $data['stationsdata'] = array();
+        }
+
+
+        //View the dekadal form.
+        $this->load->view('CustomRainfallReport',$data);
+
+    }
     public function displayyearlyrainfallreport(){
         $this->unsetflashdatainfo();
         $session_data = $this->session->userdata('logged_in');

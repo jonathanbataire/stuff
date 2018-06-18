@@ -43,10 +43,6 @@ $created=$session_data['CreationDate'];
     <link href="<?php echo base_url(); ?>css/AdminLTE.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url(); ?>css/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url(); ?>css/dashboard.css" rel="stylesheet" type="text/css" />
-	
-	<link href="<?php echo base_url(); ?>css/mycss.css" rel="stylesheet" type="text/css" />
-	<script src="<?php echo base_url(); ?>js/myjs.js"></script>
-	
     <script src="<?php echo base_url(); ?>js/jquery-1.7.1.min.js"></script>
     <script src="<?php echo base_url(); ?>js/jquery.table2excel.js"></script>
     <script src="<?php echo base_url(); ?>js/jquery.tabletoCSV.js"></script>
@@ -341,6 +337,7 @@ $created=$session_data['CreationDate'];
 
                             <li><a href="<?php echo base_url();?>index.php/ReportsController/initializeMonthlyRainfallReport"><i class="fa fa-angle-double-right"></i> Monthly Rainfall Report</a></li>
                             <li><a href="<?php echo base_url();?>index.php/ReportsController/initializeRainfallYearlyReport"><i class="fa fa-angle-double-right"></i> Annual Rainfall Report</a></li>
+							<li><a href="<?php echo base_url();?>index.php/ReportsController/initializeRainfallCustomReport"><i class="fa fa-angle-double-right"></i> Customized Rainfall Report</a></li>
                         </ul>
                     </li>
                 <?php } ?>

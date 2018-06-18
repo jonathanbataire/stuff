@@ -11,12 +11,12 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Archive Scanned Metar Form Copy
+            Archive Scanned Synoptic Form Copy
             <small> Page</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Archive Scanned Metar Form Copy</li>
+            <li class="active">Archive Scanned Synoptic Form Copy</li>
 
         </ol>
     </section>
@@ -320,12 +320,20 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">Approved</span>
-                                    <select name="approval" id="approval"  required class="form-control">
-                                        <option value="<?php echo $idDetails->Approved;?>"><?php echo $idDetails->Approved;?></option>
-                                        <option value="">--Select Approval Options--</option>
-                                        <option value="TRUE">TRUE</option>
-                                        <option value="FALSE">FALSE</option>
-                                    </select>
+                                    <?php if($userrole=="DataOfficer" || $idDetails->Approved=='TRUE'){?>
+								<select name="approval" id="approval" disabled  class="form-control" >
+									<option value="<?php echo $idDetails->Approved;?>"><?php echo $idDetails->Approved;?></option>
+									<option value="TRUE">TRUE</option>
+									<option value="FALSE">FALSE</option>
+								</select>
+								<input type="hidden" name="approval" value="<?php echo $idDetails->Approved;?>">
+								<?php }else{?>
+								   <select name="approval" id="approval"  class="form-control" >
+									<option value="<?php echo $idDetails->Approved;?>"><?php echo $idDetails->Approved;?></option>
+									<option value="TRUE">TRUE</option>
+									<option value="FALSE">FALSE</option>
+								</select>
+								<?php }?>
                                 </div>
                             </div>
 
@@ -372,10 +380,11 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <th>Station Name</th>
                                 <th>Station Number</th>
                                 <th>Date</th>
+								<th>File Name</th>
                                 <th>Description</th>
                                 <th>Approved</th>
                                 <th>By</th>
-                            <?php if($userrole=="OC"|| $userrole=="ObserverArchive"){ ?>
+                            <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="DataOfficer"||$userrole=="SeniorDataOfficer"){ ?>
                                     <th class="no-print">Action</th><?php }?>
                             </tr>
                             </thead>
@@ -385,10 +394,13 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                             if (is_array($archivedscannedsynopticformreportcopydetails) && count($archivedscannedsynopticformreportcopydetails)) {
                                 foreach($archivedscannedsynopticformreportcopydetails as $data){
-                                    $count++;
+                                  
 
                                     $scannedsynopticformdatadetails = $data->id;
-
+										if($userrole =='DataOfficer' && $data->Approved =='TRUE' ){
+									   $count++;
+									   }else{
+										   $count++;
 
                                     ?>
                                     <tr>
@@ -396,18 +408,33 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <td ><?php echo $data->StationName;?></td>
                                         <td ><?php echo $data->StationNumber;?></td>
                                         <td ><?php echo $data->form_date;?></td>
+										  <td class="no-print">
+                                   <a title="click to view file" href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedSynopticFormDataReportCopy/ViewImageFromBrowser/<?php echo $data->FileRef;?>" target = "blank"><?php echo $data->FileRef;?></a>
+                                  
+                                </td>
                                         <td><?php echo $data->Description;?></td>
-                                        <td ><?php echo $data->Approved?"TRUE":"FALSE";?></td>
+                                        <td ><?php echo $data->Approved;?></td>
                                         <td><?php echo $data->SubmittedBy;?></td>
-                                   <?php if($userrole=="OC"|| $userrole=="ObserverArchive"){ ?>
+                                   <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="DataOfficer"||$userrole=="SeniorDataOfficer"){?>
                                      <td class="no-print">
 
+									<table>
+                                         <tr><td>
+                                          
                                             <a  class= "btn btn-primary" href="<?php echo base_url() . "index.php/ArchiveScannedSynopticFormDataReportCopy/DisplayFormToArchiveScannedSynopticFormReportForUpdate/" .$data->id ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li> Edit</a>
                                     </td>
+											<?php if($userrole=='SeniorDataOfficer'){?>
+											<td>
+											
+											<form method="post" action="<?php echo base_url() . "index.php/ArchiveScannedSynopticFormDataReportCopy/update_approval/" .$data->id;?>"> <input type="hidden" name="id" value="<?php echo $data->id; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success" <?php if($data->Approved=='TRUE'){ echo "disabled";}?> type="submit"  ><li class='fa fa-check'></li>Approve</button></form>
+											</td><?php }?> 
+									     </tr>
+										 </table>
+									</td>
                                     </tr>
 
                                 <?php
-                                }
+									   }}
                             }
                           }
                             ?>

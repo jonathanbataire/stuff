@@ -128,8 +128,8 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
 
 
                 $station = $this->input->post('station_ArchiveScannedDekadalFormReport');
-                $stationNo = $this->input->post('stationNo_ArchiveScannedDekadalFormReport');
-
+                $stationNumber = $this->input->post('stationNo_ArchiveScannedDekadalFormReport');
+                $station_id= $this->DbHandler->identifyStationById($station,$stationNumber);
 
 
             $FromdateOnScannedDekadalFormReport = $this->input->post('FromdateOnScannedDekadalFormReport_dekadal');
@@ -144,13 +144,13 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
             $SubmittedBy=$user=$firstname.' '.$surname;
 
             $insertScannedDekadalFormReportDataDetails=array(
-                'Form' => $formname, 'StationName' => $station,
-                'StationNumber' => $stationNo, 'FromDate' => $FromdateOnScannedDekadalFormReport,'ToDate' => $TodateOnScannedDekadalFormReport,
+                'Form' => $formname, 'station' => $station_id,
+                 'FromDate' => $FromdateOnScannedDekadalFormReport,'ToDate' => $TodateOnScannedDekadalFormReport,
                 'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
                 'Description'=>$description,'FileName' => $filename);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);
-            $insertsuccess= $this->DbHandler->insertData($insertScannedDekadalFormReportDataDetails,'scannedarchivedekadalformreportcopydetails'); //Array for data to insert then  the Table Name
+            $insertsuccess= $this->DbHandler->insertData($insertScannedDekadalFormReportDataDetails,'scans_dekadals'); //Array for data to insert then  the Table Name
 
             //Redirect the user back with  message
             if($insertsuccess){
@@ -290,12 +290,30 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
        // }
 
     }
+	public 	function update_approval() {
+		$session_data = $this->session->userdata('logged_in');
+      $userstation=$session_data['UserStation'];
+	  $user_id=$session_data['Userid'];
+		$id= $this->input->post('id');
+		$data = array(
+		'Approved' => $this->input->post('approve')
+		
+		);
+		$query=$this->DbHandler->updateApproval1($id,$data,"scans_dekadals");
+		if ($query) {
+		$this->session->set_flashdata('success', 'Data was updated successfully!');
+		$this->index();
+		}else{
+		$this->session->set_flashdata('error', 'Sorry, Data was not updated, Please try again!');
+		$this->index();	
+		}
+		}
     public function deleteInformationForArchiveScannedDekadalFormReport() {
         $this->unsetflashdatainfo();
 
         $id = $this->uri->segment(3); // URL Segment Three.
 
-        $rowsaffected = $this->DbHandler->deleteData('scannedarchivedekadalformreportcopydetails',$id);  //$rowsaffected > 0
+        $rowsaffected = $this->DbHandler->deleteData('scans_dekadals',$id);  //$rowsaffected > 0
 
         if ($rowsaffected) {
             //Store User logs.
@@ -367,7 +385,7 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
         else {
 
 
-            $get_result = $this->DbHandler->checkInDBIfArchiveScannedDekadalFormDataReportCopyRecordExistsAlready($fromdate,$todate,$stationName,$stationNumber,'scannedarchivedekadalformreportcopydetails');   // $value, $field, $table
+            $get_result = $this->DbHandler->checkInDBIfArchiveScannedDekadalFormDataReportCopyRecordExistsAlready($fromdate,$todate,$stationName,$stationNumber,'scans_dekadals');   // $value, $field, $table
 
             if( $get_result){
                 echo json_encode($get_result);
