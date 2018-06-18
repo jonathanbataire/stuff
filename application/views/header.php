@@ -19,6 +19,10 @@ $created=$session_data['CreationDate'];
     <script src="<?php echo base_url(); ?>js/bootstrap.min.js" type="text/javascript"></script>
 
     <link href="<?php echo base_url(); ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<script src="<?php echo base_url(); ?>js/daterangepicker.js" type="text/javascript"></script>
+	<script src="<?php echo base_url(); ?>js/moment.min.js" type="text/javascript"></script>
+
+    <link href="<?php echo base_url(); ?>css/daterangepicker.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url(); ?>css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
     <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
