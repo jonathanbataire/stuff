@@ -1078,7 +1078,7 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
         //    $this->db->where('id',$id);
         //}
 
-        $this->db->where('id',$id);
+        //$this->db->where('id',$id);
         $this->db->update($tablename,$FormDataToUpdate);  
 
        

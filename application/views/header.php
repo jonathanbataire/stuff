@@ -248,7 +248,7 @@ $created=$session_data['CreationDate'];
                 </li>
                 <?php } ?>
 
-                <?php  if($userrole == "ManagerData" || $userrole== "OC" || $userrole=="SeniorDataOfficer" || $userrole=='DataOfficer' || $userrole=='ObserverArchive'){
+                <?php  if($userrole == "ManagerData"  || $userrole=="SeniorDataOfficer" || $userrole=='DataOfficer' || $userrole=='ObserverArchive'){
                 ?>
 
                 <li class="treeview">
@@ -270,7 +270,7 @@ $created=$session_data['CreationDate'];
                 </li>
                 <?php } ?>
 
-              <?php  if( $userrole== "ObserverArchive" ||  $userrole== "DataOfficer" || $userrole=="SeniorDataOfficer" || $userrole== "OC"){
+              <?php  if( $userrole== "ObserverArchive" ||  $userrole== "DataOfficer" || $userrole=="SeniorDataOfficer"){
                 ?>
                 <li class="treeview">
                     <a href="#">
@@ -295,7 +295,7 @@ $created=$session_data['CreationDate'];
                 </li>
                 <?php } ?>
 
-                <?php if($userrole == "ManagerData" || $userrole== "OC" || $userrole == "DataOfficer" || $userrole == "SeniorDataOfficer"){
+                <?php if($userrole == "ManagerData" ||  $userrole == "DataOfficer" || $userrole == "SeniorDataOfficer"){
                 ?>
                 <li class="treeview">
                     <a href="#">
@@ -321,7 +321,7 @@ $created=$session_data['CreationDate'];
         <?php  }?>
 
                 <?php
-                if($userrole == "ManagerData" || $userrole== "OC" || $userrole=="ZonalOfficer" || $userrole=="SeniorZonalOfficer" || $userrole=="ManagerStationNetworks" || $userrole=="Director" || $userrole=="WeatherAnalyst" || $userrole=="WeatherForecaster" ){
+                if($userrole == "ManagerData" ||  $userrole=="ZonalOfficer" || $userrole=="SeniorZonalOfficer" || $userrole=="ManagerStationNetworks" || $userrole=="Director" || $userrole=="WeatherAnalyst" || $userrole=="WeatherForecaster" ){
                     ?>
                     <li class="treeview">
                         <a href="#">

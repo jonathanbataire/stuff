@@ -1029,7 +1029,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 $('#user_station_Manager').attr('required', false);
                 $('#user_stationNo_Manager').attr('required', false);
-
+                $('#user_stationRegion_AssignedBy_Manager').attr('readonly', false);
                 $('#user_stationRegion_AssignedBy_Manager').attr('disabled', false);  //Enforce the readOnly Attribute
                 $('#user_stationRegion_AssignedBy_Manager').attr('required', true); //Enforce the required select text field
 
@@ -1053,7 +1053,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 $('#user_stationNo_Manager').attr('disabled', false);
                 $('#user_station_Manager').attr('required', true);
                 $('#user_stationNo_Manager').attr('required', true);
-                $('#user_stationRegion_AssignedBy_Manager').attr('disabled', false);  //Enforce the readOnly Attribute
+                $('#user_stationRegion_AssignedBy_Manager').attr('disabled', true);  //Enforce the readOnly Attribute
                 $('#user_stationRegion_AssignedBy_Manager').attr('required', false); //Enforce the required select text field
 
             }

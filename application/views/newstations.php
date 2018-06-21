@@ -1064,7 +1064,7 @@ function Disabled(){
     else{
         document.getElementById("expdate").disabled='';
     }
-}s
+}
 </script>
 
 <?php require_once(APPPATH . 'views/footer.php'); ?>

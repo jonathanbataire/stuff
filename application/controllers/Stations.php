@@ -197,10 +197,10 @@ class Stations extends CI_Controller {
             $longitude = $this->input->post('stationlongitude');
             $altitude=$this->input->post('stationaltitude');
             $opened = $this->input->post('stationopened');
-            $status=$this->input->post('stationstatus');
+            $status=$this->input->post('statusstation');
             $closed = $this->input->post('stationclosed');
 
-            $type = $this->input->post('stationtype');
+            $type = $this->input->post('typestation');
 
             $id = $this->input->post('id');
 

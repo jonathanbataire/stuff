@@ -25,19 +25,18 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
     <div id="output"></div>
     <div class="no-print">
         <div class="row">
-            <form action="<?php echo base_url(); ?>index.php/YearlyRainfallReport/displayyearlyrainfallreport/" method="post" enctype="multipart/form-data">
-                <?php  if($userrole=='OC'){?>
-                    <div class="col-xs-3">
+            <form action="<?php echo base_url(); ?>index.php/DisplayCustomRainfallReport/displayyearlyrainfallreport/" method="post" enctype="multipart/form-data">
+               
+				 <div class="col-xs-3">
                         <div class="form-group">
                             <div class="input-group">
 
-                                <span class="input-group-addon">Station</span>
-                                <input type="text" name="stationOC" id="stationOC" class="form-control" value="<?php echo $userstation;?>" placeholder="Please select station" readonly class="form-control"  >
+                                <span class="input-group-addon">Region</span>
+                                <input type="text" name="stationOC" id="stationOC" class="form-control"  placeholder="Please select station"   >
                             </div>
                         </div>
                     </div>
-                <?php }elseif($userrole=='ManagerData' || $userrole== "ZonalOfficer" || $userrole== "SeniorZonalOfficer" || $userrole=="ManagerStationNetworks" || $userrole=="Director" || $userrole=="WeatherAnalyst" || $userrole=="WeatherForecaster"){?>
-                    <div class="col-xs-3">
+                   <div class="col-xs-3">
                         <div class="form-group">
                             <div class="input-group">
 
@@ -54,39 +53,15 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 </select>
                             </div>
                         </div>
-                    </div>
-                <?php } ?>
+                    </div> 
 
-                <?php if($userrole=='OC'){ ?>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="hidden" name="page" value="monthly_rainfall_report" >
-
-                                <span class="input-group-addon">Station Number</span>
-                                <input type="text" name="stationNoOC" id="stationNoOC" required class="form-control" value="<?php echo $userstationNo;?>" required placeholder="Please select station Number" readonly class="form-control"  >
-                            </div>
-                        </div>
-                    </div>
-
-                <?php }elseif($userrole=='ManagerData' || $userrole== "ZonalOfficer" || $userrole== "SeniorZonalOfficer" || $userrole=="ManagerStationNetworks" || $userrole=="Director" || $userrole=="WeatherAnalyst" || $userrole=="WeatherForecaster"){?>
-                    <div class="col-xs-3">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="hidden" name="page" value="monthly_rainfall_report" >
-
-                                <span class="input-group-addon">Station Number</span>
-                                <input type="text" name="stationNoManager"  id="stationNoManager" required class="form-control" value=""  readonly class="form-control"  >
-                            </div>
-                        </div>
-                    </div>
-                <?php }?>
+               
 
                <div class="col-xs-3">
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon">Specify customized Range  </span>
-                            
+                            <span class="input-group-addon">From </span>
+                              <input type="text" name="daterange" id="report1" class="form-control metaryear" placeholder="" >
                         </div>
                     </div>
                 </div>
@@ -94,13 +69,13 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 				<div class="col-xs-3">
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i>&nbsp;</span>
-                            <input type="text" name="year" id="reportrange" class="form-control metaryear" placeholder="<i class='fa fa-caret-down'></i>" >
+                            <span class="input-group-addon"> To &nbsp;</span>
+                            <input type="text" name="TO" id="report" class="form-control metaryear" placeholder="" >
                         </div>
                     </div>
                 </div>
 				<div class="col-xs-2">
-                    <input type="submit" name="displayyearannualreportrainfallreport_button" id="displayyearannualreportrainfallreport_button" class="btn btn-primary" value="Generate report" >
+                    <input type="submit"  class="btn btn-primary" value="Generate report" >
                 </div>
 				
 				 </div>
@@ -900,33 +875,39 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
         })
     </script>
-	<script type="text/javascript">
-				$(function() {
+	
+ 
+<script type="text/javascript">
 
-					var start = moment().subtract(29, 'days');
-					var end = moment();
+	
+    $(document).ready(function(){
+        var date_input=$('#report'); //our date input has the name "date"
+   
+        date_input.datepicker({
+            format: 'yyyy-mm-dd',
+          
+            todayHighlight: true,
+            autoclose: true
+        })
+    })
 
-					function cb(start, end) {
-						$('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-					}
+</script>
+<script type="text/javascript">
 
-					$('#reportrange').daterangepicker({
-						startDate: start,
-						endDate: end,
-						ranges: {
-						   'Today': [moment(), moment()],
-						   'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-						   'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-						   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-						   'This Month': [moment().startOf('month'), moment().endOf('month')],
-						   'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-						}
-					}, cb);
+	
+    $(document).ready(function(){
+        var date_input=$('#report1'); //our date input has the name "date"
+           var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+        date_input.datepicker({
+            format: 'yyyy-mm-dd',
+		
+            container: container,
+            todayHighlight: true,
+            autoclose: true
+        })
+    })
 
-					cb(start, end);
-
-				});
-				</script>
+</script>
 
 
 
