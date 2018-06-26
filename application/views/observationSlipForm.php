@@ -2292,8 +2292,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <table id="example1" class="table table-bordered table-fixed table-striped">
                             <thead>
                             <tr >
-                              <th style="position: absolute;height:96px;width:68px;background-color:white;
-                                z-index: 99;">ID</th>
+                              <th style="position: absolute;height:96px;width:86px;background-color:white;
+                                z-index: 99;">ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                 <th style="width:65px"></th>
                              <span > <th>Submission Time</th></span>
                               <th>Date</th>
@@ -2403,8 +2403,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                   $observationslipid = $observationslipdata->id;
 								  if($userrole=='Observer'&& $observationslipformdata[0]->DeviceType!="AWS" && ($observationslipdata->Approved=='TRUE' || $observationslipdata->Userid!=$session_data['Userid'])){
 									  $count++; 
-								  }else{
+								  }elseif(($userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer')&& $observationslipdata->Approved!='TRUE'&& $observationslipformdata[0]->DeviceType!="AWS"){
 									   $count++;
+								  }else{
+                                        $count++;									  
                                   ?>
                                   <tr>
                                       <td  style="position: absolute;height:57px;width:68px;background-color:white;
@@ -2502,17 +2504,24 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                       <td><?php echo $observationslipdata->Approved; ?></td>
                                       <?php if(  $observationslipformdata[0]->DeviceType!="AWS" && ( $userrole=='OC' || $userrole== "WeatherForecaster" || $userrole=='Observer' || $userrole=="ObserverDataEntrant" || $userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer' )){ ?>
                                         <td class="no-print" >
-										<?php if(( $userrole=='Observer'|| $userrole=='OC'|| $userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer' ) || $userrole=='OC' || $userrole=='WeatherForecaster' ){ ?>
-                                             <table>
+										      <table>
 											 <tr>
+											
                                          <td> <a class="btn btn-primary" style="color:white;" href="<?php if($observationslipdata->DeviceType!="AWS") echo base_url() . "index.php/ObservationSlipForm/DisplayObservationSlipFormForUpdate/" .$observationslipid ;
-                                           else echo "#";?>" style="cursor:pointer;" onClick="<?php if($observationslipdata->DeviceType=="AWS") 
-                                           echo "return confirm('AWS data cannot be edited ');"; ?>" ><li class="fa fa-edit"></li> Edit </a> </td>
-										   <td><?php if(($userrole=='OC' || $userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer') && $observationslipdata->DeviceType!="AWS" ){?><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success" <?php if($observationslipdata->Approved =='TRUE'){echo "disabled";}?> type="submit"  ><li class='fa fa-check'></li>Approve</button></form><?php }?>
-                                              </td> 
+                                           else echo "#";?>" style="cursor:pointer;"  ><li class="fa fa-edit"></li> Edit </a> </td>
+										   
+										   <?php if($userrole=='OC'&& $observationslipdata->DeviceType!="AWS" ){?>
+										    <td><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success"  type="submit"  ><li class='fa fa-check'></li>Approve</button></form>
+                                              </td> <?php }elseif(($userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer')&& $observationslipdata->Approved=="TRUE"){
+												 ?>
+												  <td><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="ENDORSE" ><button class="btn btn-success"  type="submit"  ><li class='fa fa-check'></li>Endorse</button></form>
+                                              </td>
+												  
+												  <?php
+											  }?> 
 											</tr>
 											 </table>
-											<?php } ?>
+											
                                     </td>
                                   <?php  } ?>
                                   </tr>
@@ -2520,16 +2529,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							<?php } }} ?>
                             </tbody>
                         </table>
-                        <div id="pagination">
-                        <ul class="tsc_pagination">
-                        <!-- Show pagination links -->
-                        <?php
-
-                         foreach ($links as $link){
-                           echo "<li>". $link."</li>";
-                        }
-                         ?>
-                        </div>
+                        
                         </div>
                         <br><br>
                         <button onClick="print();" class="btn btn-primary no-print"><i class="fa fa-print"></i> Print</button>
@@ -5257,6 +5257,14 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             });
             );
     </script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('#example1').DataTable({
+			"order":[[3,"asc"]]
+		});
+	});
+	</script>
+	
 
 
 

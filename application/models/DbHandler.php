@@ -53,6 +53,33 @@ class DbHandler extends CI_Model {
             return false;
         }
     }
+	  public function selectCustomisedRainfall($stationNo, $station, $dateFro, $dateTo){
+       
+		$this->db->select('*');
+        $this->db->from('observationslip as slip');
+		$this->db->join('stations','slip.Station= stations.station_id');
+        $this->db->where('stations.StationName', $stationNo);
+        $this->db->where('stations.StationNumber', $station);
+		 $this->db->where('slip.Date >=', $dateFro);
+        $this->db->where('slip.Date <=', $dateTo);
+        $this->db->order_by("slip.Date", "desc");
+        // Run the query
+        $query = $this->db->get();
+		
+        if($query -> num_rows() >0)
+        {
+            $result = $query->result();
+			//exit("am here".$result->Date);
+            return $result;
+            //return $query->result();
+        }
+        else
+        {
+			 //exit("hmmmmmmmqewrt");
+            return false;
+			
+        }
+    }
 
     public  function ResetUserPassword($data,$userid,$email,$username){
         $this->db->set($data);
@@ -770,9 +797,11 @@ return $this->db->count_all_results();
     $this->db->from($tablename.' as tab');//select from userlogs
     $this->db->join('stations as stationsdata', 'tab.station= stationsdata.station_id');
     $this->db->where_not_in('tab.station','0');
-    if($userrole=='OC' ){
+    if($tablename=='stations' ){
         $this->db->where('tab.'.$field, $value);
-    }
+    }else{
+		  $this->db->where('stationsdata.'.$field, $value);
+	}
 
     //$this->db->join('data_tracking as tracking','tracking.modified = tab.Date');
     //$this->db->where('tracking.modifiedBy','tab.Userid');
@@ -906,7 +935,7 @@ return $this->db->count_all_results();
            
           $this->db->where_not_in('slip.'.$field2, $value2);
           $this->db->order_by("slip.O_CreationDate","DESC");
-          $this->db->limit($NoOfRecords);
+        
 
           $query = $this->db->get();
           if($query -> num_rows() > 0)
@@ -977,8 +1006,8 @@ return $this->db->count_all_results();
         $this->db->where_not_in('slip.'.$field3, $value3);//device type not in aws
         $this->db->where_not_in('slip.Approved', 'TRUE');
         //$this->db->where("slip.Userid", $userid);//added
-        $this->db->order_by("slip.O_CreationDate","DESC");
-        $this->db->limit($NoOfRecords);
+        $this->db->order_by("slip.Date","DESC");
+       
         
         $query = $this->db->get();
         if($query -> num_rows() > 0)

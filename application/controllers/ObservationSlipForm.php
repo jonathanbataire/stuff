@@ -21,9 +21,9 @@ $config["base_url"] = base_url()."index.php/ObservationSlipForm/index";
 //index.php/ObservationSlipForm/index
 $total_row = $this->DbHandler->record_count('StationName',$userstation);
 $config["total_rows"] = $total_row;
-$config["per_page"] = 100;
+
 $config['use_page_numbers'] = TRUE;
-$config['num_links'] = 10;
+
 $config['cur_tag_open'] = '&nbsp;<a class="current">';
 $config['cur_tag_close'] = '</a>';
 $config['next_link'] = 'Next';
@@ -65,9 +65,9 @@ $data["links"] = explode('&nbsp;',$str_links );
         $config["base_url"] = base_url() . "index.php/ObservationSlipForm/showAwsdata";
         $total_row = $this->DbHandler->record_count_aws('StationName',$userstation);
         $config["total_rows"] = $total_row;
-        $config["per_page"] = 20;
+      
         $config['use_page_numbers'] = TRUE;
-        $config['num_links'] = 10;
+       
         $config['cur_tag_open'] = '&nbsp;<a class="current">';
         $config['cur_tag_close'] = '</a>';
         $config['next_link'] = 'Next';
@@ -106,9 +106,9 @@ $data["links"] = explode('&nbsp;',$str_links );
        $config["base_url"] = base_url() . "index.php/ObservationSlipForm/showWebmobiledata";
        $total_row =$this->DbHandler->record_count_webmobile('StationName',$userstation);
        $config["total_rows"] = $total_row;
-       $config["per_page"] = 10;
+       
        $config['use_page_numbers'] = TRUE;
-       $config['num_links'] = 10;
+      
        $config['cur_tag_open'] = '&nbsp;<a class="current">';
        $config['cur_tag_close'] = '</a>';
        $config['next_link'] = 'Next';
