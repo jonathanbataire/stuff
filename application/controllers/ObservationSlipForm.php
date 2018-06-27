@@ -273,10 +273,18 @@ elseif ($userrole=="OC") {
       $userstation=$session_data['UserStation'];
 	  $user_id=$session_data['Userid'];
 		$id= $this->input->post('id');
-		$data = array(
-		'Approved' => $this->input->post('approve'),
-		'ApprovedBy' => $user_id
+		$approved = $this->input->post('approve');
+		$name=$session_data['FirstName'].' '.$session_data['SurName'];
+		if($approved=="ENDORSE"){
+			$data = array(
+		'Endorsed' => $approved,
+		'EndorsedBy' => $name
 		);
+		}else{
+		$data = array(
+		'Approved' => $approved,
+		'ApprovedBy' => $user_id
+		);}
 		$query=$this->DbHandler->updateApproval($id,$data);
 		if ($query) {
 		$this->session->set_flashdata('success', 'Data was updated successfully!');
@@ -547,8 +555,9 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
         $this->load->helper(array('form', 'url'));
         $session_data = $this->session->userdata('logged_in');
         $role=$session_data['UserRole'];
-
+         
         $date = $this->input->post('date');
+		
         $metarOrSpeci=$this->input->post('metar_speci');
         $timeobservationslip= $metarOrSpeci=="speci"? $this->input->post('speci_time'):$this->input->post('metar_time');
 

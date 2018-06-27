@@ -1006,17 +1006,19 @@ return $this->db->count_all_results();
         $this->db->where_not_in('slip.'.$field3, $value3);//device type not in aws
         $this->db->where_not_in('slip.Approved', 'TRUE');
         //$this->db->where("slip.Userid", $userid);//added
-        $this->db->order_by("slip.Date","DESC");
+        $this->db->order_by("slip.O_CreationDate","DESC");
        
         
         $query = $this->db->get();
         if($query -> num_rows() > 0)
         {
-            $result = $query->result();  //$query -> result_array();
+            $result = $query->result();
+           		//$query -> result_array();
             return $result;
         }
         else
         {
+			
             //$results = $query->result();
             return false;
         }
@@ -1101,13 +1103,13 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
         $this->db->query("SET @station= '$station'");
         $this->db->query("SET @IP= '$IP'");
     
-    if($tablename=="stations")
+    if($tablename=="stations"){
            $this->db->where('station_id',$id);
-       // else{
-        //    $this->db->where('id',$id);
-        //}
+	}else{
+           $this->db->where('id',$id);
+        }
 
-        //$this->db->where('id',$id);
+       //$this->db->where('id',$id);
         $this->db->update($tablename,$FormDataToUpdate);  
 
        

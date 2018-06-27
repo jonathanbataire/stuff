@@ -355,7 +355,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 										 <td><a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedWeatherSummaryFormDataReportCopy/ViewImageFromBrowser/<?php echo $data->FileRef; ?>" target = "blank" title="click to view file"><?php echo $data->FileRef; ?></a></td>
                                         <td><?php echo $data->Description;?></td>
                                         <td ><?php echo $data->Approved;?></td>
-                                        <td><?php echo $data->SubmittedBy;?></td>
+                                        <td><?php echo $data->SM_SubmittedBy;?></td>
                                    <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="DataOfficer"||$userrole=="SeniorDataOfficer"){ ?>
                                      <td class="no-print">
 											<table>

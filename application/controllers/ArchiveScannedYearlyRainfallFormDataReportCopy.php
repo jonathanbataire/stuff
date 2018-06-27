@@ -145,7 +145,7 @@ class ArchiveScannedYearlyRainfallFormDataReportCopy extends CI_Controller {
             $insertScannedYearlyRainfallFormReportDataDetails=array(
                 'Form' => $formname, 'StationName' => $station,
                 'StationNumber' => $stationNo, 'Year' => $yearOFScannedYearlyRainfallFormReport,
-                'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
+                'Approved'=> $Approved,'SY_SubmittedBy'=>$SubmittedBy,
                 'Description'=>$description,'FileName' => $filename);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);

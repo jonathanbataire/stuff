@@ -144,7 +144,7 @@ class ArchiveScannedWeatherSummaryFormDataReportCopy extends CI_Controller {
             $insertScannedWeatherSummaryFormReportDataDetails=array(
                 'Form' => $formname, 'StationName' => $station,
                 'StationNumber' => $stationNo, 'Month' => $monthOFScannedWeatherSummaryFormReport,'Year' => $yearOFScannedWeatherSummaryFormReport,
-                'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
+                'Approved'=> $Approved,'SM_SubmittedBy'=>$SubmittedBy,
                 'Description'=>$description,'FileName' => $filename);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);

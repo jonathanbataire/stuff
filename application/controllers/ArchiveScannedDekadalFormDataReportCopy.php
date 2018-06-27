@@ -146,7 +146,7 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
             $insertScannedDekadalFormReportDataDetails=array(
                 'Form' => $formname, 'station' => $station_id,
                  'FromDate' => $FromdateOnScannedDekadalFormReport,'ToDate' => $TodateOnScannedDekadalFormReport,
-                'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
+                'Approved'=> $Approved,'SDE_SubmittedBy'=>$SubmittedBy,
                 'Description'=>$description,'FileName' => $filename);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);

@@ -566,7 +566,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                                 <?php if( $userrole=='SeniorDataOfficer' || $userrole=='DataOfficer' || $userrole=='ObserverArchive'  || $userrole=='OC'  ){ ?>
                                                   <td><?php echo $data->Approved;?></td>
 
-                                                  <td><?php echo $data->SubmittedBy;?></td>
+                                                  <td><?php echo $data->AD_SubmittedBy;?></td>
                                                   <td class="no-print">
 
                                                     

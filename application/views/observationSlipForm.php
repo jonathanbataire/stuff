@@ -2221,7 +2221,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 								<input type="hidden" name="approval" value="<?php echo $observationslipformidupdate->Approved;?>">
 								<?php }else{?>
 								   <select name="approval" id="approval"  class="form-control" >
-									<option value="<?php echo $observationslipformidupdates->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
+									<option value="<?php echo $observationslipformidupdate->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
 									<option value="TRUE">TRUE</option>
 									<option value="FALSE">FALSE</option>
 								</select>
@@ -2280,6 +2280,46 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
     <?php if($userrole=="ZonalOfficer" || $userrole== "WeatherForecaster" || ($userrole=="SeniorZonalOfficer") ){  ?>
 
         <?php } ?>
+		
+        <br><br>
+        <form action="<?php echo $dateform_action; ?>" id="datepickForm" method="post"  enctype="multipart/form-data">
+
+          <div class="col-xs-2">
+            <div class="col-xs-2">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Select Week</span>
+                        <input type="week" name="week" id="week" value="<?php echo $recentFormdateDate['week']; ?>" class="form-control summonth" placeholder="Please select the date" >
+
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-3">
+              <div class="form-group">
+                  <div class="input-group">
+                      <span class="input-group-addon">From Date</span>
+                      <input type="text" name="datefrom" id="datefrom" value="<?php  echo $recentFormdateDate['from']? $recentFormdateDate['from']: date_format(date_sub(date_create(date("Y-m-d")),date_interval_create_from_date_string("7 days")),"Y-m-d"); ?>"  class="form-control summonth" style="background-color:smokewhite; color: black;" placeholder="Please select the date" readonly >
+                  </div>
+              </div>
+          </div>
+          <div class="col-xs-2">
+          </div>
+          <div class="col-xs-3">
+              <div class="form-group">
+                  <div class="input-group">
+                      <span class="input-group-addon"> To Date</span>
+                      <input type="text" name="dateto" id="dateto"  value="<?php echo $recentFormdateDate['to']? $recentFormdateDate['to']:date("Y-m-d");?>"   class="form-control summonth" style="background-color:smokewhite; color: black;" placeholder="Please select the date" readonly >
+                  </div>
+              </div>
+          </div>
+          <div class="col-xs-1">
+            <input type="submit" name="datesub"  id="datesub" style="visibility:hidden;" />
+          </div>
+
+        </form>
         <br><br>
         <div class="row">
             <div class="col-xs-12">
@@ -2292,7 +2332,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <table id="example1" class="table table-bordered table-fixed table-striped">
                             <thead>
                             <tr >
-                              <th style="position: absolute;height:96px;width:86px;background-color:white;
+                              <th style="position: absolute;height:96px;width:68px;background-color:white;
                                 z-index: 99;">ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                 <th style="width:65px"></th>
                              <span > <th>Submission Time</th></span>
@@ -2401,9 +2441,9 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                               foreach($observationslipformdata as $observationslipdata){
                                  
                                   $observationslipid = $observationslipdata->id;
-								  if($userrole=='Observer'&& $observationslipformdata[0]->DeviceType!="AWS" && ($observationslipdata->Approved=='TRUE' || $observationslipdata->Userid!=$session_data['Userid'])){
+								  if(($userrole=='Observer' )&& $observationslipformdata[0]->DeviceType!="AWS" && ($observationslipdata->Approved=='TRUE' || $observationslipdata->Userid!=$session_data['Userid'])){
 									  $count++; 
-								  }elseif(($userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer')&& $observationslipdata->Approved!='TRUE'&& $observationslipformdata[0]->DeviceType!="AWS"){
+								  }elseif(($userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer')&& $observationslipdata->Approved!='TRUE'){
 									   $count++;
 								  }else{
                                         $count++;									  
@@ -2508,17 +2548,20 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 											 <tr>
 											
                                          <td> <a class="btn btn-primary" style="color:white;" href="<?php if($observationslipdata->DeviceType!="AWS") echo base_url() . "index.php/ObservationSlipForm/DisplayObservationSlipFormForUpdate/" .$observationslipid ;
-                                           else echo "#";?>" style="cursor:pointer;"  ><li class="fa fa-edit"></li> Edit </a> </td>
+                                           else echo "#";?>" style="cursor:pointer;" onClick="<?php if($observationslipdata->DeviceType=="AWS") echo "return confirm('AWS data cannot be edited ');"; ?>" ><li class="fa fa-edit"></li> Edit </a> </td>
 										   
-										   <?php if($userrole=='OC'&& $observationslipdata->DeviceType!="AWS" ){?>
-										    <td><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success"  type="submit"  ><li class='fa fa-check'></li>Approve</button></form>
-                                              </td> <?php }elseif(($userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer')&& $observationslipdata->Approved=="TRUE"){
+										   <?php if($userrole=='OC' && $observationslipdata->Approved=="TRUE" ){?>
+										    <td><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="FALSE" ><button class="btn btn-danger"  type="submit"  ><li class='fa fa-times'></li> Disapprove</button></form>
+                                              </td> <?php }elseif($userrole=='OC' && $observationslipdata->Approved=="FALSE"){?>
+												   <td><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success"  type="submit"  ><li class='fa fa-check'></li> Approve</button></form>
+                                              </td>
+											 <?php }elseif(($userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer')&& $observationslipdata->Approved=="TRUE"){
 												 ?>
-												  <td><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="ENDORSE" ><button class="btn btn-success"  type="submit"  ><li class='fa fa-check'></li>Endorse</button></form>
+												  <td><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="ENDORSE" ><button class="btn btn-success" <?php if($observationslipdata->Endorsed=="ENDORSE"){echo "disabled";}?> type="submit"  ><li class='fa fa-check'></li> Endorse</button></form>
                                               </td>
 												  
 												  <?php
-											  }?> 
+											  }else{ }?> 
 											</tr>
 											 </table>
 											
@@ -2550,7 +2593,52 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
     <script src="<?php echo base_url(); ?>js/jquery-1.7.1.min.js"></script>
     <!-- Bootstrap -->
     <script src="<?php echo base_url(); ?>js/bootstrap.min.js" type="text/javascript"></script>
+   
 
+    <script type="text/javascript">
+        //Once the Manager selects the Station the Station Number, should be picked from the DB.
+        // For Update User when user is OC
+        function yyyymmdd(x) {
+            var y = x.getFullYear().toString();
+            var m = (x.getMonth() + 1).toString();
+            var d = x.getDate().toString();
+            (d.length == 1) && (d = '0' + d);
+            (m.length == 1) && (m = '0' + m);
+            var yyyymmdd = y +"-"+ m +"-"+ d;
+            return yyyymmdd;
+        }
+        $(document).on('change','#week',function(){
+            $('#dateto').val("");  //Clear the field.
+            $('#datefrom').val("");  //Clear the field.
+
+            var week = this.value;
+
+
+            if (week != "") {
+              stringDate=week+"";
+              var arrdate=stringDate.split("-W");
+              var toDate=new Date(arrdate[0],   0,  (arrdate[1])*7+1  );
+              var fromDate=new Date(arrdate[0],   0,  (arrdate[1]-1)*7+1  );
+
+                $('#dateto').val(yyyymmdd(toDate)+"");
+                $('#datefrom').val(yyyymmdd(fromDate)+"");
+              //  $('#datepickForm').submit();
+            }
+
+
+$('#datepickForm').submit();
+        });
+  </script>
+
+  <script type="text/javascript">
+
+      $(document).on('change','#dateto',function(){
+alert();
+  //
+
+
+      });
+</script>
     <script>
     $(document).on("change","#metar_speci" function(){
 
@@ -5257,14 +5345,6 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             });
             );
     </script>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$('#example1').DataTable({
-			"order":[[3,"asc"]]
-		});
-	});
-	</script>
-	
 
 
 
