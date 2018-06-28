@@ -122,7 +122,7 @@ class Users extends CI_Controller {
 
                 $stationRegion = "NULL";
 
-            }elseif($UserRole=="ZonalOfficer" || $UserRole=="SeniorDataOfficer"){
+            }elseif($userRoleAssigned=="ZonalOfficer" || $userRoleAssigned=="SeniorDataOfficer"){
 
               $station ="NULL";
               $stationNo ="NULL";
@@ -157,7 +157,6 @@ class Users extends CI_Controller {
                 $this->load->helper("myphpstringfunctions_helper");
 
                // $username = firstcharlowercase(firstletter($firstname)).'.'.firstcharlowercase($surname);
-
 
 
                     $insertUserData=array(

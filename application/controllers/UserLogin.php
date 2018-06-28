@@ -29,7 +29,8 @@ class UserLogin extends CI_Controller {
             //  $passwordencrypteddd= $this->encrypt->decode($passwordencrypted);
 
             //Check in the Database
-            $result = $this->DbHandler->getUserLogInDetails($username, $passwordencrypted);
+            $res = $this->DbHandler->getitstation($username,  $passwordencrypted);
+           $result = $this->DbHandler->getUserLogInDetails($username, $passwordencrypted,$res);
             //True that user details
             if ($result) {
                 $usersessiondata = array();
@@ -37,6 +38,13 @@ class UserLogin extends CI_Controller {
 
                 //Create a user session
                 foreach ($result as $row) {
+                    $stationregion1 = $row->StationRegion;
+                    $stationregion2 = $row->region_zone;
+                    if($stationregion1 !=''){
+                        $region = $stationregion1;
+                    }elseif($stationregion2 !=''){
+                        $region = $stationregion2;
+                    }
                     $usersessiondata = array(
                         'Userid' => $row->Userid,
                         'FirstName' => $row->FirstName,
@@ -47,7 +55,8 @@ class UserLogin extends CI_Controller {
                         'StationNumber' => $row->StationNumber,
                         'StationId' => $row->station_id,
                         'UserRole' => $row->UserRole,
-                        'Reset' => $row->Reset
+                        'Reset' => $row->Reset,
+                        'UserRegion' => $region
 
                     );
                 }//end of foreach

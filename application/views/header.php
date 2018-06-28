@@ -1,6 +1,7 @@
 <?php  $session_data = $this->session->userdata('logged_in');
 $userrole=$session_data['UserRole'];
 $userstation=$session_data['UserStation'];
+$userregion= $session_data['UserRegion'];
 $surname=$session_data['SurName'];
 $created=$session_data['CreationDate'];
 

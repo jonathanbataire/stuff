@@ -98,7 +98,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 								<div class="input-group">
 									<span class="input-group-addon">Select Date</span>
-									<input type="text" name="date_observationslipform" id="date" required class="form-control compulsory" placeholder="Enter select date" value="<?php echo date("Y-m-d"); ?>">
+									<input type="text" name="date_observationslipform" id="date" required class="form-control compulsory"
+                                     placeholder="Enter select date" value="<?php echo date("Y-m-d"); ?>" autocomplete='off'>
 
 
 								</div>

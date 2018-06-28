@@ -6,10 +6,41 @@ class DbHandler extends CI_Model {
 
     }
 
-    function getUserLogInDetails($username, $password) {
+    function getitstation($username, $password){
+
+        $this->db->select('station,region_zone');
+        $this->db->from('systemusers as user');
+        $this->db->where('user.UserName', $username);
+        $this->db->where('user.UserPassword', $password);
+        $this->db->where('user.Active', 1);
+        $this->db->order_by("user.userid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get();
+        
+        
+        if($query -> num_rows() == 1)
+        {
+            foreach ($query->result() as $row){
+                $result = $row->station;
+               // $row->region_zone;exit();
+            }
+            return $result;
+            //return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    function getUserLogInDetails($username, $password,$res) {
         $this->db->select('*');
         $this->db->from('systemusers as user');
-        $this->db->join('stations as stationsdata', 'user.station = stationsdata.station_id');
+
+        if($res && $res != 0){
+            $this->db->join('stations as stationsdata', 'user.station = stationsdata.station_id');
+        }
+        
         $this->db->where('user.UserName', $username);
         $this->db->where('user.UserPassword', $password);
         $this->db->where('user.Active', 1);
