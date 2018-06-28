@@ -34,13 +34,10 @@
 
 <script src="<?php echo base_url(); ?>js/jquery.table2excel.js"></script>
 <script src="<?php echo base_url(); ?>js/jquery.tabletoCSV.js"> </script>
- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
- <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" />
 
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
- <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.6/css/fixedColumns.dataTables.min.css">
-
-
+   
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
  
 
 <!-- Page script -->
@@ -117,30 +114,32 @@
     $(document).ready(function () {
 
         $('#datepicker').datepicker({
-            format: "dd/mm/yyyy",
+             dateFormat: "dd-mm-yyyy",
             autoclose: true,
 			maxDate: "today",
             endDate: '-4380d'
         });
         $('#date').datepicker({
-            format: "yyyy-mm-dd",
+           
+            dateFormat: "yy-mm-dd",
 			maxDate: "today",
-            autoclose: true
+            autoclose: true,
+			
         });
         $('#expdate').datepicker({
-            format: "yyyy-mm-dd",
+           dateFormat: "yy-mm-dd",
 			maxDate: "today",
             autoclose: true
 
         });
         $('#opened').datepicker({
-            format: "yyyy-mm-dd",
+            dateFormat: "yy-mm-dd",
 			maxDate: "today",
             autoclose: true
 
         });
         $('#closed').datepicker({
-            format: "yyyy-mm-dd",
+            dateFormat: "yy-mm-dd",
 			maxDate: "today",
             autoclose: true
 
@@ -201,8 +200,15 @@
             "bInfo": true,
             "bAutoWidth": false,
             "order": [[ 1, "desc" ]],
-            "aaSorting": [ [1,'desc'] ]
-			
+            "aaSorting": [ [1,'desc'] ],
+			"scrollY":        "300px",
+            "scrollX":        true,
+           "scrollCollapse": true,
+            "paging":         true,
+            "fixedColumns":   {
+            "ileftColumns": 1,
+            "irightColumns": 1
+        }
         });
         $("#example3").dataTable();
         $('#example2').dataTable({

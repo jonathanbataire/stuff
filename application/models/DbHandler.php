@@ -963,8 +963,8 @@ return $this->db->count_all_results();
         $lowerLimit=$total_row-($NoOfRecords*$pageNo);
         $upperLimit=$lowerLimit+$NoOfRecords;
 
-        $this->db->where("slip.id >", $lowerLimit);
-        $this->db->where("slip.id <=", $upperLimit);
+       //$this->db->where("slip.id >", $lowerLimit);
+       //$this->db->where("slip.id <=", $upperLimit);
 		if($userrole=="ZonalOfficer"|| $userrole=="SeniorZonalOfficer"){
 			 $this->db->where('stationsdata.StationRegion', $region);
 		}else{

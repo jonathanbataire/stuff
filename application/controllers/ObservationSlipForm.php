@@ -61,19 +61,17 @@ $data["links"] = explode('&nbsp;',$str_links );
         $session_data = $this->session->userdata('logged_in');
         $userstation=$session_data['UserStation'];
 
-        $config = array();
+       $config = array();
         $config["base_url"] = base_url() . "index.php/ObservationSlipForm/showAwsdata";
         $total_row = $this->DbHandler->record_count_aws('StationName',$userstation);
         $config["total_rows"] = $total_row;
-      
+        $config["per_page"] = 1000;
         $config['use_page_numbers'] = TRUE;
-       
+        $config['num_links'] = 10;
         $config['cur_tag_open'] = '&nbsp;<a class="current">';
         $config['cur_tag_close'] = '</a>';
         $config['next_link'] = 'Next';
         $config['prev_link'] = 'Previous';
-
-        $this->pagination->initialize($config);
 
         if($this->uri->segment(3)){
         $page = ($this->uri->segment(3)) ;
@@ -91,6 +89,7 @@ $data["links"] = explode('&nbsp;',$str_links );
         if ($query) {
             $data['observationslipformdata'] = $query;
         } else {
+			
             $data['observationslipformdata'] = array();
         }
 
@@ -331,6 +330,7 @@ elseif ($userrole=="OC") {
         $id=$session_data['Userid'];
 
         $date = $this->input->post('date_observationslipform');
+		
         $station = firstcharuppercase(chgtolowercase($this->input->post('station_observationslipform')));
         $stationNumber = $this->input->post('stationNo_observationslipform');
         $totalAmountOfAllClouds =intval( $this->input->post('totalamountofallclouds_observationslipform'));
