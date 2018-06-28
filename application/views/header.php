@@ -19,10 +19,6 @@ $created=$session_data['CreationDate'];
     <script src="<?php echo base_url(); ?>js/bootstrap.min.js" type="text/javascript"></script>
 
     <link href="<?php echo base_url(); ?>css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<script src="<?php echo base_url(); ?>js/daterangepicker.js" type="text/javascript"></script>
-	<script src="<?php echo base_url(); ?>js/moment.min.js" type="text/javascript"></script>
-
-    <link href="<?php echo base_url(); ?>css/daterangepicker.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url(); ?>css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
     <link href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" type="text/css" />
@@ -234,7 +230,11 @@ $created=$session_data['CreationDate'];
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
 
-
+                     <?php if($userrole=="OC"){?>
+					   <ul class="treeview-menu">
+						<li><a href="<?php echo base_url();?>index.php/ArchiveObservationSlipFormData"><i class="fa fa-angle-double-right"></i>Observation Slip Form</a></li>
+                         </ul>
+					<?php }else{?>
                     <ul class="treeview-menu">
                         <li><a href="<?php echo base_url();?>index.php/ArchiveObservationSlipFormData"><i class="fa fa-angle-double-right"></i>Observation Slip Form</a></li>
                         <li><a href="<?php echo base_url();?>index.php/ArchiveWeatherSummaryFormReportData"><i class="fa fa-angle-double-right"></i>Weather Summary Form</a></li>
@@ -245,10 +245,11 @@ $created=$session_data['CreationDate'];
                         <li><a href="<?php echo base_url();?>index.php/ArchiveMonthlyRainfallFormReportData"><i class="fa fa-angle-double-right"></i> Archive  Rainfall</a></li>
 
                     </ul>
+					<?php } ?>
                 </li>
                 <?php } ?>
 
-                <?php  if($userrole == "ManagerData"  || $userrole=="SeniorDataOfficer" || $userrole=='DataOfficer' || $userrole=='ObserverArchive'){
+                <?php  if($userrole == "ManagerData"  || $userrole=="SeniorDataOfficer" ){
                 ?>
 
                 <li class="treeview">
@@ -295,7 +296,7 @@ $created=$session_data['CreationDate'];
                 </li>
                 <?php } ?>
 
-                <?php if($userrole == "ManagerData" ||  $userrole == "DataOfficer" || $userrole == "SeniorDataOfficer"){
+                <?php if($userrole == "ManagerData"  || $userrole == "SeniorDataOfficer"){
                 ?>
                 <li class="treeview">
                     <a href="#">

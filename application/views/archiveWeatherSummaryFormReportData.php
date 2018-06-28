@@ -677,7 +677,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <td><?php echo $dailydata->R_F;?></td>
                                         <?php if($userrole=='SeniorDataOfficer'  || $userrole=='DataOfficer' || $userrole=='ObserverArchive'  || $userrole=='OC'  ){ ?>
 
-                                          <td ><?php echo $dailydata->SubmittedBy;?></td>
+                                          <td ><?php echo $dailydata->AW_SubmittedBy;?></td>
                                           <td ><?php echo $dailydata->Approved;?></td>
                                           <td class="no-print">
 

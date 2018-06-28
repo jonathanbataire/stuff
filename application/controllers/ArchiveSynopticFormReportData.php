@@ -273,7 +273,7 @@ $from = $this->input->post('from');
         $insertSynopticFormData=array(
             'Date'=>$date,'Time'=>$ztime,'UWS'=>$unitofwindspeed,'BN'=>$blockNo,
             'station'=>$stationId,
-            'SubmittedBy' => $SubmittedBy ,'Approved'=>$Approved,
+            'AS_SubmittedBy' => $SubmittedBy ,'Approved'=>$Approved,
             'IOOP'=> $incorommissionofprecipitation, 'TSPPW'=>$typeofstation,
 
             'HLC'=>$heightoflowestcloud,'HV'=>$horizontalvisibility,

@@ -344,7 +344,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         </td>
                                         <td><?php echo $data->Description;?></td>
                                         <td ><?php echo $data->Approved;?></td>
-                                        <td><?php echo $data->SubmittedBy;?></td>
+                                        <td><?php echo $data->SD_SubmittedBy;?></td>
                                   
                                      <td class="no-print">
 

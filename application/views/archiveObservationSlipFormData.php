@@ -1758,7 +1758,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                    <?php if($userrole=='SeniorDataOfficer' || $userrole=='DataOfficer' || $userrole=='ObserverArchive' || $userrole=='OC' ){ ?>
                                      <td><?php echo $archiveobservationslipdata->Approved;?></td>
 
-                                     <td><?php echo $archiveobservationslipdata->SubmittedBy;?></td>
+                                     <td><?php echo $archiveobservationslipdata->AO_SubmittedBy;?></td>
                                      <td class="no-print">
 									    <table>
                                          <tr><td>

@@ -336,7 +336,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 											<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedYearlyRainfallFormDataReportCopy/ViewImageFromBrowser/<?php echo $data->FileRef;?>" target = "blank"> <?php echo $data->FileRef;?> </a>
 											</td><td><?php echo $data->Description;?></td>
                                         <td ><?php echo $data->Approved;?></td>
-                                        <td><?php echo $data->SubmittedBy;?></td>
+                                        <td><?php echo $data->SY_SubmittedBy;?></td>
                                    <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="DataOfficer"||$userrole=="SeniorDataOfficer"){ ?>
                                      <td class="no-print">
                                           

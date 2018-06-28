@@ -153,7 +153,7 @@ class ArchiveScannedObservationSlipFormDataCopy extends CI_Controller {
                     'Form_scanned' => $formname, 'station' => $station_id,
                      'TIME'=>$time,
 
-                    'form_date' => $dateOnScannedObservationSlipForm,'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
+                    'form_date' => $dateOnScannedObservationSlipForm,'Approved'=> $Approved,'SD_SubmittedBy'=>$SubmittedBy,
                     'Description'=>$description,'FileRef' => $filename);
 
                 //$this->DbHandler->insertInstrument($insertInstrumentData);

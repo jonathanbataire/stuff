@@ -266,7 +266,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                            
                                              <td><?php echo $data->Approved;?></td>
 
-                                             <td><?php echo $data->SubmittedBy;?></td>
+                                             <td><?php echo $data->AR_SubmittedBy;?></td>
                                              <td class="no-print">
 										  <table>
                                          <tr><td>

@@ -196,7 +196,7 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
 
             $insertScannedSynopticFormReportDataCopyDetails=array(
                 'Form' => $formname, 'StationName' => $station,
-                'StationNumber' => $stationNo, 'Date' => $dateOnScannedSynopticFormReport,'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
+                'StationNumber' => $stationNo, 'Date' => $dateOnScannedSynopticFormReport,'Approved'=> $Approved,'SD_SubmittedBy'=>$SubmittedBy,
                 'Description'=>$description,'FileName_FirstPage' => $filename_firstpage,'FileName_SecondPage' => $filename_secondpage);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);
