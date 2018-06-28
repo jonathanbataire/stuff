@@ -131,15 +131,9 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">Region</span>
-                                    <select name="user_stationRegion_AssignedBy_Manager" id="user_stationRegion_AssignedBy_Manager" readonly class="form-control" onkeyup="allowCharactersInputOnly(this)" required class="form-control">
-                                        <option value="">--Select REGION--</option>
-                                        <option value="Central">Central</option>
-                                        <option value="Northern">Northern</option>
-                                        <option value="Southern">Southern</option>
-                                        <option value="Eastern">Eastern</option>
-                                        <option value="Western">Western</option>
-
-                                    </select>
+                                    <input type="text" name="user_stationRegion_AssignedBy_Manager"
+                                     id="user_stationRegion_AssignedBy_Manager" 
+                                    required class="form-control"  readonly class="form-control" value="" readonly="readonly" >
                                 </div>
                             </div>
 
@@ -1172,6 +1166,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
         // For Add User when user is OC
         $(document).on('change','#user_station_Manager',function(){
             $('#user_stationNo_Manager').val("");  //Clear the field.
+            
 
             var stationName = this.value;
             if (stationName != "") {
@@ -1195,6 +1190,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                              //alert(data);
                             $("#user_stationNo_Manager").val(json[0].StationNumber);
                             $("#user_stationId_Manager").val(json[0].station_id);
+                            $("#user_stationRegion_AssignedBy_Manager").val(json[0].StationRegion);
+
 
 
                         }
@@ -1202,7 +1199,9 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                             $('#user_stationNo_Manager').empty();
                             $('#user_stationNo_Manager').val("");
-
+                            $('#user_stationRegion_AssignedBy_Manager').empty();
+                            $('#user_stationRegion_AssignedBy_Manager').val("");
+                            
 
 
 
@@ -1339,6 +1338,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
         //Add User
         var stationName =  $('#user_station_OC').val();
         $('#user_stationNo_OC').html('');//Clear the field.
+       
+
         if (stationName != "") {
             //alert(station);
             $('#user_stationNo_OC').val("");
@@ -1355,10 +1356,12 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         var json = JSON.parse(data);
 
                         $('#user_stationNo_OC').empty();
+                        $('#user_stationRegion_AssignedBy_Manager').empty();
 
-
-                        // alert(data);
+                        //alert(data);
                         $("#user_stationNo_OC").val(json[0].StationNumber);
+                        $("#user_stationRegion_AssignedBy_Manager").val(json[0].StationRegion);
+                        
 
 
 

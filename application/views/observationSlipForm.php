@@ -98,7 +98,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 								<div class="input-group">
 									<span class="input-group-addon">Select Date</span>
-									<input type="text" name="date_observationslipform" id="date" required class="form-control compulsory" placeholder="Enter select date" value="<?php echo date("Y-m-d"); ?>">
+									<input type="text" name="date_observationslipform" id="date" required class="form-control compulsory"
+                                     placeholder="Enter select date" value="<?php echo date("Y-m-d"); ?>" autocomplete='off'>
 
 
 								</div>
@@ -1212,17 +1213,16 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                     <tr>
 						<td colspan="6">
-
-							<div class="input-group">
-                <span class="input-group-addon">METAR/SPECI</span>
-                <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="metar_speci" id="metar_speci" required class="form-control" onchange="chooseSpeciOrMetar()" >
-                  <option selected value="<?php echo $observationslipformidupdate->speciOrMetar;?>"><?php echo $observationslipformidupdate->speciOrMetar;?></option>
-                  <option value="speci"  >speci</option>
-                  <option value="metar">metar</option>
-                </select>
-
-
-							</div>
+                            <div class="input-group"   >
+                            <span class="input-group-addon">Time category</span>
+                            <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="metar_speci" id="metar_speci" required class="form-control" onchange="chooseSpeciOrMetar()" >
+                                <option selected value="<?php $ms = $observationslipformidupdate->speciormetar; if($ms=='normal'){
+                                    echo "metar";
+                                }else{echo $ms;}?>"><?php echo $ms?></option>
+                                <option value="metar">normal</option>
+                                <option value="speci"  >speci</option>
+                                </select>
+                            </div>
 
 						</td>
 						<td colspan="6">
@@ -1242,7 +1242,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                 <div class="input-group" id="metartimeId"   >
-                    <span class="input-group-addon">METAR TIME</span>
+                    <span class="input-group-addon">TIME</span>
                     <input type="hidden" name="metar_time" id="metar_time" value="<?php echo $observationslipformidupdate->TIME;?>">
                     <select <?php if(1) echo "disabled"; ?> name="" id="" required class="form-control">
                       <option value="<?php echo $observationslipformidupdate->TIME;?>"><?php echo $observationslipformidupdate->TIME;?></option>
@@ -2212,16 +2212,18 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							<div class="input-group">
                         <span class="input-group-addon">Approved</span>
 						
-								<?php if($userrole=="Observer" || $observationslipformidupdate->Approved=='TRUE'||$userrole=="WeatherForecaster"){?>
+								<?php if($userrole=="Observer" ||$userrole=="WeatherForecaster"){?>
 								<select name="approval" id="approval" disabled  class="form-control" >
 									<option value="<?php echo $observationslipformidupdate->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
 									<option value="TRUE">TRUE</option>
 									<option value="FALSE">FALSE</option>
 								</select>
 								<input type="hidden" name="approval" value="<?php echo $observationslipformidupdate->Approved;?>">
-								<?php }else{?>
-								   <select name="approval" id="approval"  class="form-control" >
-									<option value="<?php echo $observationslipformidupdate->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
+								<?php }else{
+                                    $approvedstate = $observationslipformidupdate->Approved;
+                                    ?>
+                                    <select name="approval" id="approval"  class="form-control" >
+									<option value="<?php echo $approvedstate; ?>"><?php echo $approvedstate;?></option>
 									<option value="TRUE">TRUE</option>
 									<option value="FALSE">FALSE</option>
 								</select>
@@ -2282,7 +2284,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
         <?php } ?>
 		
         <br><br>
-        <form action="<?php echo $dateform_action; ?>" id="datepickForm" method="post"  enctype="multipart/form-data">
+        <!--<form action="<?php echo $dateform_action; ?>" id="datepickForm" method="post"  enctype="multipart/form-data">
 
           <div class="col-xs-2">
             <div class="col-xs-2">
@@ -2319,8 +2321,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             <input type="submit" name="datesub"  id="datesub" style="visibility:hidden;" />
           </div>
 
-        </form>
-        <br><br>
+        </form>-->
         <div class="row">
             <div class="col-xs-12">
 
@@ -4426,6 +4427,8 @@ alert();
                 }
             });
         });
+
+        
     </script>
 
 
@@ -5345,6 +5348,11 @@ alert();
             });
             );
     </script>
+<<<<<<< HEAD
+
+	
+=======
+>>>>>>> dc8787437fe1b3d03f045af9e6ddb57ca07f8ea3
 
 
 

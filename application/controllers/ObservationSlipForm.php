@@ -423,7 +423,12 @@ $Trend_mff =$this->input->post("Trend_mff");
 $approved="FALSE";
         $user=$firstname.' '.$surname;
         $InputType="Web";
-$metarOrSpeci=$this->input->post('metar_speci');
+$ms=$this->input->post('metar_speci');
+if($ms=='metar'){
+    $metarOrSpeci='normal';
+}else{
+    $metarOrSpeci=$ms;
+}
 $timeobservationslip= $metarOrSpeci=="speci"? $this->input->post('speci_time_observationslipform'):$this->input->post('metar_time_observationslipform');
 $station_id= $this->DbHandler->identifyStationById($station,$stationNumber);
 
@@ -557,8 +562,15 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
         $role=$session_data['UserRole'];
          
         $date = $this->input->post('date');
-		
-        $metarOrSpeci=$this->input->post('metar_speci');
+        $ms = $this->input->post('metar_speci');
+        if($ms == 'metar'){
+            $metarOrSpeci='normal';
+        }else{
+            $metarOrSpeci = $ms;  
+        }
+        
+        //exit('hello....'.$metarOrSpeci);
+
         $timeobservationslip= $metarOrSpeci=="speci"? $this->input->post('speci_time'):$this->input->post('metar_time');
 
         $stationName = firstcharuppercase(chgtolowercase($this->input->post('station')));
@@ -662,6 +674,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
        $thgraph_mff =$this->input->post("thgraph_mff");
        $Trend_mff =$this->input->post("Trend_mff");
         $approved=$this->input->post('approval');
+        
 
         $id = $this->input->post('id');
 
@@ -716,7 +729,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
             'MSLPr'=>$MSLPr,            'TimeMarksBarograph'=>$TimeMarksBarograph,
             'TimeMarksAnemograph'=>$TimeMarksAnemoograph,    'OtherTMarks'=>$OtherTMarks,
             'Remarks'=>$Remarks,        'windrun'=> $WindRun,
-            'sunduration'=> $DurationOfSunshine, 'speciOrMetar'=>$speciOrmetar,
+            'sunduration'=> $DurationOfSunshine, 'speciormetar'=>$metarOrSpeci,
             'trend'=>$Trend_mff,
             'UnitOfWindSpeed'=>$UnitOfWindSpeed_mff, 	'IndOrOmissionOfPrecipitation'=>$IndOrOmissionOfPrecipitation_mff,
             'TypeOfStation_Present_Past_Weather'=>$TypeOfStation_Present_Past_Weather_mff,
