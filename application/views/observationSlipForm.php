@@ -2283,7 +2283,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
         <?php } ?>
 		
         <br><br>
-        <form action="<?php echo $dateform_action; ?>" id="datepickForm" method="post"  enctype="multipart/form-data">
+        <!--<form action="<?php echo $dateform_action; ?>" id="datepickForm" method="post"  enctype="multipart/form-data">
 
           <div class="col-xs-2">
             <div class="col-xs-2">
@@ -2320,8 +2320,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             <input type="submit" name="datesub"  id="datesub" style="visibility:hidden;" />
           </div>
 
-        </form>
-        <br><br>
+        </form>-->
         <div class="row">
             <div class="col-xs-12">
 

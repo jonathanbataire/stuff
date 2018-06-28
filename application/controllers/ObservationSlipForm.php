@@ -562,7 +562,6 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
         $role=$session_data['UserRole'];
          
         $date = $this->input->post('date');
-<<<<<<< HEAD
         $ms = $this->input->post('metar_speci');
         if($ms == 'metar'){
             $metarOrSpeci='normal';
@@ -571,10 +570,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
         }
         
         //exit('hello....'.$metarOrSpeci);
-=======
-		
-        $metarOrSpeci=$this->input->post('metar_speci');
->>>>>>> dc8787437fe1b3d03f045af9e6ddb57ca07f8ea3
+
         $timeobservationslip= $metarOrSpeci=="speci"? $this->input->post('speci_time'):$this->input->post('metar_time');
 
         $stationName = firstcharuppercase(chgtolowercase($this->input->post('station')));
