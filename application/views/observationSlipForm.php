@@ -1212,17 +1212,16 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                     <tr>
 						<td colspan="6">
-
-							<div class="input-group">
-                <span class="input-group-addon">METAR/SPECI</span>
-                <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="metar_speci" id="metar_speci" required class="form-control" onchange="chooseSpeciOrMetar()" >
-                  <option selected value="<?php echo $observationslipformidupdate->speciOrMetar;?>"><?php echo $observationslipformidupdate->speciOrMetar;?></option>
-                  <option value="speci"  >speci</option>
-                  <option value="metar">metar</option>
-                </select>
-
-
-							</div>
+                            <div class="input-group"   >
+                            <span class="input-group-addon">Time category</span>
+                            <select <?php if($userrole=="WeatherForecaster") echo "disabled"; ?> name="metar_speci" id="metar_speci" required class="form-control" onchange="chooseSpeciOrMetar()" >
+                                <option selected value="<?php $ms = $observationslipformidupdate->speciormetar; if($ms=='normal'){
+                                    echo "metar";
+                                }else{echo $ms;}?>"><?php echo $ms?></option>
+                                <option value="metar">normal</option>
+                                <option value="speci"  >speci</option>
+                                </select>
+                            </div>
 
 						</td>
 						<td colspan="6">
@@ -1242,7 +1241,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                 <div class="input-group" id="metartimeId"   >
-                    <span class="input-group-addon">METAR TIME</span>
+                    <span class="input-group-addon">TIME</span>
                     <input type="hidden" name="metar_time" id="metar_time" value="<?php echo $observationslipformidupdate->TIME;?>">
                     <select <?php if(1) echo "disabled"; ?> name="" id="" required class="form-control">
                       <option value="<?php echo $observationslipformidupdate->TIME;?>"><?php echo $observationslipformidupdate->TIME;?></option>
@@ -2212,16 +2211,18 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 							<div class="input-group">
                         <span class="input-group-addon">Approved</span>
 						
-								<?php if($userrole=="Observer" || $observationslipformidupdate->Approved=='TRUE'||$userrole=="WeatherForecaster"){?>
+								<?php if($userrole=="Observer" ||$userrole=="WeatherForecaster"){?>
 								<select name="approval" id="approval" disabled  class="form-control" >
 									<option value="<?php echo $observationslipformidupdate->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
 									<option value="TRUE">TRUE</option>
 									<option value="FALSE">FALSE</option>
 								</select>
 								<input type="hidden" name="approval" value="<?php echo $observationslipformidupdate->Approved;?>">
-								<?php }else{?>
-								   <select name="approval" id="approval"  class="form-control" >
-									<option value="<?php echo $observationslipformidupdates->Approved;?>"><?php echo $observationslipformidupdate->Approved;?></option>
+								<?php }else{
+                                    $approvedstate = $observationslipformidupdate->Approved;
+                                    ?>
+                                    <select name="approval" id="approval"  class="form-control" >
+									<option value="<?php echo $approvedstate; ?>"><?php echo $approvedstate;?></option>
 									<option value="TRUE">TRUE</option>
 									<option value="FALSE">FALSE</option>
 								</select>
@@ -4338,6 +4339,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 }
             });
         });
+
+        
     </script>
 
 
@@ -5257,13 +5260,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             });
             );
     </script>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$('#example1').DataTable({
-			"order":[[3,"asc"]]
-		});
-	});
-	</script>
+
 	
 
 

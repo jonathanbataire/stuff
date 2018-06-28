@@ -1104,7 +1104,7 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
     if($tablename=="stations")
            $this->db->where('station_id',$id);
        // else{
-        //    $this->db->where('id',$id);
+          $this->db->where('id',$id);
         //}
 
         //$this->db->where('id',$id);
