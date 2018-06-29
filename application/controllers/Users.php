@@ -81,7 +81,6 @@ class Users extends CI_Controller {
         ///////////////////////////////////////////////////////////////////////
 
         $userid = $this->uri->segment(3);
-
         $query = $this->DbHandler->selectUserById($userid,'Userid','systemusers');  //$value, $field,$table
         if ($query) {
             $data['stationuserdataid'] = $query;
@@ -431,6 +430,47 @@ class Users extends CI_Controller {
             // $this->DbHandler->saveUserLogs($userlogs);
 
             $this->session->set_flashdata('success', 'User info was deleted successfully!');
+            $this->index();
+
+            //redirect('/element', 'refresh');
+        }
+        else {
+
+            $this->session->set_flashdata('error', '"Sorry, we encountered an issue! ');
+            $this->index();
+
+        }
+
+    }
+
+    public function activateUser() {
+        $this->unsetflashdatainfo();
+
+        $id = $this->uri->segment(3); // URL Segment Three.
+        //$id = $this->uri->segment(3); // URL Segment Three.
+
+        $rowsaffected = $this->DbHandler->activateUser('systemusers',$id);  //$rowsaffected > 0  //$tablename,id of the row
+
+        if ($rowsaffected) {
+
+            //Store User logs.
+            //Create user Logs
+            $session_data = $this->session->userdata('logged_in');
+            $userrole=$session_data['UserRole'];
+            $userstation=$session_data['UserStation'];
+            $userstationNo=$session_data['StationNumber'];
+            $userstationId=$session_data['StationId'];
+            $name=$session_data['FirstName'].' '.$session_data['SurName'];
+
+            $userlogs = array('User' => $name,
+                'UserRole' => $userrole,'Action' => 'Updated User Details',
+                'Details' => $name . ' Activated user details in the system ',
+                'station' => $userstationId ,
+                'IP' => $this->input->ip_address());
+            //  save user logs
+            // $this->DbHandler->saveUserLogs($userlogs);
+
+            $this->session->set_flashdata('success', 'User info was Activated successfully!');
             $this->index();
 
             //redirect('/element', 'refresh');
