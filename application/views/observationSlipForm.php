@@ -2330,7 +2330,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                     </div>
                     <?php require_once(APPPATH .'views/error.php'); ?>
                     <div class="box-body table-responsive" style="overflow:auto;">
-                        <table id="example1" class="table table-bordered table-fixed table-striped">
+                        <table id="example4" class="table table-bordered table-fixed table-striped">
                             <thead>
                             <tr >
                               <th style="position: absolute;height:96px;width:68px;background-color:white;
@@ -2444,7 +2444,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                   $observationslipid = $observationslipdata->id;
 								  if(($userrole=='Observer' )&& $observationslipformdata[0]->DeviceType!="AWS" && ($observationslipdata->Approved=='TRUE' || $observationslipdata->Userid!=$session_data['Userid'])){
 									  $count++; 
-								  }elseif(($userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer')&& $observationslipdata->Approved!='TRUE'){
+								  }elseif(($userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer')&& $observationslipdata->Approved!='TRUE'&& $observationslipformdata[0]->DeviceType!="AWS"){
 									   $count++;
 								  }else{
                                         $count++;									  

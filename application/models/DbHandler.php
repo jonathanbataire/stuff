@@ -24,6 +24,7 @@ class DbHandler extends CI_Model {
                 $result = $row->station;
                // $row->region_zone;exit();
             }
+		
             return $result;
             //return $query->result();
         }
@@ -39,7 +40,9 @@ class DbHandler extends CI_Model {
 
         if($res && $res != 0){
             $this->db->join('stations as stationsdata', 'user.station = stationsdata.station_id');
-        }
+        }else{
+			 $this->db->join('stations as stationsdata', 'user.region_zone = stationsdata.StationRegion');
+		}
         
         $this->db->where('user.UserName', $username);
         $this->db->where('user.UserPassword', $password);
