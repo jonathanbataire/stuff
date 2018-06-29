@@ -625,7 +625,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 //IF USER ROLE ASSIGNED BY MANAGER IS (ZONAL  OFFICER AND SENIOR ZONAL OFFICER)
                 var user_stationRegion_AssignedBy_Manager=$('#user_stationRegion_AssignedBy_Manager').val();
-                if(user_stationRegion_AssignedBy_Manager==""){  // returns true if the variable does NOT contain a valid number
+                if(user_stationRegion_AssignedBy_Manager=="" && user_Role_AssignedBy_Manager != 'SeniorDataOfficer' && user_Role_AssignedBy_Manager != 'DataOfficer' && user_Role_AssignedBy_Manager != 'ManagerStationNetworks'){  // returns true if the variable does NOT contain a valid number
                     alert("Station Region not picked");
                     $('#user_stationRegion_AssignedBy_Manager').val("");  //Clear the field.
                     $("#user_stationRegion_AssignedBy_Manager").focus();
