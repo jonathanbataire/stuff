@@ -199,6 +199,24 @@
             "bSort": true,
             "bInfo": true,
             "bAutoWidth": false,
+            "order": [[ 0, "asc" ]],
+            "aaSorting": [ [0,'asc'] ],
+			"scrollY":        "300px",
+            "scrollX":        true,
+           "scrollCollapse": true,
+            "paging":         true,
+            "fixedColumns":   {
+            "ileftColumns": 1,
+            "irightColumns": 1
+        }
+        });
+		$("#example4").dataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": false,
             "order": [[ 1, "desc" ]],
             "aaSorting": [ [1,'desc'] ],
 			"scrollY":        "300px",
