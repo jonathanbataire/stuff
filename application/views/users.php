@@ -223,10 +223,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                     <div class="clearfix"></div>
                 </div>
                 <div class="modal-footer clearfix">
+                     <button type="submit" id="saveStationUserDetails_button" name="saveStationUserDetails_button" class="btn btn-primary "><i class="fa fa-plus"></i> Add User</button>
+                    <a href="<?php echo base_url(); ?>index.php/Users/" class="btn btn-danger pull-left"><i class="fa fa-times"></i> Cancel</a>
 
-                    <a href="<?php echo base_url(); ?>index.php/Users/" class="btn btn-danger"><i class="fa fa-times"></i> Cancel</a>
-
-                    <button type="submit" id="saveStationUserDetails_button" name="saveStationUserDetails_button" class="btn btn-primary pull-left"><i class="fa fa-plus"></i> Add User</button>
+                   
                 </div>
             </form>
         </div>
@@ -425,9 +425,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             </div>
             <div class="modal-footer clearfix">
 
-                <a  href="<?php echo base_url(); ?>index.php/Users/" class="btn btn-danger"><i class="fa fa-times"></i> Cancel</a>
+              
 
-                <button type="submit" name="updateStationUserDetails_button" id="updateStationUserDetails_button" class="btn btn-primary pull-left"><i class="fa fa-plus"></i> Update User</button>
+                <button type="submit" name="updateStationUserDetails_button" id="updateStationUserDetails_button" class="btn btn-primary"><i class="fa fa-plus"></i> Update User</button>
+				  <a  href="<?php echo base_url(); ?>index.php/Users/" class="btn btn-danger pull-left"><i class="fa fa-times"></i> Cancel</a>
             </div>
             </form>
             </div>
