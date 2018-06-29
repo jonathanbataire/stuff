@@ -174,11 +174,22 @@ public function record_count_aws($field, $value) {
   $this->db->where('slip.DeviceType', 'AWS');
 return $this->db->count_all_results();
 }
+
 //jovRi
     public function selectAllSystemUsers($value, $field,$tablename){ //field:UserStation value:StationName
-        $this->db->select('*');
-        $this->db->from($tablename.' as user');
-        $this->db->join('stations as stationsdata', 'user.station= stationsdata.station_id');
+
+        /*$query=$this->db->query('select * from systemusers as user left join stations as fromstations
+         on fromstations.station_id=user.station ');
+        foreach ($query->result() as $row){
+            $c++;
+            echo 'userid='.$row->Userid;echo ' region_zone='.$row->region_zone;echo ' stationregion='.$row->StationRegion;echo '<br>';
+        }*/
+
+         //exit('hey...'.$c);
+
+       $this->db->select('*');
+       $this->db->from($tablename.' as user');
+        $this->db->join('stations as stationsdata', 'user.station= stationsdata.station_id','left');
 
         $session_data = $this->session->userdata('logged_in');
         $userrole=$session_data['UserRole'];
@@ -200,6 +211,7 @@ return $this->db->count_all_results();
 
         $this->db->order_by("user.Userid", "desc");
         $query = $this->db->get();
+
         if($query -> num_rows() > 0)
         {
             $result = $query->result();  //$query -> result_array();
@@ -1258,6 +1270,27 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
             return FALSE;
         }
     }
+
+    //Activate a user by manager
+    function  activateUser($tablename,$activeUserId){  //$tablename,id of the row
+        $data=array('Active' => 1);
+  
+        $this->db->set($data);
+        $this->db->where("userid",$activeUserId);
+        $this->db->update($tablename, $data);
+  
+          if($this->db->affected_rows() == 1)
+          {
+              return TRUE;
+              //return $query->result();
+          }
+          else
+          {
+              return FALSE;
+          }
+      }
+
+
     /////////////////////////////////////////////////////////////
 //jov
     public function selectById($value, $field, $tablename){  //$value, $field,$table

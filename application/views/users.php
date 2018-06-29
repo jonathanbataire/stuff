@@ -82,7 +82,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">User Phone</span>
-                                <input type="text" name="user_phone" id="user_phone" onkeyup="allowIntegerInputOnly(this)" required class="form-control" required placeholder="Enter user's contact ">
+                                <input maxlength='10' type="text" name="user_phone" id="user_phone" onkeyup="allowIntegerInputOnly(this)" required class="form-control" required placeholder="Enter user's contact ">
                             </div>
                         </div>
 
@@ -492,10 +492,18 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 										<td class="no-print">
                                             <table><tr><td>
                                             <a class="btn btn-primary" href="<?php echo base_url() . "index.php/Users/DisplayStationUsersFormForUpdate/" .$userdetailsid ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li>Edit</a></td>
-                                         <?php if(  $userrole=='ManagerData'){ ?><td> 
+                                         <?php $fname =$userdetails->FirstName;$lname=$userdetails->SurName;
+                                          if(  $userrole=='ManagerData' && $userdetails->Active == 1){ ?><td> 
                                             <a class="btn btn-danger" href="<?php echo base_url() . "index.php/Users/deleteUser/" .$userdetailsid ;?>"
-                                                  onClick="return confirm('Are you sure you want to delete <?php echo $userdetails->FirstName.' '.$userdetails->SurName;?>');"><li class="fa fa-times"></li> Deactivate</a>
-												  </td><?php }?></tr></table></td>
+                                                  onClick="return confirm('Are you sure you want to delete <?php echo $fname.' '.$lname;?>');">
+                                                  <li class="fa fa-times"></li> Deactivate</a>
+                                                  </td><?php }else if($userrole=='ManagerData' && $userdetails->Active == 0){ ?>
+                                                      <td> 
+                                                      <a class="btn btn-success" href="<?php echo base_url() . "index.php/Users/activateUser/" .$userdetailsid ;?>"
+                                                            onClick="return confirm('Are you sure you want to Activate <?php echo $fname.' '.$lname;?>');"><li class="fa fa-check"></li>&nbsp;&nbsp;Activate&nbsp;&nbsp;&nbsp;</a>
+                                                            </td>
+                                                <?php }
+                                                  ?></tr></table></td>
                                            <?php }?>
                                     </tr>
 
