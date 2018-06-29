@@ -141,7 +141,7 @@ class ArchiveScannedMetarFormDataCopy extends CI_Controller {
         $Approved="FALSE";
         $firstname=$session_data['FirstName'];
         $surname=$session_data['SurName'];
-        $SubmittedBy=$session_data['Userid'];
+        $SubmittedBy=$firstname.' '.$surname;
 
         $insertScannedMetarFormDataDetails=array(
             'Form_scanned' => $formname, 'station' => $station_id,

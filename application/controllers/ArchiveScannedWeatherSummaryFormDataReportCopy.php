@@ -125,8 +125,8 @@ class ArchiveScannedWeatherSummaryFormDataReportCopy extends CI_Controller {
 
 
 
-                $station = $this->input->post('station_ArchiveScannedWeatherSummaryFormReport');
-                $stationNo = $this->input->post('stationNo_ArchiveScannedWeatherSummaryFormReport');
+                $station_name= $this->input->post('station_ArchiveScannedWeatherSummaryFormReport');
+                $station_number = $this->input->post('stationNo_ArchiveScannedWeatherSummaryFormReport');
 
 
 
@@ -141,11 +141,12 @@ class ArchiveScannedWeatherSummaryFormDataReportCopy extends CI_Controller {
             $surname=$session_data['SurName'];
             $SubmittedBy=$user=$firstname.' '.$surname;
 
+            $stationId=$this->DbHandler->identifyStationById($station_name, $station_number);//station name and station number
             $insertScannedWeatherSummaryFormReportDataDetails=array(
-                'Form' => $formname, 'StationName' => $station,
-                'StationNumber' => $stationNo, 'Month' => $monthOFScannedWeatherSummaryFormReport,'Year' => $yearOFScannedWeatherSummaryFormReport,
+                'Form_scanned' => $formname, 
+                'station' => $stationId, 'Month' => $monthOFScannedWeatherSummaryFormReport,'Year' => $yearOFScannedWeatherSummaryFormReport,
                 'Approved'=> $Approved,'SM_SubmittedBy'=>$SubmittedBy,
-                'Description'=>$description,'FileName' => $filename);
+                'Description'=>$description,'FileRef' => $filename);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);
             $insertsuccess= $this->DbHandler->insertData($insertScannedWeatherSummaryFormReportDataDetails,'scans_monthly'); //Array for data to insert then  the Table Name

@@ -62,7 +62,16 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">Station</span>
-                                    <input type="text" name="station_ArchiveScannedWeatherSummaryFormReport" id="station_ArchiveScannedWeatherSummaryFormReport" required class="form-control" value="<?php echo $userstation;?>"  readonly class="form-control" >
+                                    <select name="station_ArchiveScannedWeatherSummaryFormReport" id="stationManager"   class="form-control" placeholder="Select Station">
+                                    <option value="">Select Station</option>
+                                    <?php
+                                    if (is_array($stationsdata) && count($stationsdata)) {
+                                        foreach($stationsdata as $station){?>
+                                            <option value="<?php echo $station->StationName;?>"><?php echo $station->StationName;?></option>
+
+                                        <?php }
+                                    } ?>
+                                </select>
 
                                 </div>
                             </div>
@@ -71,7 +80,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"> Station Number</span>
-                                    <input type="text" name="stationNo_ArchiveScannedWeatherSummaryFormReport" required class="form-control" id="stationNo_ArchiveScannedWeatherSummaryFormReport" readonly class="form-control" value="<?php echo $userstationNo;?>" readonly="readonly" >
+                                     <input type="text" name="stationNo_ArchiveScannedWeatherSummaryFormReport"  id="stationNoManager" required class="form-control" value=""  readonly   >
                                 </div>
                             </div>
 
@@ -253,6 +262,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <span class="input-group-addon"><i class = "pull-left">Previously Uploaded File</i>
 									<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedWeatherSummaryFormDataReportCopy/ViewImageFromBrowser/<?php echo $idDetails->FileRef;?>" target = "blank"><?php echo $idDetails->FileRef;?></a>
 									</span>
+                                    <input type="text" name="PreviouslyUploadedFileName_weathersummaryformdatareportcopy" id="PreviouslyUploadedFileName_weathersummaryformdatareportcopy" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
+
 
                                 </div>
                             </div>
@@ -418,14 +429,14 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                 //Check value of the hidden text field.That stores whether a row is duplicate
-                var hiddenvalue=$('#checkduplicateEntryOnAddArchieveScannedWeatherSummaryFormDataReportCopy_hiddentextfield').val();
+           /*     var hiddenvalue=$('#checkduplicateEntryOnAddArchieveScannedWeatherSummaryFormDataReportCopy_hiddentextfield').val();
                 if(hiddenvalue==""){  // returns true if the variable does NOT contain a valid number
                     alert("Value not picked");
                     $('#checkduplicateEntryOnAddArchieveScannedWeatherSummaryFormDataReportCopy_hiddentextfield').val("");  //Clear the field.
                     $("#checkduplicateEntryOnAddArchieveScannedWeatherSummaryFormDataReportCopy_hiddentextfield").focus();
                     return false;
 
-                }
+                }*/
 
                 //Check that Form name  is picked
                 var formname=$('#formname_weathersummaryformreport').val();
@@ -498,7 +509,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             //Check against the date,stationName,StationNumber,Time and Metar Option.
        var month = $('#month').val();
             var year= $('#year').val();
-
+ 
 
             var stationName = $('#station_ArchiveScannedWeatherSummaryFormReport').val();
             var stationNumber = $('#stationNo_ArchiveScannedWeatherSummaryFormReport').val();
@@ -509,6 +520,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             $('#checkduplicateEntryOnAddArchieveScannedWeatherSummaryFormDataReportCopy_hiddentextfield').val("");
 
             if ((month != undefined) &&  (year != undefined)&&  (stationName != undefined) && (stationNumber != undefined) ) {
+
                 $.ajax({
                     url: "<?php echo base_url(); ?>"+"index.php/ArchiveScannedWeatherSummaryFormDataReportCopy/checkInDBIfArchiveScannedWeatherSummaryFormDataReportCopyRecordExistsAlready",
                     type: "POST",
@@ -540,7 +552,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 var truthvalue=$("#checkduplicateEntryOnAddArchieveScannedWeatherSummaryFormDataReportCopy_hiddentextfield").val();
 
             }//end of if
-            else if((month == undefined) ||  (year == undefined) || (stationName == undefined) || (stationNumber == undefined)){
+            else if((month == undefined) ||  (year == undefined) || (stationManager== undefined) || (stationNo == undefined)){
+
 
                 var truthvalue="Missing";
             }
@@ -680,6 +693,57 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
        });
         });
+    </script>
+
+
+     <script type="text/javascript">
+        //Once the Admin selects the Station the Station Number should be picked from the DB.
+        // For Add Update Daily
+        $(document).on('change','#stationManager',function(){
+            $('#stationNoManager').val("");  //Clear the field.
+            var stationName = this.value;
+
+
+            if (stationName != "") {
+                //alert(station);
+                $('#stationNoManager').val("");
+                $.ajax({
+                    url: "<?php echo base_url(); ?>"+"index.php/Stations/getStationNumber",
+                    type: "POST",
+                    data: {'stationName': stationName},
+                    cache: false,
+                    //dataType: "JSON",
+                    success: function(data){
+                        if (data)
+                        {
+                            var json = JSON.parse(data);
+
+                            $('#stationNoManager').empty();
+
+                            //alert(data);
+                            $("#stationNoManager").val(json[0].StationNumber);
+
+                        }
+                        else{
+
+                            $('#stationNoManager').empty();
+                            $('#stationNoManager').val("");
+
+                        }
+                    }
+
+                });
+
+
+
+            }
+            else {
+
+                $('#stationNoManager').empty();
+                $('#stationNoManager').val("");
+            }
+
+        })
     </script>
 
     <script type="text/javascript">
