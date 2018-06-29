@@ -136,7 +136,7 @@ class UserLogin extends CI_Controller {
         $userrole=$session_data['UserRole'];
 		if($userrole=='ZonalOfficer'|| $userrole=='SeniorZonalOfficer'||$userrole=='DataOfficer'||$userrole=='SeniorDataOfficer'
 		||$userrole=='ManagerData'||$userrole=='ManagerStationNetworks'){
-			 $userstationId=$session_data['UserRegion'];
+			 $userstationId=0;
 		}else{
         $userstationId=$session_data['StationId'];
 		}
