@@ -40,6 +40,7 @@ class UserLogin extends CI_Controller {
                 foreach ($result as $row) {
                     $stationregion1 = $row->StationRegion;
                     $stationregion2 = $row->region_zone;
+					
                     if($stationregion1 !=''){
                         $region = $stationregion1;
                     }elseif($stationregion2 !=''){
@@ -133,9 +134,15 @@ class UserLogin extends CI_Controller {
 
         $session_data = $this->session->userdata('logged_in');
         $userrole=$session_data['UserRole'];
+		if($userrole=='ZonalOfficer'|| $userrole=='SeniorZonalOfficer'||$userrole=='DataOfficer'||$userrole=='SeniorDataOfficer'
+		||$userrole=='ManagerData'||$userrole=='ManagerStationNetworks'){
+			 $userstationId=0;
+		}else{
         $userstationId=$session_data['StationId'];
+		}
         $name=$session_data['FirstName'].' '.$session_data['SurName'];
-
+		
+        
         $userlogoutlogs = array('Date'=>date('Y-m-d H:i:s'),'User' => $name,
                                  'UserRole' => $userrole,'Action' => 'Signed Out',
                                   'Details' => $name . ' signed out of the system ',

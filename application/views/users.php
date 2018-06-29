@@ -82,7 +82,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">User Phone</span>
-                                <input type="text" name="user_phone" id="user_phone" onkeyup="allowIntegerInputOnly(this)" required class="form-control" required placeholder="Enter user's contact ">
+                                <input maxlength='10' type="text" name="user_phone" id="user_phone" onkeyup="allowIntegerInputOnly(this)" required class="form-control" required placeholder="Enter user's contact ">
                             </div>
                         </div>
 
@@ -223,10 +223,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                     <div class="clearfix"></div>
                 </div>
                 <div class="modal-footer clearfix">
+                     <button type="submit" id="saveStationUserDetails_button" name="saveStationUserDetails_button" class="btn btn-primary "><i class="fa fa-plus"></i> Add User</button>
+                    <a href="<?php echo base_url(); ?>index.php/Users/" class="btn btn-danger pull-left"><i class="fa fa-times"></i> Cancel</a>
 
-                    <a href="<?php echo base_url(); ?>index.php/Users/" class="btn btn-danger"><i class="fa fa-times"></i> Cancel</a>
-
-                    <button type="submit" id="saveStationUserDetails_button" name="saveStationUserDetails_button" class="btn btn-primary pull-left"><i class="fa fa-plus"></i> Add User</button>
+                   
                 </div>
             </form>
         </div>
@@ -425,9 +425,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             </div>
             <div class="modal-footer clearfix">
 
-                <a  href="<?php echo base_url(); ?>index.php/Users/" class="btn btn-danger"><i class="fa fa-times"></i> Cancel</a>
+              
 
-                <button type="submit" name="updateStationUserDetails_button" id="updateStationUserDetails_button" class="btn btn-primary pull-left"><i class="fa fa-plus"></i> Update User</button>
+                <button type="submit" name="updateStationUserDetails_button" id="updateStationUserDetails_button" class="btn btn-primary"><i class="fa fa-plus"></i> Update User</button>
+				  <a  href="<?php echo base_url(); ?>index.php/Users/" class="btn btn-danger pull-left"><i class="fa fa-times"></i> Cancel</a>
             </div>
             </form>
             </div>
@@ -492,10 +493,18 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 										<td class="no-print">
                                             <table><tr><td>
                                             <a class="btn btn-primary" href="<?php echo base_url() . "index.php/Users/DisplayStationUsersFormForUpdate/" .$userdetailsid ;?>" style="cursor:pointer;"><li class="fa fa-edit"></li>Edit</a></td>
-                                         <?php if(  $userrole=='ManagerData'){ ?><td> 
+                                         <?php $fname =$userdetails->FirstName;$lname=$userdetails->SurName;
+                                          if(  $userrole=='ManagerData' && $userdetails->Active == 1){ ?><td> 
                                             <a class="btn btn-danger" href="<?php echo base_url() . "index.php/Users/deleteUser/" .$userdetailsid ;?>"
-                                                  onClick="return confirm('Are you sure you want to delete <?php echo $userdetails->FirstName.' '.$userdetails->SurName;?>');"><li class="fa fa-times"></li> Deactivate</a>
-												  </td><?php }?></tr></table></td>
+                                                  onClick="return confirm('Are you sure you want to delete <?php echo $fname.' '.$lname;?>');">
+                                                  <li class="fa fa-times"></li> Deactivate</a>
+                                                  </td><?php }else if($userrole=='ManagerData' && $userdetails->Active == 0){ ?>
+                                                      <td> 
+                                                      <a class="btn btn-success" href="<?php echo base_url() . "index.php/Users/activateUser/" .$userdetailsid ;?>"
+                                                            onClick="return confirm('Are you sure you want to Activate <?php echo $fname.' '.$lname;?>');"><li class="fa fa-check"></li>&nbsp;&nbsp;Activate&nbsp;&nbsp;&nbsp;</a>
+                                                            </td>
+                                                <?php }
+                                                  ?></tr></table></td>
                                            <?php }?>
                                     </tr>
 
@@ -617,7 +626,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 //IF USER ROLE ASSIGNED BY MANAGER IS (ZONAL  OFFICER AND SENIOR ZONAL OFFICER)
                 var user_stationRegion_AssignedBy_Manager=$('#user_stationRegion_AssignedBy_Manager').val();
-                if(user_stationRegion_AssignedBy_Manager==""){  // returns true if the variable does NOT contain a valid number
+                if(user_stationRegion_AssignedBy_Manager=="" && user_Role_AssignedBy_Manager != 'SeniorDataOfficer' && user_Role_AssignedBy_Manager != 'DataOfficer' && user_Role_AssignedBy_Manager != 'ManagerStationNetworks'){  // returns true if the variable does NOT contain a valid number
                     alert("Station Region not picked");
                     $('#user_stationRegion_AssignedBy_Manager').val("");  //Clear the field.
                     $("#user_stationRegion_AssignedBy_Manager").focus();
