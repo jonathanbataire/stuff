@@ -300,6 +300,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                             <option value="Observer">Observer</option>
                                             <option value="ObserverArchive">ObserverArchive</option>
                                             <option value="ObserverDataEntrant">ObserverDataEntrant</option>
+                                            <option value="WeatherForecaster">WeatherForecaster</option>
 
                                         </select>
                                     </div>
@@ -320,7 +321,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <div class="input-group">
                                         <span class="input-group-addon"> Station Number</span>
                                         <input type="text" name="stationNo_OC" id="stationNo_OC" required class="form-control"   readonly class="form-control" value="<?php echo $userstationNo; ?>" readonly="readonly" >
-                                        <input type="hidden" name="stationid" id="stationid" required class="form-control"   readonly class="form-control" value="<?php echo $userstationId; ?>" readonly="readonly" >
+                                        <input type="hidden" name="stationid" id="stationid" required class="form-control"   readonly class="form-control" value="" readonly="readonly" >
 
                                     </div>
                                 </div>
@@ -345,7 +346,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
 
-                            <?php }elseif($userrole=="Manager" && $userrole=='ManagerData'){ ?>
+                            <?php }elseif($userrole=="Manager" || $userrole=='ManagerData'){ ?>
 
                                 <div class="form-group">
                                     <div class="input-group">
@@ -365,10 +366,12 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                                 <div class="form-group">
                                     <div class="input-group">
+                                    <?php
+                                        $displaystation = $userdetails->StationName;
+                                    ?>
                                         <span class="input-group-addon">Station</span>
                                         <select name="station_Manager"  id="station_Manager" required class="form-control" placeholder="Select Station">
-                                            <option value="<?php echo $userdetails->UserStation;?>"><?php echo $userdetails->UserStation;?></option>
-                                            <option value="">--Select Stations--</option>
+                                            <option value="<?php echo $displaystation; ?>"><?php echo $displaystation;?></option>
                                             <?php
                                             if (is_array($stationsdata) && count($stationsdata)) {
                                                 foreach($stationsdata as $station){?>
@@ -384,7 +387,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <div class="input-group">
                                         <span class="input-group-addon"> Station Number</span>
                                         <input type="text" name="stationNo_Manager" id="stationNo_Manager" required class="form-control"  value="" readonly class="form-control" value="" readonly="readonly" >
-                                        <input type="hidden" name="stationId_Manager" id="stationId_Manager" required class="form-control"  value="" readonly class="form-control" value="" readonly="readonly" >
+                                        <input type="hidden" name="stationid" id="stationid" required class="form-control"  value="" readonly class="form-control" value="" readonly="readonly" >
 
                                        <!-- <input type="text" name="stationRegion_Manager" id="stationRegion_Manager" required class="form-control"  value="" readonly class="form-control" value="" readonly="readonly" > -->
 
@@ -396,18 +399,19 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                                 <div class="form-group">
-                                    <div class="input-group">
+                                <div class="input-group">
                                         <span class="input-group-addon">Region</span>
-                                        <select name="stationRegion_AssignedBy_Manager" id="stationRegion_AssignedBy_Manager" onkeyup="allowCharactersInputOnly(this)" required class="form-control">
-                                            <option value="<?php echo $userdetails->StationRegion;?>"><?php echo $userdetails->StationRegion;?></option>
-                                            <option value="">--Select REGION--</option>
-                                            <option value="Central">Central</option>
-                                            <option value="Northern">Northern</option>
-                                            <option value="Southern">Southern</option>
-                                            <option value="Eastern">Eastern</option>
-                                            <option value="Western">Western</option>
+                                    <select name="stationRegion_AssignedBy_Manager" id="stationRegion_AssignedBy_Manager"
+                                     readonly class="form-control" onkeyup="allowCharactersInputOnly(this)" required class="form-control">
+                                        <option value="">--Select REGION--</option>
+                                        <option value="Central">Central</option>
+                                        <option value="Northern">Northern</option>
+                                        <option value="Southern">Southern</option>
+                                        <option value="Eastern">Eastern</option>
+                                        <option value="Western">Western</option>
 
-                                        </select>
+                                    </select>
+
                                     </div>
                                 </div>
 
@@ -1259,7 +1263,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                             // alert(data);
                             $("#stationNo_Manager").val(json[0].StationNumber);
-                            $("#stationId_Manager").val(json[0].station_id);
+                            $("#stationid").val(json[0].station_id);
+                            $("#stationRegion_AssignedBy_Manager").val(json[0].StationRegion);
 
 
                         }
@@ -1267,7 +1272,6 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                             $('#stationNo_Manager').empty();
                             $('#stationNo_Manager').val("");
-
 
 
 
@@ -1292,10 +1296,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
         //The Manager  Station is autopopulated on Update User(OC).The Station Number  shd be picked frm DB
         //Update User for OC
         var stationName =  $('#station_Manager').val();
-
+        var roleName =  $('#Role_AssignedBy_Manager').val();
       //  $('#stationNo_Manager').html('');//Clear the field.
 
-        if (stationName != "") {
+        if (stationName != "" && roleName != 'ZonalOfficer' && roleName != 'SeniorZonalOfficer') {
             //alert(station);
             $('#stationNo_Manager').val("");
 
@@ -1315,7 +1319,9 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                         // alert(data);
                         $("#stationNo_Manager").val(json[0].StationNumber);
-                          $("#stationId_Manager").val(json[0].StationId);
+                          $("#stationid").val(json[0].station_id);
+                          $("#stationRegion_AssignedBy_Manager").val(json[0].StationRegion);
+
 
 
                     }
@@ -1323,7 +1329,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                         $('#stationNo_Manager').empty();
                         $('#stationNo_Manager').val("");
-
+                        $('#stationRegion_AssignedBy_Manager').empty();
+                        $('#stationRegion_AssignedBy_Manager').val("");
 
 
                     }
@@ -1334,10 +1341,61 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
         }
-        else {
+        else if(roleName == 'ZonalOfficer' || roleName == 'SeniorZonalOfficer'){
+            var zonalnumber = <?php echo $this->uri->segment(3);?>;
+            $.ajax({
+                url: "<?php echo base_url(); ?>"+"index.php/Stations/getZonalRegion",
+                type: "POST",
+                data: {'zonalnumber': zonalnumber},
+                cache: false,
+                //dataType: "JSON",
+                success: function(data){
+                    if (data)
+                    {
+                        var json = JSON.parse(data);
 
-            $('#stationNo_Manager').empty();
-            $('#stationNo_Manager').val("");
+                       // $('#stationNo_Manager').empty();
+
+
+                        // alert(data);
+                        //$("#stationNo_Manager").val(json[0].StationNumber);
+                          //$("#stationid").val(json[0].station_id);
+                          $("#stationRegion_AssignedBy_Manager").val(json[0].region_zone);
+
+
+
+                    }
+                    else{
+
+                        //$('#stationNo_Manager').empty();
+                        //$('#stationNo_Manager').val("");
+                        $('#stationRegion_AssignedBy_Manager').empty();
+                        $('#stationRegion_AssignedBy_Manager').val("");
+
+
+                    }
+                }
+
+            });
+        }
+
+        else if(roleName == 'ManagerStationNetworks'||roleName == 'DataOfficer' || roleName == 'SeniorDataOfficer'){
+            //alert('hey');
+            $('#stationRegion_AssignedBy_Manager').empty();
+            $('#stationRegion_AssignedBy_Manager').val("");
+            $('#station_Manager').attr('readonly', true);  //Enforce the readOnly Attribute
+
+            $('#station_Manager').empty();
+            $('#station_Manager').val("");
+            
+        }
+        
+        else {
+            
+           // $('#stationNo_Manager').empty();
+           // $('#stationNo_Manager').val("");
+           // $('#stationRegion_AssignedBy_Manager').empty();
+           // $('#stationRegion_AssignedBy_Manager').val("");
 
 
         }

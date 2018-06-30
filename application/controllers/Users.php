@@ -117,19 +117,20 @@ class Users extends CI_Controller {
           $stationNo = $this->input->post('user_stationNo_OC');
         }
 
-      if($userRoleAssigned=="OC" || $userRoleAssigned=="Observer" || $userRoleAssigned=="ObserverArchive" || $userRoleAssigned=="ObserverDataEntrant" || $userRoleAssigned=="WeatherForecaster"){
+      if($userRoleAssigned=="OC" || $userRoleAssigned=="Observer" || $userRoleAssigned=="ObserverArchive" || 
+      $userRoleAssigned=="WeatherAnalyst" || $userRoleAssigned=="ObserverDataEntrant" || $userRoleAssigned=="WeatherForecaster"){
 
                 $stationRegion = "NULL";
 
-            }elseif($userRoleAssigned=="ZonalOfficer" || $userRoleAssigned=="SeniorDataOfficer"){
+            }elseif($userRoleAssigned=="ZonalOfficer" || $userRoleAssigned=="SeniorZonalOfficer"){
 
               $station ="NULL";
               $stationNo ="NULL";
               $stationRegion = $this->input->post('user_stationRegion_AssignedBy_Manager');
             }else{
-          $station ="NULL";
-          $stationNo ="NULL";
-          $stationRegion = "NULL";
+          $station ="";
+          $stationNo ="";
+          $stationRegion = "";
         }
 
         $createdBy=$UserRole;
@@ -139,13 +140,18 @@ class Users extends CI_Controller {
 
         //Before you insert check for Duplicate User.
         //Send User Credentials to the Email Address
-        $result=$this->DbHandler->checkforDuplicateUserDetails($firstname,$surname,$useremail,$station,$stationNo,$stationRegion);
+        $result=$this->DbHandler->checkforDuplicateUserDetails($firstname,$surname,$useremail,$station,$stationNo,$stationRegion,$userRoleAssigned);
+        //print_r($result); exit('hey...');
         if(!$result){
            $stationId=$this->DbHandler->identifyStationById($station,$stationNo);
-            $username = firstcharlowercase(firstletter($firstname)).'.'.firstcharlowercase($surname);
+            $generatedusername = firstcharlowercase(firstletter($firstname)).'.'.firstcharlowercase($surname);
             //Check if username to be generated Exists in the DB Already
-            $usernameExists=$this->DbHandler->checkIfUserNameExistsAlreadyInDB($username);
-            if(!$usernameExists){
+            //$usernameExists=$this->DbHandler->checkIfUserNameExistsAlreadyInDB($username);
+            $counter =-1;
+            $username = $this->DbHandler->generateUniqueUsername($generatedusername,$surname,$counter);
+            
+
+            if($username != false){
 
             $randompassword = $this->generatePasswdString();
             if($randompassword){
@@ -156,8 +162,8 @@ class Users extends CI_Controller {
                 $this->load->helper("myphpstringfunctions_helper");
 
                // $username = firstcharlowercase(firstletter($firstname)).'.'.firstcharlowercase($surname);
-
-
+                
+                    
                     $insertUserData=array(
                         'FirstName' => $firstname, 'SurName' => $surname,
                         'UserPassword' => $encryptpassword,'UserName' => $username,
@@ -168,7 +174,6 @@ class Users extends CI_Controller {
                         'LastLoggedIn'=>date('Y-m-d H:i:s'),
                         'Active'=>$active,
                         'Reset'=>$reset,'CreatedBy'=>$createdBy);
-
                     $insertsuccess= $this->DbHandler->insertData($insertUserData,'systemusers');
                     if($insertsuccess){
 
@@ -243,7 +248,7 @@ class Users extends CI_Controller {
         else{
 
 
-            $ret = 'Account Names'.' '. $firstname .' '. $surname.''.'is already in the System';
+            $ret = 'Account with email '.' '. $useremail.' and user role '.chgtouppercase($userRoleAssigned).''.' is already in the System';
             $this->session->set_flashdata('error', $ret);
             $this->index();
 
@@ -266,8 +271,8 @@ class Users extends CI_Controller {
         $config['protocol'] = 'smtp';
         $config['smtp_host'] = 'ssl://smtp.gmail.com';
         $config['smtp_port'] = '465';
-        $config['smtp_user'] = 'wimeaictwdr@gmail.com';  //change it
-        $config['smtp_pass'] = '1wimeawdr2'; //change it
+        $config['smtp_user'] = 'wimeaict@gmail.com';  //change it
+        $config['smtp_pass'] = '1wimeawdr1c7'; //change it
         $config['charset'] = 'utf-8';
         $config['newline'] = "\r\n";
         $config['mailtype'] = 'html';
@@ -306,6 +311,7 @@ class Users extends CI_Controller {
         $this->load->helper(array('form', 'url'));
         $session_data = $this->session->userdata('logged_in');
         $UserRole=$session_data['UserRole'];
+        $ocStationid = $session_data['StationId'];
 
         $firstname =firstcharuppercase(chgtolowercase( $this->input->post('firstname')));
         //$fname=firstcharuppercase($firstname);
@@ -313,43 +319,43 @@ class Users extends CI_Controller {
         //$sname=firstcharuppercase($surname);
         $useremail = chgtolowercase($this->input->post('email'));
         $userphone = $this->input->post('contact');
+        $id = $this->input->post('id');
         $stationId = $this->input->post('stationId_Manager');
         //$urole=firstcharuppercase($URole);
 
         if($UserRole=="Manager" || $UserRole=="ManagerData"){
             $userRoleAssigned = $this->input->post('Role_AssignedBy_Manager');
+            $stationRegion = $this->input->post('stationRegion_AssignedBy_Manager');
+            $stationid = $this->input->post('stationid');
+
         }
         else if($UserRole=="OC"){
             $userRoleAssigned = $this->input->post('Role_AssignedBy_OC');
             $station = firstcharuppercase(chgtolowercase($this->input->post('station_OC')));
             $stationNo = $this->input->post('stationNo_OC');
             $stationRegion = $this->input->post('stationRegion_OC');
+            $stationid = $ocStationid;
         }
 
-        if( $userRoleAssigned=="Observer" || $userRoleAssigned=="ObserverArchive" || $userRoleAssigned=="ObserverDataEntrant" || $userRoleAssigned=="WeatherForecaster"){
+        if($userRoleAssigned=="OC" || $userRoleAssigned=="Observer" || $userRoleAssigned=="ObserverArchive" || 
+      $userRoleAssigned=="WeatherAnalyst" || $userRoleAssigned=="ObserverDataEntrant" || $userRoleAssigned=="WeatherForecaster"){
 
-                  $stationRegion = "NULL";
-       }elseif($userRoleAssigned=="OC"){
-            $station = firstcharuppercase(chgtolowercase($this->input->post('station_Manager')));
-            $stationNo = $this->input->post('stationNo_Manager');
-           //$stationRegion = $this->input->post('stationRegion_Manager');
-        }elseif($userRoleAssigned=="ZonalOfficer" ||$userRoleAssigned=="SeniorZonalOfficer" ){
+                  $updateUserData=array(
+                    'station' => $stationid,'FirstName' => $firstname, 'SurName' => $surname,
+                    'UserEmail' => $useremail, 'UserPhone' => $userphone,'UserRole' => $userRoleAssigned);
+       }
+       elseif($userRoleAssigned=="ZonalOfficer" ||$userRoleAssigned=="SeniorZonalOfficer" ){
 
-            $station = "NULL";
-            $stationNo = "NULL";
-            $stationRegion = $this->input->post('stationRegion_AssignedBy_Manager');
-        }else{
-          $station = "NULL";
-          $stationNo = "NULL";
-          $stationRegion = "NULL";
-        }
-
-  $id = $this->input->post('id');
-  $stationChosen=$this->DbHandler->identifyStationById($station,$stationNo);
-  $updateUserData=array(
-            'station' => $stationChosen,'FirstName' => $firstname, 'SurName' => $surname,
+        $updateUserData=array(
+            'region_zone' => $stationRegion,'station' => 0,'FirstName' => $firstname, 'SurName' => $surname,
             'UserEmail' => $useremail, 'UserPhone' => $userphone,'UserRole' => $userRoleAssigned);
 
+        }else{
+          
+        $updateUserData=array(
+            'FirstName' => $firstname, 'SurName' => $surname,
+            'UserEmail' => $useremail, 'UserPhone' => $userphone,'UserRole' => $userRoleAssigned);  
+        }
 
             $session_data = $this->session->userdata('logged_in');
             $userrole=$session_data['UserRole'];
