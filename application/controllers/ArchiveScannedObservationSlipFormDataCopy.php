@@ -148,9 +148,10 @@ class ArchiveScannedObservationSlipFormDataCopy extends CI_Controller {
                 $firstname=$session_data['FirstName'];
                 $surname=$session_data['SurName'];
                 $SubmittedBy=$firstname.' '.$surname;
+                 $stationId=$this->DbHandler->identifyStationById($station, $stationNumber);//station name and station number
 
                 $insertScannedObservationSlipFormDataCopyDetails=array(
-                    'Form_scanned' => $formname, 'station' => $station_id,
+                    'Form_scanned' => $formname, 'station' => $stationId,
                      'TIME'=>$time,
 
                     'form_date' => $dateOnScannedObservationSlipForm,'Approved'=> $Approved,'SD_SubmittedBy'=>$SubmittedBy,

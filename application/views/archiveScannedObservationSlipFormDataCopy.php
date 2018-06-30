@@ -53,7 +53,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Form</span>
-                                <input type="text" name="formname_observationslipform" id="formname_observationslipform" readonly="readonly" required class="form-control" value="<?php echo 'Observation Slip Form';?>"  readonly class="form-control" >
+                                <input type="text" name="formname_observationslipform" id="formname_observationslipform" readonly="readonly" required class="form-control" value="<?php echo 'observationslip';?>"  readonly class="form-control" >
                                 <input type="hidden" name="checkduplicateEntryOnAddArchieveScannedObservationSlipFormDataCopy_hiddentextfield" id="checkduplicateEntryOnAddArchieveScannedObservationSlipFormDataCopy_hiddentextfield">
 
                             </div>
@@ -63,7 +63,16 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">Station</span>
-                                    <input type="text" name="station_ArchiveScannedObservationSlipForm" id="station_ArchiveScannedObservationSlipForm" required class="form-control" value="<?php echo $userstation;?>"  readonly class="form-control" >
+                                     <select name="station_ArchiveScannedObservationSlipForm" id="stationManager"   class="form-control" placeholder="Select Station">
+                                    <option value="">Select Station</option>
+                                    <?php
+                                    if (is_array($stationsdata) && count($stationsdata)) {
+                                        foreach($stationsdata as $station){?>
+                                            <option value="<?php echo $station->StationName;?>"><?php echo $station->StationName;?></option>
+
+                                        <?php }
+                                    } ?>
+                                </select>
 
                                 </div>
                             </div>
@@ -73,7 +82,9 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"> Station Number</span>
-                                <input type="text" name="stationNo_ArchiveScannedObservationSlipForm" required class="form-control" id="stationNo_ArchiveScannedObservationSlipForm" readonly class="form-control" value="<?php echo $userstationNo;?>" readonly="readonly" >
+                                <input type="text" name="stationNo_ArchiveScannedObservationSlipForm"  id="stationNoManager" required class="form-control" value=""  readonly   ><!-- 
+
+                                <input type="text" name="stationNo_ArchiveScannedObservationSlipForm" required class="form-control" id="stationNo_ArchiveScannedObservationSlipForm" readonly class="form-control" value="<?php echo $userstationNo;?>" readonly="readonly" > -->
                             </div>
                         </div>
 
@@ -528,6 +539,60 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
         });  //document
     </script>
+    <script type="text/javascript">
+            //Once the Manager selects the Station the Station Number, should be picked from the DB.
+            // For Add User when user is OC
+            $(document).on('change','#stationManager',function(){
+                $('#stationNoManager').val("");  //Clear the field.
+
+                var stationName = this.value;
+                if (stationName != "") {
+                    //alert(station);
+                    $('#stationNoManager').val("");
+
+                    $.ajax({
+                        url: "<?php echo base_url(); ?>"+"index.php/Stations/getStationNumber",
+                        type: "POST",
+                        data: {'stationName': stationName},
+                        cache: false,
+                        //dataType: "JSON",
+                        success: function(data){
+                            if (data)
+                            {
+                                var json = JSON.parse(data);
+
+                                $('#stationNoManager').empty();
+
+                                 //alert(data);
+                                $("#stationNoManager").val(json[0].StationNumber);
+
+
+                            }
+                            else{
+
+                                $('#stationNoManager').empty();
+                                $('#stationNoManager').val("");
+
+
+
+
+                            }
+                        }
+
+                    });
+
+
+
+                }
+                else {
+                    $('#stationNoManager').empty();
+                    $('#stationNoManager').val("");
+
+                }
+
+            })
+        </script>
+
     <script>
         //CHECK DB IF THE ARCHIVE SCANNED METAR FORM RECORD  ALREADY EXISTS
         function checkDuplicateEntryData_OnAddArchiveScannedObservationSlipFormDataCopyDetails(){

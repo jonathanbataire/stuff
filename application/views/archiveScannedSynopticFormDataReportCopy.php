@@ -53,7 +53,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Form</span>
-                                <input type="text" name="formname_synoptic" id="formname_synoptic" readonly="readonly" required class="form-control" value="<?php echo 'Synoptic Form';?>"  readonly class="form-control" >
+                                <input type="text" name="formname_synoptic" id="formname_synoptic" readonly="readonly" required class="form-control" value="<?php echo 'SynopticForm';?>"  readonly class="form-control" >
                                 <input type="hidden" name="checkduplicateEntryOnAddArchieveScannedSynopticFormDataReportCopy_hiddentextfield" id="checkduplicateEntryOnAddArchieveScannedSynopticFormDataReportCopy_hiddentextfield">
 
                             </div>
@@ -63,7 +63,17 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">Station</span>
-                                    <input type="text" name="station_ArchiveScannedSynopticFormReport" id="station_ArchiveScannedSynopticFormReport" required class="form-control" value="<?php echo $userstation;?>"  readonly class="form-control" >
+
+                                    <select name="station_ArchiveScannedSynopticFormReport" id="stationManager"   class="form-control" placeholder="Select Station">
+                                    <option value="">Select Station</option>
+                                    <?php
+                                    if (is_array($stationsdata) && count($stationsdata)) {
+                                        foreach($stationsdata as $station){?>
+                                            <option value="<?php echo $station->StationName;?>"><?php echo $station->StationName;?></option>
+
+                                        <?php }
+                                    } ?>
+                                </select>
 
                                 </div>
                             </div>
@@ -72,7 +82,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"> Station Number</span>
-                                    <input type="text" name="stationNo_ArchiveScannedSynopticFormReport" required class="form-control" id="stationNo_ArchiveScannedSynopticFormReport" readonly class="form-control" value="<?php echo $userstationNo;?>" readonly="readonly" >
+
+                                     <input type="text" name="stationNo_ArchiveScannedSynopticFormReport"  id="stationNoManager" required class="form-control" value=""  readonly   >
                                 </div>
                             </div>
 
@@ -380,7 +391,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <th>Station Name</th>
                                 <th>Station Number</th>
                                 <th>Date</th>
-								<th>File Name</th>
+								<th>First page</th>
+                                <th>Second Page</th>
                                 <th>Description</th>
                                 <th>Approved</th>
                                 <th>By</th>
@@ -409,7 +421,11 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <td ><?php echo $data->StationNumber;?></td>
                                         <td ><?php echo $data->form_date;?></td>
 										  <td class="no-print">
-                                   <a title="click to view file" href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedSynopticFormDataReportCopy/ViewImageFromBrowser/<?php echo $data->FileRef;?>" target = "blank"><?php echo $data->FileRef;?></a>
+                                   <a title="click to view file" href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedSynopticFormDataReportCopy/ViewImageFromBrowser/<?php echo $data->FileName_FirstPage;?>" target = "blank"><?php echo $data->FileName_FirstPage;?></a>
+                                  
+                                </td>
+                                <td class="no-print">
+                                   <a title="click to view file" href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedSynopticFormDataReportCopy/ViewImageFromBrowser/<?php echo $data->FileName_SecondPage;?>" target = "blank"><?php echo $data->FileName_SecondPage;?></a>
                                   
                                 </td>
                                         <td><?php echo $data->Description;?></td>
@@ -478,14 +494,14 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                 //Check value of the hidden text field.That stores whether a row is duplicate
-                var hiddenvalue=$('#checkduplicateEntryOnAddArchieveScannedSynopticFormDataReportCopy_hiddentextfield').val();
+             /*   var hiddenvalue=$('#checkduplicateEntryOnAddArchieveScannedSynopticFormDataReportCopy_hiddentextfield').val();
                 if(hiddenvalue==""){  // returns true if the variable does NOT contain a valid number
                     alert("Value not picked");
                     $('#checkduplicateEntryOnAddArchieveScannedSynopticFormDataReportCopy_hiddentextfield').val("");  //Clear the field.
                     $("#checkduplicateEntryOnAddArchieveScannedSynopticFormDataReportCopy_hiddentextfield").focus();
                     return false;
 
-                }
+                }*/
 
                 //Check that Form name  is picked
                 var formname=$('#formname_synoptic').val();
@@ -561,8 +577,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             var date= $('#date').val();
 
 
-            var stationName = $('#station_ArchiveScannedSynopticFormReport').val();
-          var stationNumber = $('#stationNo_ArchiveScannedSynopticFormReport').val();
+            var stationName = $('#stationManager').val();
+          var stationNumber = $('#stationNoManager').val();
 
 
 
@@ -801,6 +817,56 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                     $('#stationNoArchiveScannedSynopticFormReportManager').val("");
                 }     })
 
+    </script>
+
+     <script type="text/javascript">
+        //Once the Admin selects the Station the Station Number should be picked from the DB.
+        // For Add Update Daily
+        $(document).on('change','#stationManager',function(){
+            $('#stationNoManager').val("");  //Clear the field.
+            var stationName = this.value;
+
+
+            if (stationName != "") {
+                //alert(station);
+                $('#stationNoManager').val("");
+                $.ajax({
+                    url: "<?php echo base_url(); ?>"+"index.php/Stations/getStationNumber",
+                    type: "POST",
+                    data: {'stationName': stationName},
+                    cache: false,
+                    //dataType: "JSON",
+                    success: function(data){
+                        if (data)
+                        {
+                            var json = JSON.parse(data);
+
+                            $('#stationNoManager').empty();
+
+                            //alert(data);
+                            $("#stationNoManager").val(json[0].StationNumber);
+
+                        }
+                        else{
+
+                            $('#stationNoManager').empty();
+                            $('#stationNoManager').val("");
+
+                        }
+                    }
+
+                });
+
+
+
+            }
+            else {
+
+                $('#stationNoManager').empty();
+                $('#stationNoManager').val("");
+            }
+
+        })
     </script>
 
 
