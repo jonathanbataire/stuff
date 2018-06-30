@@ -192,7 +192,7 @@ class Users extends CI_Controller {
 
 
                       //Send the User Credentials.
-                      $htmlmessage = 'Hello'.''.$firstname.' '.$surname.'<br></br><br></br>'.
+                      $htmlmessage = 'Hello '.''.$firstname.' '.$surname.'<br></br><br></br>'.
                           'Your  New WIMEA-ICT Web Interface  Credentials are'.'<br></br><br></br>'.
                           'UserName:'.''.''.$username.'<br></br><br></br>'.
                           'Password:'.''.''.$randompassword.'<br></br><br></br>'.
