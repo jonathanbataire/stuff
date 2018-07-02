@@ -196,7 +196,7 @@ class Users extends CI_Controller {
                           'Your  New WIMEA-ICT Web Interface  Credentials are'.'<br></br><br></br>'.
                           'UserName:'.''.''.$username.'<br></br><br></br>'.
                           'Password:'.''.''.$randompassword.'<br></br><br></br>'.
-                          '<a href="http://www.wimea.mak.ac.ug/weather/">Click here to login!</a>'.
+                          '<a href="http://www.wimea.mak.ac.ug/wdr/">Click here to login!</a>'.
                           'Thank You'.'<br></br><b></br><b></br>'.'WIMEA-ICT';
 
                       //If true an Email has been sent Else
@@ -209,7 +209,7 @@ class Users extends CI_Controller {
                        }
                           else{ //User has been inserted but Email has not been sent
                               $this->session->set_flashdata('error', 'Email not sent and user has not been inserted');
-                              $this->load->view('login');
+                              $this->load->view('users');
 
                           }
 
@@ -217,7 +217,7 @@ class Users extends CI_Controller {
 
 
                         $this->session->set_flashdata('success', 'New User info was added successfully and User Password has been sent to their email!');
-                        $this->load->view('login');
+                        $this->load->view('users');
 
 
 
@@ -271,8 +271,8 @@ class Users extends CI_Controller {
         $config['protocol'] = 'smtp';
         $config['smtp_host'] = 'ssl://smtp.gmail.com';
         $config['smtp_port'] = '465';
-        $config['smtp_user'] = 'wimeaict@gmail.com';  //change it
-        $config['smtp_pass'] = '1wimeawdr1c7'; //change it
+        $config['smtp_user'] = 'wimeaictwdr@gmail.com';  //change it
+        $config['smtp_pass'] = '1c7wimearepo.'; //change it
         $config['charset'] = 'utf-8';
         $config['newline'] = "\r\n";
         $config['mailtype'] = 'html';
