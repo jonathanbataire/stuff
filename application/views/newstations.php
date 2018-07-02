@@ -150,8 +150,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <span class="input-group-addon">Status Of Station</span>
                                 <select name="statusstation" id="statusstation" onchange="Disabled()" onkeyup="allowCharactersInputOnly(this)"  class="form-control"   placeholder="Enter Status" >
                                     <option value="">--Select Status Of Station--</option>
-                                    <option value="Active">Active</option>
-                                    <option value="InActive">InActive</option>
+                                    <option value="on">Active</option>
+                                    <option value="off">InActive</option>
 
 
                                 </select>
@@ -354,8 +354,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <select name="stationstatus" id="stationstatus" onkeyup="allowCharactersInputOnly(this)" required class="form-control"   required placeholder="Enter Status" >
                                         <option value="<?php echo $stationdata->StationStatus;?>"><?php echo $stationdata->StationStatus;?></option>
                                         <option value="">--Select Status--</option>
-                                        <option value="Active">Active</option>
-                                        <option value="InActive">InActive</option>
+                                        <option value="on">Active</option>
+                                        <option value="off">InActive</option>
 
 
                                     </select>
@@ -1057,7 +1057,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 	<script>
 
 function Disabled(){
-    if(document.getElementById("statusstation").value === "Active"){
+    if(document.getElementById("statusstation").value === "on"){
 
         document.getElementById("expdate").disabled=true;
     }

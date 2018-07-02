@@ -62,7 +62,16 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">Station</span>
-                                    <input type="text" name="station_ArchiveScannedYearlyRainfallFormReport" id="station_ArchiveScannedYearlyRainfallFormReport" required class="form-control" value="<?php echo $userstation;?>"  readonly class="form-control" >
+                                      <select name="station_ArchiveScannedYearlyRainfallFormReport" id="stationManager"   class="form-control" placeholder="Select Station">
+                                    <option value="">Select Station</option>
+                                    <?php
+                                    if (is_array($stationsdata) && count($stationsdata)) {
+                                        foreach($stationsdata as $station){?>
+                                            <option value="<?php echo $station->StationName;?>"><?php echo $station->StationName;?></option>
+
+                                        <?php }
+                                    } ?>
+                                </select>
 
                                 </div>
                             </div>
@@ -71,7 +80,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"> Station Number</span>
-                                    <input type="text" name="stationNo_ArchiveScannedYearlyRainfallFormReport" required class="form-control" id="stationNo_ArchiveScannedYearlyRainfallFormReport" readonly class="form-control" value="<?php echo $userstationNo;?>" readonly="readonly" >
+
+                                     <input type="text" name="stationNo_ArchiveScannedYearlyRainfallFormReport"  id="stationNoManager" required class="form-control" value=""  readonly   >
                                 </div>
                             </div>
 
@@ -236,6 +246,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <span class="input-group-addon"> <i class = "pull-left"> Previously Uploaded File </i>
 									<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedYearlyRainfallFormDataReportCopy/ViewImageFromBrowser/<?php echo $idDetails->FileRef;?>" target = "blank"> <?php echo $idDetails->FileRef;?> </a>
 									</span>
+                                    <input type="text" name="PreviouslyUploadedFileName_yearlyrainfallformdatareportcopy" id="PreviouslyUploadedFileName_yearlyrainfallformdatareportcopy" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
                                 </div>
                             </div>
 
@@ -399,14 +410,14 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                 //Check value of the hidden text field.That stores whether a row is duplicate
-                var hiddenvalue=$('#checkduplicateEntryOnAddArchieveScannedYearlyRainfallFormDataReportCopy_hiddentextfield').val();
+               /* var hiddenvalue=$('#checkduplicateEntryOnAddArchieveScannedYearlyRainfallFormDataReportCopy_hiddentextfield').val();
                 if(hiddenvalue==""){  // returns true if the variable does NOT contain a valid number
                     alert("Value not picked");
                     $('#checkduplicateEntryOnAddArchieveScannedYearlyRainfallFormDataReportCopy_hiddentextfield').val("");  //Clear the field.
                     $("#checkduplicateEntryOnAddArchieveScannedYearlyRainfallFormDataReportCopy_hiddentextfield").focus();
                     return false;
 
-                }
+                }*/
 
                 //Check that Form name  is picked
                 var formname=$('#formname_yearlyrainfallformreport').val();
@@ -473,8 +484,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
             var year= $('#year').val();
 
-            var stationName = $('#station_ArchiveScannedYearlyRainfallFormReport').val();
-            var stationNumber = $('#stationNo_ArchiveScannedYearlyRainfallFormReport').val();
+            var stationName = $('#stationManager').val();
+            var stationNumber = $('#stationNoManager').val();
 
 
             $('#checkduplicateEntryOnAddArchieveScannedYearlyRainfallFormDataReportCopy_hiddentextfield').val("");
@@ -640,6 +651,57 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
        });
         });
     </script>
+
+    <script type="text/javascript">
+        //Once the Admin selects the Station the Station Number should be picked from the DB.
+        // For Add Update Daily
+        $(document).on('change','#stationManager',function(){
+            $('#stationNoManager').val("");  //Clear the field.
+            var stationName = this.value;
+
+
+            if (stationName != "") {
+                //alert(station);
+                $('#stationNoManager').val("");
+                $.ajax({
+                    url: "<?php echo base_url(); ?>"+"index.php/Stations/getStationNumber",
+                    type: "POST",
+                    data: {'stationName': stationName},
+                    cache: false,
+                    //dataType: "JSON",
+                    success: function(data){
+                        if (data)
+                        {
+                            var json = JSON.parse(data);
+
+                            $('#stationNoManager').empty();
+
+                            //alert(data);
+                            $("#stationNoManager").val(json[0].StationNumber);
+
+                        }
+                        else{
+
+                            $('#stationNoManager').empty();
+                            $('#stationNoManager').val("");
+
+                        }
+                    }
+
+                });
+
+
+
+            }
+            else {
+
+                $('#stationNoManager').empty();
+                $('#stationNoManager').val("");
+            }
+
+        })
+    </script>
+
 
     <script type="text/javascript">
         //Once the Admin selects the Station the Station Managerr should be picked from the DB Automatically.

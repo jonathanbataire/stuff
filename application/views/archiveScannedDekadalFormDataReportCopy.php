@@ -65,8 +65,16 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">Station</span>
-                                    <input type="text" name="station_ArchiveScannedDekadalFormReport" id="station_ArchiveScannedDekadalFormReport" required class="form-control" value="<?php echo $userstation;?>"  readonly class="form-control" >
+                                       <select name="station_ArchiveScannedDekadalFormReport" id="stationManager"   class="form-control" placeholder="Select Station">
+                                    <option value="">Select Station</option>
+                                    <?php
+                                    if (is_array($stationsdata) && count($stationsdata)) {
+                                        foreach($stationsdata as $station){?>
+                                            <option value="<?php echo $station->StationName;?>"><?php echo $station->StationName;?></option>
 
+                                        <?php }
+                                    } ?>
+                                </select>
                                 </div>
                             </div>
 
@@ -74,7 +82,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"> Station Number</span>
-                                    <input type="text" name="stationNo_ArchiveScannedDekadalFormReport" required class="form-control" id="stationNo_ArchiveScannedDekadalFormReport" readonly class="form-control" value="<?php echo $userstationNo;?>" readonly="readonly" >
+                                     <input type="text" name="stationNo_ArchiveScannedDekadalFormReport"  id="stationNoManager" required class="form-control" value=""  readonly   >
+
                                 </div>
                             </div>
 
@@ -251,6 +260,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <span class="input-group-addon"><i class = "pull-left"> Previously Uploaded File </i>
 									<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedDekadalFormDataReportCopy/ViewImageFromBrowser/<?php echo $idDetails->FileRef;?>" target = "blank"> <?php echo $idDetails->FileRef;?> </a>
 									</span>
+                                     <input type="text" name="PreviouslyUploadedFileName_dekadalformdatareportcopy" id="PreviouslyUploadedFileName_dekadalformdatareportcopy" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
 
                                 </div>
                             </div>
@@ -419,13 +429,13 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 //Check value of the hidden text field.That stores whether a row is duplicate
                 var hiddenvalue=$('#checkduplicateEntryOnAddArchieveScannedDekadaFormDataReportCopy_hiddentextfield').val();
-                if(hiddenvalue==""){  // returns true if the variable does NOT contain a valid number
+            /*    if(hiddenvalue==""){  // returns true if the variable does NOT contain a valid number
                     alert("Value not picked");
                     $('#checkduplicateEntryOnAddArchieveScannedDekadaFormDataReportCopy_hiddentextfield').val("");  //Clear the field.
                     $("#checkduplicateEntryOnAddArchieveScannedDekadaFormDataReportCopy_hiddentextfield").focus();
                     return false;
 
-                }
+                }*/
 
                 //Check that Form name  is picked
                 var formname=$('#formname_dekadal').val();
@@ -556,8 +566,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             var fromdate = $('#expdate').val();
             var todate=$('#opened').val();
 
-            var stationName = $('#station_ArchiveScannedDekadalFormReport').val();
-            var stationNumber = $('#stationNo_ArchiveScannedDekadalFormReport').val();
+            var stationName = $('#stationManager').val();
+            var stationNumber = $('#stationNoManager').val();
 
 
 
@@ -607,6 +617,57 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
         // return false;
 
     </script>
+
+     <script type="text/javascript">
+        //Once the Admin selects the Station the Station Number should be picked from the DB.
+        // For Add Update Daily
+        $(document).on('change','#stationManager',function(){
+            $('#stationNoManager').val("");  //Clear the field.
+            var stationName = this.value;
+
+
+            if (stationName != "") {
+                //alert(station);
+                $('#stationNoManager').val("");
+                $.ajax({
+                    url: "<?php echo base_url(); ?>"+"index.php/Stations/getStationNumber",
+                    type: "POST",
+                    data: {'stationName': stationName},
+                    cache: false,
+                    //dataType: "JSON",
+                    success: function(data){
+                        if (data)
+                        {
+                            var json = JSON.parse(data);
+
+                            $('#stationNoManager').empty();
+
+                            //alert(data);
+                            $("#stationNoManager").val(json[0].StationNumber);
+
+                        }
+                        else{
+
+                            $('#stationNoManager').empty();
+                            $('#stationNoManager').val("");
+
+                        }
+                    }
+
+                });
+
+
+
+            }
+            else {
+
+                $('#stationNoManager').empty();
+                $('#stationNoManager').val("");
+            }
+
+        })
+    </script>
+
     <script>
         $(document).ready(function() {
             //Update  Archive Dekadal form Report data into the DB
