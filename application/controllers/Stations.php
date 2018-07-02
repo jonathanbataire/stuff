@@ -292,6 +292,21 @@ class Stations extends CI_Controller {
 
     }
 
+    function getZonalRegion($zonalnumber){
+        $this->load->helper(array('form', 'url'));
+        $zonalnumber = ($zonalnumber == "") ? $this->input->post('zonalnumber') : $zonalnumber;
+        if ($zonalnumber  == "") {
+            echo '<span style="color:#f00">sorry we encountered an issue. </span>';
+        } else {
+
+            $get_result = $this->DbHandler->getResults($zonalnumber, 'Userid', 'systemusers');   // $value, $field, $table
+
+            echo json_encode($get_result);
+
+
+        }
+    }
+
 
     function getStationNumber($stationName) {  //Pass the StationName to get the Station Number.
         $this->load->helper(array('form', 'url'));

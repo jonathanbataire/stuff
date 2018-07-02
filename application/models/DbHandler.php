@@ -6,7 +6,7 @@ class DbHandler extends CI_Model {
 
     }
 
-    function getitstation($username, $password){
+    function getStationIdAndRegion($username, $password){
 
         $this->db->select('station,region_zone');
         $this->db->from('systemusers as user');
@@ -34,7 +34,7 @@ class DbHandler extends CI_Model {
         }
     }
 
-    function getUserLogInDetails($username, $password,$res) {
+    function getUserLogInDetails($username, $password,$res,$active) {
         $this->db->select('*');
         $this->db->from('systemusers as user');
 
@@ -46,7 +46,9 @@ class DbHandler extends CI_Model {
         
         $this->db->where('user.UserName', $username);
         $this->db->where('user.UserPassword', $password);
+        if($active !=0){
         $this->db->where('user.Active', 1);
+        }
         $this->db->order_by("user.userid", "desc");
 
         $this->db->limit(1);
@@ -181,14 +183,6 @@ return $this->db->count_all_results();
 //jovRi
     public function selectAllSystemUsers($value, $field,$tablename){ //field:UserStation value:StationName
 
-        /*$query=$this->db->query('select * from systemusers as user left join stations as fromstations
-         on fromstations.station_id=user.station ');
-        foreach ($query->result() as $row){
-            $c++;
-            echo 'userid='.$row->Userid;echo ' region_zone='.$row->region_zone;echo ' stationregion='.$row->StationRegion;echo '<br>';
-        }*/
-
-         //exit('hey...'.$c);
 
        $this->db->select('*');
        $this->db->from($tablename.' as user');
@@ -204,6 +198,7 @@ return $this->db->count_all_results();
             $this->db->where_not_in('user.UserRole', 'ManagerData');
 */
         }elseif($userrole=='OC'){
+            $this->db->where_not_in('user.UserRole', 'ManagerStationNetworks');
             $this->db->where('user.'.$field, $value);
             $this->db->where('user.Active', 1);
         }
@@ -211,7 +206,7 @@ return $this->db->count_all_results();
             $this->db->where('user.StationRegion', $StationRegion);
             $this->db->where('user.Active', 1);
         }
-
+        $this->db->where_not_in('user.UserRole', 'ManagerData');
         $this->db->order_by("user.Userid", "desc");
         $query = $this->db->get();
 
@@ -1399,7 +1394,7 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
         
         $this->db->select('*');
         $this->db->from($tablename.' as user');
-        $this->db->join('stations as stationsdata', 'user.station= stationsdata.station_id');
+        $this->db->join('stations as stationsdata', 'user.station= stationsdata.station_id','left');
         $this->db->where('user.'.$field, $value);
         $this->db->order_by("user.Userid", "desc");
         // Run the query
@@ -1417,24 +1412,32 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
         }
 
     }
+
+
+
+    
+
+
 //jovRi
-    function checkforDuplicateUserDetails($firstname, $surname,$email,$stationName,$stationNumber,$stationRegion) {
+    function checkforDuplicateUserDetails($firstname, $surname,$email,$stationName,$stationNumber,$stationRegion,$userRoleAssigned) {
+        
         $this->db->select('*');
         $this->db->from('systemusers as user');
-        $this->db->join('stations as stationsdata', 'user.station= stationsdata.station_id');
+        $this->db->join('stations as stationsdata', 'user.station= stationsdata.station_id','left');
+        $this->db->where('user.UserRole', $userRoleAssigned);
+        $this->db->where('user.UserEmail', $email);
 
-        $this->db->where('user.FirstName', $firstname);
+        /*$this->db->where('user.FirstName', $firstname);
+        !empty($observationslipdataforspecifictimeofaday)
         $this->db->where('user.SurName', $surname);
-        $this->db->or_where('user.UserEmail', $email);
-        //!empty($observationslipdataforspecifictimeofaday)
         if($stationName=="NULL" && $stationNumber=="NULL" ){
 
-            $this->db->where('user.region_zone', $stationRegion);
+           $this->db->where('user.region_zone', $stationRegion);
         }else if(!empty($stationName) && !empty($stationNumber) && empty($stationRegion)){
 
-            $this->db->where('stationsdata.StationName', $stationName);
-            $this->db->where('stationsdata.StationNumber', $stationNumber);
-        }
+           $this->db->where('stationsdata.StationName', $stationName);
+           $this->db->where('stationsdata.StationNumber', $stationNumber);
+        }*/
 
 
 
@@ -1461,6 +1464,41 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
 
 
 ////////////////////////////////////////////////////////////////////////////////
+
+
+    function generateUniqueUsername($username,$surname,$counter){
+        $this->db->select('*');
+        $this->db->from('systemusers');
+        $this->db->where('UserName', $username);
+
+        $this->db->order_by("Userid", "desc");
+        $this->db->limit(1);
+        // Run the query
+        $query = $this->db->get();
+        foreach($query -> row() as $row)
+        {
+            $alphabet = str_split('abcdefghijklmnopqrstuvwxyz');
+                //shuffle($seed);
+                //$rand = '';
+                //foreach (array_rand($seed, 1) as $k) $rand .= $seed[$k];
+                $counter++;
+            $newsurname=firstcharlowercase($surname);
+            $trialname=$alphabet[$counter].'.'.$newsurname; 
+            if($counter<26){
+             return $this->generateUniqueUsername($trialname,$newsurname,$counter);
+            }
+            else{
+                return false;
+            }
+                 
+        }
+
+        return $username;
+        
+    }
+
+
+
 
     function checkIfUserNameExistsAlreadyInDB($username) {
         $this->db->select('*');

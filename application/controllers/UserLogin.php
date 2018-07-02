@@ -28,12 +28,20 @@ class UserLogin extends CI_Controller {
             $passwordencrypted= md5($password);
             //  $passwordencrypteddd= $this->encrypt->decode($passwordencrypted);
 
-            //Check in the Database
-            $res = $this->DbHandler->getitstation($username,  $passwordencrypted);
-           $result = $this->DbHandler->getUserLogInDetails($username, $passwordencrypted,$res);
+            $res = $this->DbHandler->getStationIdAndRegion($username,  $passwordencrypted);
+
+            //check in DB
+            $result = $this->DbHandler->getUserLogInDetails($username, $passwordencrypted,$res,0);
             //True that user details
             if ($result) {
-                $usersessiondata = array();
+
+
+                foreach($result as $row){
+                    $activeStatus = $row->Active;
+                }
+
+                if($activeStatus == 1){
+                    $usersessiondata = array();
 
 
                 //Create a user session
@@ -115,6 +123,12 @@ class UserLogin extends CI_Controller {
                     $this->load->view('dashboard');
 
                 }  //end of else
+                }//end of active status if//
+                else{
+                    $this->session->set_flashdata('error', 'Sorry, this Account has been DEACTIVATED.');
+                    redirect('/Welcome');
+                }
+
             } //end of if statement if there are results in the database
             //No User Details in the DB
             else {
