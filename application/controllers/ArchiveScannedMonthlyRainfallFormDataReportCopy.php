@@ -139,12 +139,14 @@ class ArchiveScannedMonthlyRainfallFormDataReportCopy extends CI_Controller {
             $firstname=$session_data['FirstName'];
             $surname=$session_data['SurName'];
             $SubmittedBy=$user=$firstname.' '.$surname;
+            $stationId=$this->DbHandler->identifyStationById($station, $stationNo);//station name and station number
+
 
             $insertScannedMonthlyRainfallFormReportDataDetails=array(
-                'Form' => $formname, 'StationName' => $station,
-                'StationNumber' => $stationNo, 'Month' => $monthOFScannedMonthlyRainfallFormReport,'Year' => $yearOFScannedMonthlyRainfallFormReport,
+                'Form_scanned' => $formname, 'station' => $stationId,
+                'Month' => $monthOFScannedMonthlyRainfallFormReport,'Year' => $yearOFScannedMonthlyRainfallFormReport,
                 'Approved'=> $Approved,'SM_SubmittedBy'=>$SubmittedBy,
-                'Description'=>$description,'FileName' => $filename);
+                'Description'=>$description,'FileRef' => $filename);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);
             $insertsuccess= $this->DbHandler->insertData($insertScannedMonthlyRainfallFormReportDataDetails,'scans_monthly'); //Array for data to insert then  the Table Name
