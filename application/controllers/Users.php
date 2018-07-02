@@ -209,7 +209,7 @@ class Users extends CI_Controller {
                        }
                           else{ //User has been inserted but Email has not been sent
                               $this->session->set_flashdata('error', 'Email not sent and user has not been inserted');
-                              $this->load->view('users');
+                              $this->index();
 
                           }
 
@@ -217,7 +217,7 @@ class Users extends CI_Controller {
 
 
                         $this->session->set_flashdata('success', 'New User info was added successfully and User Password has been sent to their email!');
-                        $this->load->view('users');
+                        $this->index();
 
 
 
