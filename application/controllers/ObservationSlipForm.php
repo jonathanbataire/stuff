@@ -56,6 +56,40 @@ $data["links"] = explode('&nbsp;',$str_links );
 
         $this->load->view('observationSlipForm', $data);
     }
+
+    public function getNotification(){
+        //$total_row = $this->DbHandler->getNotification();
+                $count = 14;
+                $data = array(
+                'unseen_notification' => $count
+                );
+                echo json_encode($data);
+    }
+
+    public function getNotificationData(){
+        $output .= '<li>
+        <a href="#">
+        <strong>"comment_subject"</strong><br />
+        <small><em>"comment_text"</em></small>
+        </a>
+    </li>
+    <li class="divider"></li>
+        <li>
+            <a href="#">
+            <strong>"comment_subject"</strong><br />
+            <small><em>"comment_text"</em></small>
+            </a>
+        </li>
+        <li class="divider"></li>
+        ';
+        $data = array(
+            'notification'   => $output
+            );
+            echo json_encode($data);
+    }
+
+    
+
     public function showAwsdata(){
        // $this->unsetflashdatainfo();
         $session_data = $this->session->userdata('logged_in');

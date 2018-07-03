@@ -39,6 +39,8 @@ class UserLogin extends CI_Controller {
                 foreach ($result as $row) {
                     $usersessiondata = array(
                         'Userid' => $row->Userid,
+                        'Region' => $row->StationRegion,
+                        'ZonalRegion' => $row->region_zone,
                         'FirstName' => $row->FirstName,
                         'SurName' => $row->SurName,
                         'UserName' => $row->UserName,

@@ -143,9 +143,22 @@ $created=$session_data['CreationDate'];
 							 else{echo $userrole ."&nbsp" . "panel";}
 				 ?> 
                  </a>
+                 
         <div class="navbar-right" >
-		
-		<ul class="nav navbar-nav" >
+        <?php if($userrole == 'OC' || $userrole == 'ManagerData'){ ?>
+         <ul class="nav navbar-nav">
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="label label-pill label-danger count" style="border-radius:10px;"></span> 
+                <span class="glyphicon glyphicon-bell" style="font-size:18px;"></span></a>
+                <ul class="dropdown-menu"></ul>
+                </li>
+         </ul>
+        <?php } ?>
+        
+
+
+        <ul class="nav navbar-nav" >
                 <!-- Messages: style can be found in dropdown.less-->
                 
                 <li class="user user-menu">
@@ -346,7 +359,7 @@ $created=$session_data['CreationDate'];
                     </li>
                 <?php } ?>
                 <?php
-                if($userrole == "ManagerData" || $userrole== "OC" ){
+                if($userrole == "ManagerData" || $userrole== "OC" || $userrole== "ZonalOfficer" || $userrole== "SeniorZonalOfficer" ){
                 ?>
                     <li class="treeview">
                         <a href="#">
@@ -384,3 +397,59 @@ $created=$session_data['CreationDate'];
         </section>
         <!-- /.sidebar -->
     </aside>
+    
+    <script>
+         var count;
+                $(document).ready(function(){
+                
+                function load_unseen_notification(view = '')
+                {
+                $.ajax({
+                url:"<?php echo base_url(); ?>"+"index.php/ObservationSlipForm/getNotification",
+                method:"POST",
+                data:{view:view},
+                dataType:"json",
+                success:function(data)
+                {
+                    count=data.unseen_notification;
+                    if(data.unseen_notification > 0)
+                    {
+                    $('.count').html(data.unseen_notification);
+                    }
+                }
+                });
+                }
+                
+                load_unseen_notification();
+                
+                $(document).on('click', '.dropdown-toggle', function(){
+                $('.count').html('');
+                if(count >0){
+                    load_unseen_data();
+                }else{
+                    var output = '<li><a href="#" class="text-bold text-italic">No New Notification Found</a></li>';
+                    $('.dropdown-menu').html(output);
+                }
+                
+                });
+                
+                setInterval(function(){ 
+                load_unseen_notification();; 
+                }, 5000);
+                
+                });
+
+                function load_unseen_data(view = '')
+                {
+                $.ajax({
+                url:"<?php echo base_url(); ?>"+"index.php/ObservationSlipForm/getNotificationData",
+                method:"POST",
+                data:{view:view},
+                dataType:"json",
+                success:function(data)
+                {
+                    $('.dropdown-menu').html(data.notification);
+                }
+                });
+                }
+                </script>

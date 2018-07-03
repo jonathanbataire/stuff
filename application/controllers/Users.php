@@ -445,21 +445,42 @@ class Users extends CI_Controller {
 
     }
 
+    public function SelectManagerStations(){
+       
+        $this->load->helper(array('form', 'url'));
+
+        $region = ($stationName == "") ? $this->input->post('region') : $region;
+        $result = $this->DbHandler->SelectZonalStations($region);   // $value, $field, $table
+        echo json_encode($result);
+    }
+
+    public function GetUserLogs(){
+        $region=$this->input->post('region');
+        $station=$this->input->post('station');
+        $action=$this->input->post('action');
+        $typeofform=$this->input->post('typeofform');
+        $startdate=$this->input->post('startdate');
+        $enddate=$this->input->post('enddate');
+        exit($startdate.' - '.$enddate);
+    }
+
     public function userlogs() {
         $this->unsetflashdatainfo();
         $session_data = $this->session->userdata('logged_in');
         $userrole=$session_data['UserRole'];
         $userstation=$session_data['UserStation'];
-
+        $userregion=$session_data['ZonalRegion'];
 
 
         $query = $this->DbHandler->selectAllFromSystemData($userstation,'StationName','userlogs');  //value,field,table
-        //$query1 = $this->DbHandler->SelectFieldsForUserUpdate();
+        $query1 = $this->DbHandler->SelectZonalStations($userregion);
         //  var_dump($query);
-        if ($query) {
+        if ($query && $query1) {
             $data['userlogs'] = $query;
+            $data['zonalstations'] = $query1;
         } else {
             $data['userlogs'] = array();
+            $data['zonalstations'] = array();
         }
 
         $this->load->view('userlogs', $data);

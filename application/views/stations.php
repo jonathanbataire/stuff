@@ -253,7 +253,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"> Station Number</span>
-                                    <input type="text" name="stationNo" required class="form-control" id=stationNo" value="<?php echo $stationdata->StationNumber;?>"  class="form-control"  >
+                                    <input type="text" name="stationNo" required class="form-control" id="stationNo" value="<?php echo $stationdata->StationNumber;?>"  class="form-control"  >
                                     <input type="hidden" name="id" id="id" value="<?php echo $stationdata->station_id;?>">
                                 </div>
                             </div>

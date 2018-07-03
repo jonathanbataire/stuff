@@ -733,6 +733,28 @@ return $this->db->count_all_results();
 
     }
 
+    public function SelectZonalStations($region){
+        
+        $this->db->select('*');
+        $this->db->from('stations');
+        $this->db->where('StationRegion',$region);
+        $this->db->order_by("StationName", "asc");
+        $query = $this->db->get();
+        if($query -> num_rows() > 0)
+        {
+            
+            $result = $query->result();  //$query -> result_array();
+            return $result;
+            //return $query->result();
+        }
+        else
+        {
+            //$results = $query->result();
+            return false;
+        }
+
+    }
+
 
     //Select all from the tables(Stations,Instruments,Elements,UserLogs) in the DB.
     //jovRi
@@ -771,7 +793,7 @@ return $this->db->count_all_results();
     $this->db->join('stations as stationsdata', 'tab.station= stationsdata.station_id');
     $this->db->where_not_in('tab.station','0');
     if($userrole=='OC' ){
-        $this->db->where('tab.'.$field, $value);
+        $this->db->where('stationsdata.'.$field, $value);
     }
 
     //$this->db->join('data_tracking as tracking','tracking.modified = tab.Date');
