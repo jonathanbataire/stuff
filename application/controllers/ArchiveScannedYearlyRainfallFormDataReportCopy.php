@@ -127,6 +127,7 @@ class ArchiveScannedYearlyRainfallFormDataReportCopy extends CI_Controller {
 
                 $station = $this->input->post('station_ArchiveScannedYearlyRainfallFormReport');
                 $stationNo = $this->input->post('stationNo_ArchiveScannedYearlyRainfallFormReport');
+                $stationId= $this->DbHandler->identifyStationById($station,$stationNo);
 
 
 
@@ -143,10 +144,10 @@ class ArchiveScannedYearlyRainfallFormDataReportCopy extends CI_Controller {
             $SubmittedBy=$user=$firstname.' '.$surname;
 
             $insertScannedYearlyRainfallFormReportDataDetails=array(
-                'Form' => $formname, 'StationName' => $station,
-                'StationNumber' => $stationNo, 'Year' => $yearOFScannedYearlyRainfallFormReport,
-                'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
-                'Description'=>$description,'FileName' => $filename);
+                'Form_scanned' => $formname, 
+                'station' => $stationId, 'Year' => $yearOFScannedYearlyRainfallFormReport,
+                'Approved'=> $Approved,'SY_SubmittedBy'=>$SubmittedBy,
+                'Description'=>$description,'FileRef' => $filename);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);
             $insertsuccess= $this->DbHandler->insertData($insertScannedYearlyRainfallFormReportDataDetails,'scans_yearly'); //Array for data to insert then  the Table Name

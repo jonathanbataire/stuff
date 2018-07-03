@@ -277,7 +277,7 @@ class ArchiveObservationSlipFormData extends CI_Controller {
 
 
             'Approved'=>$approved,
-             'SubmittedBy'=>$user);
+             'AO_SubmittedBy'=>$user);
 
 
 

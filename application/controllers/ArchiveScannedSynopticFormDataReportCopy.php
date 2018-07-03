@@ -178,7 +178,7 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
 
                 $station = $this->input->post('station_ArchiveScannedSynopticFormReport');
                 $stationNo = $this->input->post('stationNo_ArchiveScannedSynopticFormReport');
-
+                $stationId=$this->DbHandler->identifyStationById($station, $stationNo);//station name and station number
 
 
 
@@ -194,9 +194,11 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
             $surname=$session_data['SurName'];
             $SubmittedBy=$firstname.' '.$surname;
 
+
+
             $insertScannedSynopticFormReportDataCopyDetails=array(
-                'Form' => $formname, 'StationName' => $station,
-                'StationNumber' => $stationNo, 'Date' => $dateOnScannedSynopticFormReport,'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
+                'Form_scanned' => $formname, 
+                'station' => $stationId, 'form_date' => $dateOnScannedSynopticFormReport,'Approved'=> $Approved,'SD_SubmittedBy'=>$SubmittedBy,
                 'Description'=>$description,'FileName_FirstPage' => $filename_firstpage,'FileName_SecondPage' => $filename_secondpage);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);
@@ -317,7 +319,7 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
 
 
             $formname = firstcharuppercase(chgtolowercase($this->input->post('formname')));
-
+           
                 $stationId = $this->input->post('stationId');
                 $stationNo = $this->input->post('stationNo');
                 $dateOnScannedSynopticFormReport = $this->input->post('dateOnScannedSynopticFormReport');

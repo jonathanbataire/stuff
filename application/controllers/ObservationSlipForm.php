@@ -21,9 +21,9 @@ $config["base_url"] = base_url()."index.php/ObservationSlipForm/index";
 //index.php/ObservationSlipForm/index
 $total_row = $this->DbHandler->record_count('StationName',$userstation);
 $config["total_rows"] = $total_row;
-$config["per_page"] = 100;
+
 $config['use_page_numbers'] = TRUE;
-$config['num_links'] = 10;
+
 $config['cur_tag_open'] = '&nbsp;<a class="current">';
 $config['cur_tag_close'] = '</a>';
 $config['next_link'] = 'Next';
@@ -95,19 +95,17 @@ $data["links"] = explode('&nbsp;',$str_links );
         $session_data = $this->session->userdata('logged_in');
         $userstation=$session_data['UserStation'];
 
-        $config = array();
+       $config = array();
         $config["base_url"] = base_url() . "index.php/ObservationSlipForm/showAwsdata";
         $total_row = $this->DbHandler->record_count_aws('StationName',$userstation);
         $config["total_rows"] = $total_row;
-        $config["per_page"] = 20;
+        $config["per_page"] = 1000;
         $config['use_page_numbers'] = TRUE;
         $config['num_links'] = 10;
         $config['cur_tag_open'] = '&nbsp;<a class="current">';
         $config['cur_tag_close'] = '</a>';
         $config['next_link'] = 'Next';
         $config['prev_link'] = 'Previous';
-
-        $this->pagination->initialize($config);
 
         if($this->uri->segment(3)){
         $page = ($this->uri->segment(3)) ;
@@ -125,6 +123,7 @@ $data["links"] = explode('&nbsp;',$str_links );
         if ($query) {
             $data['observationslipformdata'] = $query;
         } else {
+			
             $data['observationslipformdata'] = array();
         }
 
@@ -140,9 +139,9 @@ $data["links"] = explode('&nbsp;',$str_links );
        $config["base_url"] = base_url() . "index.php/ObservationSlipForm/showWebmobiledata";
        $total_row =$this->DbHandler->record_count_webmobile('StationName',$userstation);
        $config["total_rows"] = $total_row;
-       $config["per_page"] = 10;
+       
        $config['use_page_numbers'] = TRUE;
-       $config['num_links'] = 10;
+      
        $config['cur_tag_open'] = '&nbsp;<a class="current">';
        $config['cur_tag_close'] = '</a>';
        $config['next_link'] = 'Next';
@@ -307,10 +306,18 @@ elseif ($userrole=="OC") {
       $userstation=$session_data['UserStation'];
 	  $user_id=$session_data['Userid'];
 		$id= $this->input->post('id');
-		$data = array(
-		'Approved' => $this->input->post('approve'),
-		'ApprovedBy' => $user_id
+		$approved = $this->input->post('approve');
+		$name=$session_data['FirstName'].' '.$session_data['SurName'];
+		if($approved=="ENDORSE"){
+			$data = array(
+		'Endorsed' => $approved,
+		'EndorsedBy' => $name
 		);
+		}else{
+		$data = array(
+		'Approved' => $approved,
+		'ApprovedBy' => $user_id
+		);}
 		$query=$this->DbHandler->updateApproval($id,$data);
 		if ($query) {
 		$this->session->set_flashdata('success', 'Data was updated successfully!');
@@ -357,6 +364,7 @@ elseif ($userrole=="OC") {
         $id=$session_data['Userid'];
 
         $date = $this->input->post('date_observationslipform');
+		
         $station = firstcharuppercase(chgtolowercase($this->input->post('station_observationslipform')));
         $stationNumber = $this->input->post('stationNo_observationslipform');
         $totalAmountOfAllClouds =intval( $this->input->post('totalamountofallclouds_observationslipform'));
@@ -449,7 +457,12 @@ $Trend_mff =$this->input->post("Trend_mff");
 $approved="FALSE";
         $user=$firstname.' '.$surname;
         $InputType="Web";
-$metarOrSpeci=$this->input->post('metar_speci');
+$ms=$this->input->post('metar_speci');
+if($ms=='metar'){
+    $metarOrSpeci='normal';
+}else{
+    $metarOrSpeci=$ms;
+}
 $timeobservationslip= $metarOrSpeci=="speci"? $this->input->post('speci_time_observationslipform'):$this->input->post('metar_time_observationslipform');
 $station_id= $this->DbHandler->identifyStationById($station,$stationNumber);
 
@@ -581,9 +594,17 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
         $this->load->helper(array('form', 'url'));
         $session_data = $this->session->userdata('logged_in');
         $role=$session_data['UserRole'];
-
+         
         $date = $this->input->post('date');
-        $metarOrSpeci=$this->input->post('metar_speci');
+        $ms = $this->input->post('metar_speci');
+        if($ms == 'metar'){
+            $metarOrSpeci='normal';
+        }else{
+            $metarOrSpeci = $ms;  
+        }
+        
+        //exit('hello....'.$metarOrSpeci);
+
         $timeobservationslip= $metarOrSpeci=="speci"? $this->input->post('speci_time'):$this->input->post('metar_time');
 
         $stationName = firstcharuppercase(chgtolowercase($this->input->post('station')));
@@ -687,6 +708,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
        $thgraph_mff =$this->input->post("thgraph_mff");
        $Trend_mff =$this->input->post("Trend_mff");
         $approved=$this->input->post('approval');
+        
 
         $id = $this->input->post('id');
 
@@ -741,7 +763,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
             'MSLPr'=>$MSLPr,            'TimeMarksBarograph'=>$TimeMarksBarograph,
             'TimeMarksAnemograph'=>$TimeMarksAnemoograph,    'OtherTMarks'=>$OtherTMarks,
             'Remarks'=>$Remarks,        'windrun'=> $WindRun,
-            'sunduration'=> $DurationOfSunshine, 'speciOrMetar'=>$speciOrmetar,
+            'sunduration'=> $DurationOfSunshine, 'speciormetar'=>$metarOrSpeci,
             'trend'=>$Trend_mff,
             'UnitOfWindSpeed'=>$UnitOfWindSpeed_mff, 	'IndOrOmissionOfPrecipitation'=>$IndOrOmissionOfPrecipitation_mff,
             'TypeOfStation_Present_Past_Weather'=>$TypeOfStation_Present_Past_Weather_mff,

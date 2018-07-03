@@ -197,10 +197,10 @@ class Stations extends CI_Controller {
             $longitude = $this->input->post('stationlongitude');
             $altitude=$this->input->post('stationaltitude');
             $opened = $this->input->post('stationopened');
-            $status=$this->input->post('stationstatus');
+            $status=$this->input->post('statusstation');
             $closed = $this->input->post('stationclosed');
 
-            $type = $this->input->post('stationtype');
+            $type = $this->input->post('typestation');
 
             $id = $this->input->post('id');
 
@@ -290,6 +290,21 @@ class Stations extends CI_Controller {
 
         }
 
+    }
+
+    function getZonalRegion($zonalnumber){
+        $this->load->helper(array('form', 'url'));
+        $zonalnumber = ($zonalnumber == "") ? $this->input->post('zonalnumber') : $zonalnumber;
+        if ($zonalnumber  == "") {
+            echo '<span style="color:#f00">sorry we encountered an issue. </span>';
+        } else {
+
+            $get_result = $this->DbHandler->getResults($zonalnumber, 'Userid', 'systemusers');   // $value, $field, $table
+
+            echo json_encode($get_result);
+
+
+        }
     }
 
 

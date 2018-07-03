@@ -148,7 +148,7 @@ $stationId=$this->DbHandler->identifyStationById($station, $stationNumber);
             'Dddfffmfm'=> $Dddfffmfm, 'WWorCAVOK'=> $wwcovak,
             'W1W1'=>$w1w1, 'NlCCNmCCNhCC'=> $n1cch1, 'TTTdTd'=> $tttdtd, 'Qnhhpa'=>$qnhhpa, 'Qnhin'=>$qnhin,
             'Qfehpa'=>$qfehpa, 'Qfein'=>$qfein,'REW1W1'=>$rew1w1,'Approved'=>$approved,
-             'SubmittedBy'=>$user);
+             'AM_SubmittedBy'=>$user);
 
 
         //Insert New Metar Infor into the Database.

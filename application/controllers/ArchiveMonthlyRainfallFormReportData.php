@@ -107,7 +107,7 @@ class ArchiveMonthlyRainfallFormReportData extends CI_Controller {
         $name=$session_data['FirstName'].' '.$session_data['SurName'];
         $insertDailyPeriodicRainfallData=array('Date'=> $date,'Rainfall'=>$rainfall,
             'station' => $station, 'station' => $stationNumber,
-            'Approved'=>$approved,'SubmittedBy' => $name);
+            'Approved'=>$approved,'AR_SubmittedBy' => $name);
         // $this->DbHandler->insertData($insertDailyPeriodicRainfallData,'dailyperiodicrainfall'); //Array for data to insert then  the Table Name
         $insertsuccess= $this->DbHandler->insertData($insertDailyPeriodicRainfallData,'archivemonthlyrainfallformreportdata'); //Array for data to insert then  the Table Name
 

@@ -180,7 +180,7 @@ class ArchiveWeatherSummaryFormReportData extends CI_Controller {
 
         $insertArchiveWeatherSummaryFormReportDataIntoDB=array(
             'Date'=>$date,'Station'=>$station_id,
-            'SubmittedBy' => $SubmittedBy ,'Approved'=>$Approved,
+            'AW_SubmittedBy' => $SubmittedBy ,'Approved'=>$Approved,
             'TEMP_MAX'=> $max, 'TEMP_MIN'=>$min,'SUNSHINE'=>$sunshine,
 
             'DB_0600Z'=>$db0600Z,'WB_0600Z'=>$wb0600Z,

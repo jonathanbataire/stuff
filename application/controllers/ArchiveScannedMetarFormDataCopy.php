@@ -141,11 +141,11 @@ class ArchiveScannedMetarFormDataCopy extends CI_Controller {
         $Approved="FALSE";
         $firstname=$session_data['FirstName'];
         $surname=$session_data['SurName'];
-        $SubmittedBy=$session_data['Userid'];
+        $SubmittedBy=$firstname.' '.$surname;
 
         $insertScannedMetarFormDataDetails=array(
             'Form_scanned' => $formname, 'station' => $station_id,
-            'form_date' => $dateOnScannedMetarForm,'Approved'=> $Approved,'SubmittedBy'=>$SubmittedBy,
+            'form_date' => $dateOnScannedMetarForm,'Approved'=> $Approved,'SD_SubmittedBy'=>$SubmittedBy,
             'Description'=>$description,'FileRef' => $filename);
 
         //$this->DbHandler->insertInstrument($insertInstrumentData);

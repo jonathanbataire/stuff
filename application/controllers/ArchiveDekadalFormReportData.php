@@ -132,7 +132,7 @@ class ArchiveDekadalFormReportData extends CI_Controller {
 $stationId=$this->DbHandler->identifyStationById($station, $stationNumber);
         $insertArchiveDekadalFormDataIntoDB=array(
             'Date'=>$date,'station'=>$stationId,
-            'SubmittedBy' => $SubmittedBy ,'Approved'=>$Approved,
+            'AD_SubmittedBy' => $SubmittedBy ,'Approved'=>$Approved,
             'MAX_TEMP'=> $maxTemp, 'MIN_TEMP'=>$minTemp,
 
             'DRY_BULB_0600Z'=>$dryBulb0600Z,'WET_BULB_0600Z'=>$wetBulb0600Z,

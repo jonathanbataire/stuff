@@ -616,7 +616,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                   <?php if($userrole=='SeniorDataOfficer'  || $userrole=='DataOfficer' || $userrole=='ObserverArchive' || $userrole=='OC' ){ ?>
 
                                     <td><?php echo $metardata->Approved;?></td>
-                                    <td><?php echo $metardata->SubmittedBy;?></td>
+                                    <td><?php echo $metardata->AM_SubmittedBy;?></td>
                                     <td class="no-print">
 
 									<table>

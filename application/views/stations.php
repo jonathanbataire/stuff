@@ -336,7 +336,19 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <input type="text" name="stationaltitude" id="stationaltitude" onkeyup="allowIntegerInputOnly(this)"  required class="form-control" required value="<?php echo $stationdata->Altitude;?>" required placeholder="Enter altitude" >
                                 </div>
                             </div>
+							
+                             <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">Status Of Station</span>
+                                <select name="statusstation" id="statusstation" onchange="Disabled()" onkeyup="allowCharactersInputOnly(this)"  class="form-control"   placeholder="Enter Status" >
+                                    <option value="">--Select Status Of Station--</option>
+                                    <option value="on">Active</option>
+                                    <option value="off">InActive</option>
 
+
+                                </select>
+                            </div>
+                        </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">Opened Date</span>
@@ -350,7 +362,22 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <input type="text" name="stationclosed" id="closed" required class="form-control" required value="<?php echo $stationdata->Closed;?>"  required placeholder="Enter closed" >
                                 </div>
                             </div>
+                            <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">Type Of Station</span>
+                                <select name="typestation" id="typestation" onkeyup="allowCharactersInputOnly(this)" required class="form-control"  placeholder="Enter type" >
+                                    <option value="">--Select Type Of Station--</option>
+                                    <option value="Synoptic">Synoptic</option>
+                                    <option value="Agrometeorological">Agrometeorological</option>
+                                    <option value="Rainfall">Rainfall</option>
+                                    <option value="Hydrometeorological">Hydrometeorological</option>
+                                    <option value="Climatological">Climatological</option>
 
+
+
+                                </select>
+                            </div>
+                        </div>
 
                            <?php if($userrole=="OC"){  ?>
                             <div class="form-group">
@@ -1309,5 +1336,27 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             });
         });
     </script>
+	<script>
+	
+	
+function Disabled(){
+    if(document.getElementById("statusstation").value === "on"){
+
+        document.getElementById("closed").disabled=true;
+    }
+    else{
+        document.getElementById("closed").disabled='';
+    }
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</script>
 
 <?php require_once(APPPATH . 'views/footer.php'); ?>

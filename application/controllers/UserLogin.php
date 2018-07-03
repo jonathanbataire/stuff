@@ -28,15 +28,32 @@ class UserLogin extends CI_Controller {
             $passwordencrypted= md5($password);
             //  $passwordencrypteddd= $this->encrypt->decode($passwordencrypted);
 
-            //Check in the Database
-            $result = $this->DbHandler->getUserLogInDetails($username, $passwordencrypted);
+            $res = $this->DbHandler->getStationIdAndRegion($username,  $passwordencrypted);
+
+            //check in DB
+            $result = $this->DbHandler->getUserLogInDetails($username, $passwordencrypted,$res,0);
             //True that user details
             if ($result) {
-                $usersessiondata = array();
+
+
+                foreach($result as $row){
+                    $activeStatus = $row->Active;
+                }
+
+                if($activeStatus == 1){
+                    $usersessiondata = array();
 
 
                 //Create a user session
                 foreach ($result as $row) {
+                    $stationregion1 = $row->StationRegion;
+                    $stationregion2 = $row->region_zone;
+					
+                    if($stationregion1 !=''){
+                        $region = $stationregion1;
+                    }elseif($stationregion2 !=''){
+                        $region = $stationregion2;
+                    }
                     $usersessiondata = array(
                         'Userid' => $row->Userid,
                         'Region' => $row->StationRegion,
@@ -49,7 +66,8 @@ class UserLogin extends CI_Controller {
                         'StationNumber' => $row->StationNumber,
                         'StationId' => $row->station_id,
                         'UserRole' => $row->UserRole,
-                        'Reset' => $row->Reset
+                        'Reset' => $row->Reset,
+                        'UserRegion' => $region
 
                     );
                 }//end of foreach
@@ -107,6 +125,12 @@ class UserLogin extends CI_Controller {
                     $this->load->view('dashboard');
 
                 }  //end of else
+                }//end of active status if//
+                else{
+                    $this->session->set_flashdata('error', 'Sorry, this Account has been DEACTIVATED.');
+                    redirect('/Welcome');
+                }
+
             } //end of if statement if there are results in the database
             //No User Details in the DB
             else {
@@ -126,9 +150,15 @@ class UserLogin extends CI_Controller {
 
         $session_data = $this->session->userdata('logged_in');
         $userrole=$session_data['UserRole'];
+		if($userrole=='ZonalOfficer'|| $userrole=='SeniorZonalOfficer'||$userrole=='DataOfficer'||$userrole=='SeniorDataOfficer'
+		||$userrole=='ManagerData'||$userrole=='ManagerStationNetworks'){
+			 $userstationId=0;
+		}else{
         $userstationId=$session_data['StationId'];
+		}
         $name=$session_data['FirstName'].' '.$session_data['SurName'];
-
+		
+        
         $userlogoutlogs = array('Date'=>date('Y-m-d H:i:s'),'User' => $name,
                                  'UserRole' => $userrole,'Action' => 'Signed Out',
                                   'Details' => $name . ' signed out of the system ',
