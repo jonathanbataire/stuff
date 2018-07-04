@@ -124,8 +124,8 @@ class Users extends CI_Controller {
 
             }elseif($userRoleAssigned=="ZonalOfficer" || $userRoleAssigned=="SeniorZonalOfficer"){
 
-              $station ="NULL";
-              $stationNo ="NULL";
+              $station ="";
+              $stationNo ="";
               $stationRegion = $this->input->post('user_stationRegion_AssignedBy_Manager');
             }else{
           $station ="";
@@ -162,75 +162,67 @@ class Users extends CI_Controller {
                 $this->load->helper("myphpstringfunctions_helper");
 
                // $username = firstcharlowercase(firstletter($firstname)).'.'.firstcharlowercase($surname);
-                
-                    
-                    $insertUserData=array(
-                        'FirstName' => $firstname, 'SurName' => $surname,
-                        'UserPassword' => $encryptpassword,'UserName' => $username,
-                        'UserEmail' => $useremail, 'UserPhone' => $userphone,
-                        'UserRole' => $userRoleAssigned, 'station' => $stationId,
-                        "region_zone" => $stationRegion,
-                        'LastPasswdChange'=> date('Y-m-d H:i:s'),
-                        'LastLoggedIn'=>date('Y-m-d H:i:s'),
-                        'Active'=>$active,
-                        'Reset'=>$reset,'CreatedBy'=>$createdBy);
-                    $insertsuccess= $this->DbHandler->insertData($insertUserData,'systemusers');
-                    if($insertsuccess){
 
-                      $session_data = $this->session->userdata('logged_in');
-                      $userrole=$session_data['UserRole'];
-                      $userstationId=$session_data['StationId'];
-                      $name=$session_data['FirstName'].' '.$session_data['SurName'];
-
-                      $userlogoutlogs = array('User' => $name,
-                          'UserRole' => $userrole,'Action' => 'Inserted New User',
-                          'Details' => $name . ' Inserted new user in the system ',
-                          'station' => $userstationId,
-                          'IP' => $this->input->ip_address());
-                      //  save user logs
-                       $this->DbHandler->saveUserLogs($userlogoutlogs);
 
 
                       //Send the User Credentials.
                       $htmlmessage = 'Hello '.''.$firstname.' '.$surname.'<br></br><br></br>'.
                           'Your  New WIMEA-ICT Web Interface  Credentials are'.'<br></br><br></br>'.
-                          'UserName:'.''.''.$username.'<br></br><br></br>'.
-                          'Password:'.''.''.$randompassword.'<br></br><br></br>'.
+                          'You have been assigned as '.$userRoleAssigned.'<br></br><br></br>'.
+                          'UserName:'.''.'<b><em>'.$username.'</b></em><br></br><br></br>'.
+                          'Password:'.''.'<b><em>'.$randompassword.'</b></em><br></br><br></br>'.
                           '<a href="http://www.wimea.mak.ac.ug/wdr/">Click here to login!</a>'.
                           'Thank You'.'<br></br><b></br><b></br>'.'WIMEA-ICT';
 
                       //If true an Email has been sent Else
                       $results=$this->sendMail($htmlmessage,$useremail);
-                      if($results){  //Email has been sent
-                          //Redirect the user back with  message
-                          //Insert the user if email has been sent.
-                        //Store User logs.
-                        //Create user Logs
+                      if($results){ 
+
+                  $insertUserData=array(
+                      'FirstName' => $firstname, 'SurName' => $surname,
+                      'UserPassword' => $encryptpassword,'UserName' => $username,
+                      'UserEmail' => $useremail, 'UserPhone' => $userphone,
+                      'UserRole' => $userRoleAssigned, 'station' => $stationId,
+                      "region_zone" => $stationRegion,
+                      'LastPasswdChange'=> date('Y-m-d H:i:s'),
+                      'LastLoggedIn'=>date('Y-m-d H:i:s'),
+                      'Active'=>$active,
+                      'Reset'=>$reset,'CreatedBy'=>$createdBy);
+                  $insertsuccess= $this->DbHandler->insertData($insertUserData,'systemusers');
+                  
+                  if($insertsuccess){
+
+                    $session_data = $this->session->userdata('logged_in');
+                        $userrole=$session_data['UserRole'];
+                        $userstationId=$session_data['StationId'];
+                        $name=$session_data['FirstName'].' '.$session_data['SurName'];
+  
+                        $userlogoutlogs = array('User' => $name,
+                            'UserRole' => $userrole,'Action' => 'Inserted New User',
+                            'Details' => $name . ' Inserted new user in the system ',
+                            'station' => $userstationId,
+                            'IP' => $this->input->ip_address());
+                        //  save user logs
+                         $this->DbHandler->saveUserLogs($userlogoutlogs);
+
+                    $this->session->set_flashdata('success', 'New User info was added successfully and User Password has been sent to their email!');
+                      $this->index();
+
+
+
+                  }//end of if failed to insert
+                  //Failed to insert the user
+                  else{
+                      $this->session->set_flashdata('error', '"Sorry, we encountered an issue User has not been inserted! ');
+                      $this->index();
+                  }
                        }
-                          else{ //User has been inserted but Email has not been sent
+                        else{ //User Email has not been sent
                               $this->session->set_flashdata('error', 'Email not sent and user has not been inserted');
-                              $this->load->view('users');
+                              $this->index();
 
-                          }
-
-
-
-
-                        $this->session->set_flashdata('success', 'New User info was added successfully and User Password has been sent to their email!');
-                        $this->load->view('users');
-
-
-
-                    }//end of if failed to insert
-                    //Failed to insert the user
-                    else{
-                        $this->session->set_flashdata('error', '"Sorry, we encountered an issue User has not been inserted! ');
-                        $this->index();
-                    }
-
-
-
-
+                         }
+                
         }//end of if random password
             else{
             $this->session->set_flashdata('error','Failed to generate random password');

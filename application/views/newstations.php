@@ -160,14 +160,14 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Opened</span>
-                                <input type="text" name="openedstation" id="date"  class="form-control"  placeholder="Enter opened date" >
+                                <input type="text" name="openedstation" id="opened"  class="form-control"  placeholder="Enter opened date" >
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Closed</span>
-                                <input type="text" name="closedstation" id="expdate"  class="form-control"  placeholder="Enter closed" >
+                                <input type="text" name="closedstation" id="closed"  class="form-control"  placeholder="Enter closed" >
                             </div>
                         </div>
 
@@ -1059,12 +1059,13 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 function Disabled(){
     if(document.getElementById("statusstation").value === "on"){
 
-        document.getElementById("expdate").disabled=true;
+        document.getElementById("closed").disabled=true;
     }
     else{
-        document.getElementById("expdate").disabled='';
+        document.getElementById("closed").disabled='';
     }
 }
+	
 </script>
 
 <?php require_once(APPPATH . 'views/footer.php'); ?>
