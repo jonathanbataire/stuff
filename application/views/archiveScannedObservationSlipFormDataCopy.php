@@ -91,33 +91,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"> TIME</span>
-                                <select name="time_ArchiveScannedObservationSlipForm" id="time_ArchiveScannedObservationSlipForm" required class="form-control">
-                                    <option value="">--Select TIME Options--</option>
-                                    <option value="0000Z">0000Z</option>
-                                    <option value="0100Z">0100Z</option>
-                                    <option value="0200Z">0200Z</option>
-                                    <option value="0300Z">0300Z</option>
-                                    <option value="0400Z">0400Z</option>
-                                    <option value="0500Z">0500Z</option>
-                                    <option value="0600Z">0600Z</option>
-                                    <option value="0700Z">0700Z</option>
-                                    <option value="0800Z">0800Z</option>
-                                    <option value="0900Z">0900Z</option>
-                                    <option value="1000Z">1000Z</option>
-                                    <option value="1100Z">1100Z</option>
-                                    <option value="1200Z">1200Z</option>
-                                    <option value="1300Z">1300Z</option>
-                                    <option value="1400Z">1400Z</option>
-                                    <option value="1500Z">1500Z</option>
-                                    <option value="1600Z">1600Z</option>
-                                    <option value="1700Z">1700Z</option>
-                                    <option value="1800Z">1800Z</option>
-                                    <option value="1900Z">1900Z</option>
-                                    <option value="2000Z">2000Z</option>
-                                    <option value="2100Z">2100Z</option>
-                                    <option value="2200Z">2200Z</option>
-                                    <option value="2300Z">2300Z</option>
-                                </select> </div>
+                                <input type="text" name="time_ArchiveScannedObservationSlipForm" id="time_ArchiveScannedObservationSlipForm" required class="form-control">
+                             </div>
                         </div>
 
 
@@ -299,6 +274,9 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 									<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedObservationSlipFormDataCopy/ViewImageFromBrowser/<?php echo $idDetails->FileRef;?>" target = "blank"><?php echo $idDetails->FileRef;?></a>
 									</span>
+                                    
+                                     <input type="hidden" name="PreviouslyUploadedFileName_observationSlipForm" id="PreviouslyUploadedFileName_observationSlipForm" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
+
 								</div>
                             </div>
 
@@ -402,7 +380,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <td><?php echo $data->Description;?></td>
                                         <td ><?php echo $data->Approved;?></td>
                                         <td><?php echo $data->SD_SubmittedBy;?></td>
-                                   <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=='SeniorDataOfficer' ){ ?>
+                                   <?php if($userrole=="DataOfficer"||$userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=='SeniorDataOfficer' ){ ?>
                                      <td class="no-print">
 
 								   <table>
