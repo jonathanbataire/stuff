@@ -104,6 +104,7 @@ class ArchiveScannedMetarFormDataCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
+        $config['file_name'] ='scannedmetarForm' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
 
         $config['remove_spaces'] = TRUE;
 
@@ -197,8 +198,7 @@ class ArchiveScannedMetarFormDataCopy extends CI_Controller {
 
         if (isset($_FILES[$file_element_name]) && is_uploaded_file($_FILES[$file_element_name]['tmp_name'])) { //file has been uploaded
 
-            $config['upload_path'] = 'archive/';
-        // $config['upload_path'] = '/uploads/';
+        $config['upload_path'] = 'archive/';
         $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx|xlsx|ppt|pptx';
         $config['encrypt_name'] = FALSE;
         // $config['max_size'] = '2GB';
@@ -207,8 +207,9 @@ class ArchiveScannedMetarFormDataCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
+        $config['file_name'] ='UpdatedScannedMetarForm' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
+
 
         $this->load->library('upload', $config);
 

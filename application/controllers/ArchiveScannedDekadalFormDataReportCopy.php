@@ -105,6 +105,9 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
+        $config['file_name'] ='scanDekadal' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
+
+
 
         $config['remove_spaces'] = TRUE;
 
@@ -119,6 +122,8 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
         {
             $data = $this->upload->data();
             $filename = $data['file_name'];
+
+           // $filename = md5(uniqid(mt_rand())).$this->$filename;
 
 
 
@@ -165,15 +170,15 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
                 $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 $userlogs = array('User' => $name,
-                    'UserRole' => $userrole,'Action' => 'Added new Scanned Metar Form details',
-                    'Details' => $name . ' added new Scanned Metar Form details into the system ',
+                    'UserRole' => $userrole,'Action' => 'Added new Scanned dekadal form details',
+                    'Details' => $name . ' added new Scanned dekadal Form details into the system ',
                     'station' => $userstationId,
                     'IP' => $this->input->ip_address());
                 //  save user logs
                 // $this->DbHandler->saveUserLogs($userlogs);
 
 
-                $this->session->set_flashdata('success', 'New Scanned Metar Form details info was added successfully!');
+                $this->session->set_flashdata('success', 'New Scanned dekadal Form details info was added successfully!');
                 $this->index();
 
             }
@@ -210,8 +215,8 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
+        $config['file_name'] ='UpdatedscanDekadal' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
 
         $this->load->library('upload', $config);
 
@@ -270,15 +275,15 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
                 $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 $userlogs = array('User' => $name,
-                    'UserRole' => $userrole,'Action' => 'Added new Scanned Metar Form details',
-                    'Details' => $name . ' added new Scanned Metar Form details into the system ',
+                    'UserRole' => $userrole,'Action' => 'Added new Scanned dekadal Form details',
+                    'Details' => $name . ' added new Scanned dekadal Form details into the system ',
                     'station' => $userstationId,
                     'IP' => $this->input->ip_address());
                 //  save user logs
                 // $this->DbHandler->saveUserLogs($userlogs);
 
 
-                $this->session->set_flashdata('success', 'New Scanned Metar Form details info was added successfully!');
+                $this->session->set_flashdata('success', 'New Scanned dekadal Form details info was added successfully!');
                 $this->index();
 
             }
