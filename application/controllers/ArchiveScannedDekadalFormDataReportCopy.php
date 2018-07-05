@@ -255,10 +255,15 @@ class ArchiveScannedDekadalFormDataReportCopy extends CI_Controller {
             $id = $this->input->post('id');
             $approved=$this->input->post('approval');
 
+            $firstname=$session_data['FirstName'];
+            $surname=$session_data['SurName'];
+            $UpdatedBy=$firstname.' '.$surname;
+
+
             $updateScannedDekadalFormReportDataDetails=array(
-                'station' => $stationId,'Approved'=>$approved,
+                'station' => $stationId,'Approved'=>$approved, 
                 'from_date' => $FromdateOnScannedDekadalFormReport,'to_date'=>$TodateOnScannedDekadalFormReport,
-                'Description'=>$description,'FileRef' => $filename);
+                'Description'=>$description, 'SDE_SubmittedBy'=>$UpdatedBy, 'FileRef' => $filename);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);
             $updatesuccess=$this->DbHandler->updateData($updateScannedDekadalFormReportDataDetails,'','scans_dekadals',$id);

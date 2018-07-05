@@ -348,7 +348,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <th>Description</th>
                                 <th>Approved</th>
                                 <th>By</th>
-                            <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="ObserverArchive"||$userrole=='SeniorDataOfficer' ){ ?>
+                            <?php if($userrole=="DataOfficer" ||$userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="ObserverArchive"||$userrole=='SeniorDataOfficer' ){ ?>
                                     <th class="no-print">Action</th><?php }?>
                             </tr>
                             </thead>
@@ -689,14 +689,14 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 }
 
                 //Check that the a file has been uploaded and also the previously Uploaded file
-                var updatefilenameselected=$('#updatearchievescannedcopy_observationslipform').val();
+              /*  var updatefilenameselected=$('#updatearchievescannedcopy_observationslipform').val();
                 var previouslyuploadedfileName=$('#PreviouslyUploadedFileName_observationSlipForm').val();
                 if((updatefilenameselected!="") && (previouslyuploadedfileName!="")){  // returns true if the variable does NOT contain a valid number
                     alert(" A file has been  Uploaded and also previously uploaded file");
                     $('#updatearchievescannedcopy_observationslipform').val("");  //Clear the field.
                     $("#updatearchievescannedcopy_observationslipform").focus();
                     return false;
-                }
+                }*/
 
                 //Check that Approved IS PICKED FROM A LIST
                 var approved=$('#approval').val();
