@@ -9,8 +9,8 @@ class UserLogin extends CI_Controller {
         error_reporting(E_PARSE);
         $this->load->model('DbHandler');
         $this->load->library('session');
-        //$this->load->library('encrypt');
-
+        $this->load->library('encrypt');
+        
 
     }
     public function index(){}

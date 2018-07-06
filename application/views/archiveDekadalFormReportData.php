@@ -653,7 +653,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                 //Check that the a station is selected from the list of stations(OC)
-                var station=$('#station_archivedekadalformreportdata').val();
+                var station=$('#stationManager').val();
                 if(station==""){  // returns true if the variable does NOT contain a valid number
                     alert("Station not picked");
                     $('#station_archivedekadalformreportdata').val("");  //Clear the field.
@@ -662,7 +662,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 }
                 //Check that the a station Number is selected from the list of stations(OC)
-                var stationNo=$('#stationNo_archivedekadalformreportdata').val();
+                var stationNo=$('#stationNoManager').val();
                 if(stationNo==""){  // returns true if the variable does NOT contain a valid number
                     alert("Station Number not picked");
                     $('#stationNo_archivedekadalformreportdata').val("");  //Clear the field.
@@ -688,8 +688,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             //Check against the date,stationName,StationNumber,Time and Metar Option.
             var date = $('#date').val();
 
-                var stationName=$('#station_archivedekadalformreportdata').val();
-                var stationNumber=$('#stationNo_archivedekadalformreportdata').val();
+                var stationName=$('#stationManager').val();
+                var stationNumber=$('#stationNoManager').val();
 
             $('#checkduplicateEntryOnAddArchieveDekadalFormReportData_hiddentextfield').val("");
 

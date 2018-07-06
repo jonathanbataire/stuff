@@ -65,8 +65,16 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon">Station Name</span>
-                                            <input type="text" name="station_archivedailymonthlyrainfalldata" id="station_archivedailymonthlyrainfalldata"  class="form-control compulsory" value="<?php echo $userstation;?>"  readonly class="form-control" >
+                                           <select name="station_archivedailymonthlyrainfalldata" id="stationManager"   class="form-control" placeholder="Select Station">
+											  <option value="">Select Stations</option>
+											  <?php
+											  if (is_array($stationsdata) && count($stationsdata)) {
+												  foreach($stationsdata as $station){?>
+													  <option value="<?php echo $station->StationName;?>"><?php echo $station->StationName;?></option>
 
+												  <?php }
+											  } ?>
+										  </select>
                                         </div>
                                     </div>
 
@@ -75,8 +83,9 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon"> Station Number</span>
-                                            <input type="text" name="stationNo_archivedailymonthlyrainfalldata"  class="form-control compulsory" id="stationNo_archivedailymonthlyrainfalldata" readonly  value="<?php echo $userstationNo;?>" readonly="readonly" >
-                                        </div>
+                                           
+                                             <input type="text" name="stationNo_archivedailymonthlyrainfalldata"  id="stationNoManager"  class="form-control compulsory" value=""  readonly class="form-control"  >
+										</div>
                                     </div>
 
 
@@ -347,7 +356,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 }
 
                 //Check that the a station is selected from the list of stations(Manager)
-                var station=$('#station_archivedailymonthlyrainfalldata').val();
+                var station=$('#stationManager').val();
                 if(station==""){  // returns true if the variable does NOT contain a valid number
                     alert("Station not picked");
                     $('#station_archivedailymonthlyrainfalldata').val("");  //Clear the field.
@@ -356,7 +365,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 }
                 //Check that the a station Number is selected from the list of stations(Manager)
-                var stationNo=$('#stationNo_archivedailymonthlyrainfalldata').val();
+                var stationNo=$('#stationNoManager').val();
                 if(stationNo==""){  // returns true if the variable does NOT contain a valid number
                     alert("Station Number not picked");
                     $('#stationNo_archivedailymonthlyrainfalldata').val("");  //Clear the field.
@@ -378,8 +387,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             var date= $('#date').val();
 
 
-            var stationName = $('#station_archivedailymonthlyrainfalldata').val();
-            var stationNumber = $('#stationNo_archivedailymonthlyrainfalldata').val();
+            var stationName = $('#stationManager').val();
+            var stationNumber = $('#stationNoManager').val();
 
 
 
@@ -565,7 +574,59 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
         })
 
     </script>
+ <script type="text/javascript">
+            //Once the Manager selects the Station the Station Number, should be picked from the DB.
+            // For Add User when user is OC
+            $(document).on('change','#stationManager',function(){
+                $('#stationNoManager').val("");  //Clear the field.
 
+                var stationName = this.value;
+                if (stationName != "") {
+                    //alert(station);
+                    $('#stationNoManager').val("");
+
+                    $.ajax({
+                        url: "<?php echo base_url(); ?>"+"index.php/Stations/getStationNumber",
+                        type: "POST",
+                        data: {'stationName': stationName},
+                        cache: false,
+                        //dataType: "JSON",
+                        success: function(data){
+                            if (data)
+                            {
+                                var json = JSON.parse(data);
+
+                                $('#stationNoManager').empty();
+
+                                 //alert(data);
+                                $("#stationNoManager").val(json[0].StationNumber);
+
+
+                            }
+                            else{
+
+                                $('#stationNoManager').empty();
+                                $('#stationNoManager').val("");
+
+
+
+
+                            }
+                        }
+
+                    });
+
+
+
+                }
+                else {
+                    $('#stationNoManager').empty();
+                    $('#stationNoManager').val("");
+
+                }
+
+            })
+        </script>
 
 <?php require_once(APPPATH . 'views/footer.php'); ?>
 <script src="<?php echo base_url(); ?>js/form0.js"></script>

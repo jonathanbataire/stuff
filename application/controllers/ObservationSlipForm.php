@@ -10,7 +10,12 @@ class ObservationSlipForm extends CI_Controller {
         $this->load->model('DbHandler');
         $this->load->library('session');
         $this->load->library('pagination');
-
+		 
+      
+      if(!$this->session->userdata('logged_in')){
+	  $this->session->set_flashdata('warning', 'Sorry, your session has expired.Please login again.');
+       redirect('/Welcome');
+	  }
     }
     public function index(){
       $session_data = $this->session->userdata('logged_in');
@@ -21,9 +26,7 @@ $config["base_url"] = base_url()."index.php/ObservationSlipForm/index";
 //index.php/ObservationSlipForm/index
 $total_row = $this->DbHandler->record_count('StationName',$userstation);
 $config["total_rows"] = $total_row;
-
 $config['use_page_numbers'] = TRUE;
-
 $config['cur_tag_open'] = '&nbsp;<a class="current">';
 $config['cur_tag_close'] = '</a>';
 $config['next_link'] = 'Next';

@@ -4,7 +4,11 @@ $userstation=$session_data['UserStation'];
 $userregion= $session_data['UserRegion'];
 $surname=$session_data['SurName'];
 $created=$session_data['CreationDate'];
-
+   $name=$session_data['FirstName'].' '.$session_data['SurName'];
+      if($name==''){
+	  $this->session->set_flashdata('warning', 'Sorry, your session has expired.Please login again.');
+       redirect('/Welcome');
+	  }                                                              
 ?>
 <!DOCTYPE html>
 <html>
