@@ -249,10 +249,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 									 <span class="input-group-addon"><i class = "pull-left"> Previously Uploaded File </i>
 									<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedMetarFormDataCopy/ViewImageFromBrowser/<?php echo $idDetails->FileRef;?>" target = "blank"> <?php echo $idDetails->FileRef;?></a>
 									</span>
-                                     <input type="text" name="PreviouslyUploadedFileName_metarform" id="PreviouslyUploadedFileName_metarform" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
+                                     <input type="hidden" name="PreviouslyUploadedFileName_metarform" id="PreviouslyUploadedFileName_metarform" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
 
-                                </div>
-								</div>
+                                   </div>
+								
                             </div>
 
 
@@ -490,10 +490,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
        var date= $('#date').val();
 
             var stationName = $('#stationManager').val();
-          var stationNumber=$('#stationNoManager').val();
-
-
-alert(stationName);alert(stationNumber);
+            var stationNumber=$('#stationNoManager').val();
 
 
             $('#checkduplicateEntryOnAddArchieveScannedMetarFormDataCopy_hiddentextfield').val("");

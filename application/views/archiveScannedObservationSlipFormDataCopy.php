@@ -91,33 +91,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"> TIME</span>
-                                <select name="time_ArchiveScannedObservationSlipForm" id="time_ArchiveScannedObservationSlipForm" required class="form-control">
-                                    <option value="">--Select TIME Options--</option>
-                                    <option value="0000Z">0000Z</option>
-                                    <option value="0100Z">0100Z</option>
-                                    <option value="0200Z">0200Z</option>
-                                    <option value="0300Z">0300Z</option>
-                                    <option value="0400Z">0400Z</option>
-                                    <option value="0500Z">0500Z</option>
-                                    <option value="0600Z">0600Z</option>
-                                    <option value="0700Z">0700Z</option>
-                                    <option value="0800Z">0800Z</option>
-                                    <option value="0900Z">0900Z</option>
-                                    <option value="1000Z">1000Z</option>
-                                    <option value="1100Z">1100Z</option>
-                                    <option value="1200Z">1200Z</option>
-                                    <option value="1300Z">1300Z</option>
-                                    <option value="1400Z">1400Z</option>
-                                    <option value="1500Z">1500Z</option>
-                                    <option value="1600Z">1600Z</option>
-                                    <option value="1700Z">1700Z</option>
-                                    <option value="1800Z">1800Z</option>
-                                    <option value="1900Z">1900Z</option>
-                                    <option value="2000Z">2000Z</option>
-                                    <option value="2100Z">2100Z</option>
-                                    <option value="2200Z">2200Z</option>
-                                    <option value="2300Z">2300Z</option>
-                                </select> </div>
+                                <input type="text" name="time_ArchiveScannedObservationSlipForm" id="time_ArchiveScannedObservationSlipForm" required class="form-control">
+                             </div>
                         </div>
 
 
@@ -266,6 +241,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">  Select file to upload:</span>
+                                    
                                     <input type="file" accept="image/gif,image/jpg,image/png,image/jpeg,.pdf,.doc,.docx,.xlsx,.ppt,.pptx,.xls"  value="<?php echo $idDetails->Description;?>" name="updatearchievescannedcopy_observationslipform" id="updatearchievescannedcopy_observationslipform"  class="form-control" size = "40">
                                     <!-- gif|jpg|png|jpeg|pdf|doc|docx|xlsx|ppt|pptx-->
                                 </div>
@@ -298,6 +274,9 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 									<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedObservationSlipFormDataCopy/ViewImageFromBrowser/<?php echo $idDetails->FileRef;?>" target = "blank"><?php echo $idDetails->FileRef;?></a>
 									</span>
+                                    
+                                     <input type="hidden" name="PreviouslyUploadedFileName_observationSlipForm" id="PreviouslyUploadedFileName_observationSlipForm" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
+
 								</div>
                             </div>
 
@@ -369,7 +348,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <th>Description</th>
                                 <th>Approved</th>
                                 <th>By</th>
-                            <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="ObserverArchive"||$userrole=='SeniorDataOfficer' ){ ?>
+                            <?php if($userrole=="DataOfficer" ||$userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=="ObserverArchive"||$userrole=='SeniorDataOfficer' ){ ?>
                                     <th class="no-print">Action</th><?php }?>
                             </tr>
                             </thead>
@@ -401,7 +380,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                         <td><?php echo $data->Description;?></td>
                                         <td ><?php echo $data->Approved;?></td>
                                         <td><?php echo $data->SD_SubmittedBy;?></td>
-                                   <?php if($userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=='SeniorDataOfficer' ){ ?>
+                                   <?php if($userrole=="DataOfficer"||$userrole=="OC"|| $userrole=="ObserverArchive"||$userrole=='SeniorDataOfficer' ){ ?>
                                      <td class="no-print">
 
 								   <table>
@@ -710,14 +689,14 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 }
 
                 //Check that the a file has been uploaded and also the previously Uploaded file
-                var updatefilenameselected=$('#updatearchievescannedcopy_observationslipform').val();
+              /*  var updatefilenameselected=$('#updatearchievescannedcopy_observationslipform').val();
                 var previouslyuploadedfileName=$('#PreviouslyUploadedFileName_observationSlipForm').val();
                 if((updatefilenameselected!="") && (previouslyuploadedfileName!="")){  // returns true if the variable does NOT contain a valid number
                     alert(" A file has been  Uploaded and also previously uploaded file");
                     $('#updatearchievescannedcopy_observationslipform').val("");  //Clear the field.
                     $("#updatearchievescannedcopy_observationslipform").focus();
                     return false;
-                }
+                }*/
 
                 //Check that Approved IS PICKED FROM A LIST
                 var approved=$('#approval').val();

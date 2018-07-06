@@ -106,8 +106,8 @@ class ArchiveScannedMonthlyRainfallFormDataReportCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
+        $config['file_name'] ='MonthlyRainfall' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
 
         $this->load->library('upload', $config);
 
@@ -200,7 +200,7 @@ class ArchiveScannedMonthlyRainfallFormDataReportCopy extends CI_Controller {
 
         if (isset($_FILES[$file_element_name]) && is_uploaded_file($_FILES[$file_element_name]['tmp_name'])) { //file has been uploaded
 
-            $config['upload_path'] = 'archive/';
+        $config['upload_path'] = 'archive/';
         // $config['upload_path'] = '/uploads/';
         $config['allowed_types'] = 'gif|jpg|png|jpeg|pdf|doc|docx|xlsx|ppt|pptx';
         $config['encrypt_name'] = FALSE;
@@ -210,8 +210,8 @@ class ArchiveScannedMonthlyRainfallFormDataReportCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
+         $config['file_name'] ='UpdatedMonthlyRainfallScan' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
 
         $this->load->library('upload', $config);
 

@@ -246,7 +246,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <span class="input-group-addon"> <i class = "pull-left"> Previously Uploaded File </i>
 									<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedYearlyRainfallFormDataReportCopy/ViewImageFromBrowser/<?php echo $idDetails->FileRef;?>" target = "blank"> <?php echo $idDetails->FileRef;?> </a>
 									</span>
-                                    <input type="text" name="PreviouslyUploadedFileName_yearlyrainfallformdatareportcopy" id="PreviouslyUploadedFileName_yearlyrainfallformdatareportcopy" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
+                                    <input type="hidden" name="PreviouslyUploadedFileName_yearlyrainfallformdatareportcopy" id="PreviouslyUploadedFileName_yearlyrainfallformdatareportcopy" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
                                 </div>
                             </div>
 
@@ -592,14 +592,14 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 }
 
                 //Check that the a file has been uploaded and also the previously Uploaded file
-                var updatefilenameselected=$('#updatearchievescannedcopy_yearlyrainfallformdatareportcopy').val();
+               /* var updatefilenameselected=$('#updatearchievescannedcopy_yearlyrainfallformdatareportcopy').val();
                 var previouslyuploadedfileName=$('#PreviouslyUploadedFileName_yearlyrainfallformdatareportcopy').val();
                 if((updatefilenameselected!="") && (previouslyuploadedfileName!="")){  // returns true if the variable does NOT contain a valid number
                     alert(" A file has been  Uploaded and also previously uploaded file");
                     $('#updatearchievescannedcopy_yearlyrainfallformdatareportcopy').val("");  //Clear the field.
                     $("#updatearchievescannedcopy_yearlyrainfallformdatareportcopy").focus();
                     return false;
-                }
+                }*/
 
 
                 //Check that Approved IS PICKED FROM A LIST

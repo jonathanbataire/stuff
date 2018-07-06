@@ -106,8 +106,9 @@ class ArchiveScannedWeatherSummaryFormDataReportCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
+        $config['file_name'] ='ScannedWeatherForm' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
+
 
         $this->load->library('upload', $config);
 
@@ -226,8 +227,9 @@ class ArchiveScannedWeatherSummaryFormDataReportCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
+        $config['file_name'] ='UpdatedScannedWeatherForm' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
+
 
         $this->load->library('upload', $config);
 
