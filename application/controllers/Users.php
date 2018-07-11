@@ -542,16 +542,17 @@ class Users extends CI_Controller {
         $userrole=$session_data['UserRole'];
         $userstation=$session_data['UserStation'];
         $userregion=$session_data['ZonalRegion'];
+        //exit('hey...'.$userregion);
 
 
-        $query = $this->DbHandler->selectAllFromSystemData($userstation,'StationName','userlogs');  //value,field,table
+        //$query = $this->DbHandler->selectAllFromSystemData($userstation,'StationName','userlogs');  //value,field,table
         $query1 = $this->DbHandler->SelectZonalStations($userregion);
         //  var_dump($query);
-        if ($query && $query1) {
-            $data['userlogs'] = $query;
+        if ($query1) {
+            //$data['userlogs'] = $query;
             $data['zonalstations'] = $query1;
         } else {
-            $data['userlogs'] = array();
+           // $data['userlogs'] = array();
             $data['zonalstations'] = array();
         }
 
