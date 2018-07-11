@@ -10,7 +10,10 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
         $this->load->model('DbHandler');
         $this->load->library('session');
         $this->load->library('encrypt');
-
+        if(!$this->session->userdata('logged_in')){
+	    $this->session->set_flashdata('warning', 'Sorry, your session has expired.Please login again.');
+       redirect('/Welcome');
+	  }
     }
     public function index(){
         // $this->unsetflashdatainfo();
@@ -123,8 +126,9 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
+        $config['file_name'] ='Synoptic_form' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
+
 
         $this->load->library('upload', $config);
 
@@ -134,7 +138,9 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
             echo   $msg = $this->upload->display_errors('', '');
         }
         else
-        {
+        {   
+
+            
             $data = $this->upload->data();
             $filename_firstpage = $data['file_name'];
 
@@ -153,8 +159,8 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
             $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
             $config['max_height'] = '768';
             $config['max_width'] = '1024';
-
             $config['remove_spaces'] = TRUE;
+          
 
             $this->load->library('upload', $config);
 
@@ -164,14 +170,17 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
                 echo   $msg = $this->upload->display_errors('', '');
             }
             else
-            {
+            {   
+                
                 $data = $this->upload->data();
                 $filename_secondpage = $data['file_name'];
 
 
 
 
-            $formname = firstcharuppercase(chgtolowercase($this->input->post('formname_synoptic')));
+
+
+                $formname = firstcharuppercase(chgtolowercase($this->input->post('formname_synoptic')));
 
 
 
@@ -224,7 +233,7 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
                 // $this->DbHandler->saveUserLogs($userlogs);
 
 
-                $this->session->set_flashdata('success', 'New Scanned Metar Form details info was added successfully!');
+                $this->session->set_flashdata('success', 'New Scanned synoptic Form details info was added successfully!');
                 $this->index();
 
             }
@@ -261,9 +270,8 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
-
+        $config['file_name'] ='UpdatedSynoptic_form' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
         $this->load->library('upload', $config);
 
         if (!$this->upload->do_upload($file_element_name1))
@@ -274,11 +282,11 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
         else
         {
             $data = $this->upload->data();
-            $filename1 = $data['file_name'];
+            $filename_firstpage = $data['file_name'];
         }
         } else {    //no file has been uploaded.
 
-            $filename1= $this->input->post('PreviouslyUploadedFileName_synopticformreport_firstpage');
+            $filename_firstpage= $this->input->post('PreviouslyUploadedFileName_synopticformreport_firstpage');
         }
 
     ///////////////////////////////////////////////////////////////////////
@@ -309,11 +317,11 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
             else
             {
                 $data = $this->upload->data();
-                $filename2 = $data['file_name'];
+                $filename_secondpage = $data['file_name'];
             }
         } else {    //no file has been uploaded.
 
-            $filename2= $this->input->post('PreviouslyUploadedFileName_synopticformreport_secondpage');
+                $filename_secondpage = $this->input->post('PreviouslyUploadedFileName_synopticformreport_secondpage');
         }
 
 
@@ -333,7 +341,7 @@ class ArchiveScannedSynopticFormDataReportCopy extends CI_Controller {
 //'FileName_SecondPage' => $filename2
             $updateScannedSynopticFormDataReportDetails=array(
                 'Approved'=>$approved,'station' => $stationId, 'form_date' => $dateOnScannedSynopticFormReport,
-                'Description'=>$description,'FileRef' => $filename1);
+                'Description'=>$description,'FileName_FirstPage' => $filename_firstpage,'FileName_SecondPage' => $filename_secondpage);
 
             //$this->DbHandler->insertInstrument($insertInstrumentData);
             $updatesuccess=$this->DbHandler->updateData($updateScannedSynopticFormDataReportDetails,"",'scans_daily',$id);

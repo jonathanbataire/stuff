@@ -145,7 +145,7 @@
 
         });
         $('#time').timepicker({
-			maxDate: "today",
+		
             showInputs: false
 
         });
@@ -153,7 +153,7 @@
         $("#year").datepicker({
             autoclose: true,
             format: "yyyy", // Notice the Extra space at the beginning
-			maxDate: "today",
+			
             viewMode: "years",
 			
             minViewMode: "years"

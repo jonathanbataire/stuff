@@ -699,7 +699,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                 //Check that the a station is selected from the list of stations(Manager)
-                var station=$('#station_archivemetarformdata').val();
+                var station=$('#stationManager').val();
                 if(station==""){  // returns true if the variable does NOT contain a valid number
                     alert("Station not picked");
                     $('#station_archivemetarformdata').val("");  //Clear the field.
@@ -708,7 +708,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 }
                 //Check that the a station Number is selected from the list of stations(Manager)
-                var stationNo=$('#stationNo_archivemetarformdata').val();
+                var stationNo=$('#stationNoManager').val();
                 if(stationNo==""){  // returns true if the variable does NOT contain a valid number
                     alert("Station Number not picked");
                     $('#stationNo_archivemetarformdata').val("");  //Clear the field.
@@ -776,8 +776,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
             //Check against the date,stationName,SManagernNumber,Time and MetarManageron.
                 var date= $('#date').val();
-                var stationName=$('#station_archivemetarformdata').val();
-                var stationNumber=$('#stationNo_archivemetarformdata').val();
+                var stationName=$('#stationManager').val();
+                var stationNumber=$('#stationNoManager').val();
                 var timeOfMetarRecorded = $('#time_archivemetarformdata').val();
                 var metarOption = $('#metarspeci_archivemetarformdata').val();
 

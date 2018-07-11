@@ -686,15 +686,15 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                     return false;
 
                 }
-                //Check that the a file has been uploaded and also the previously Uploaded file
-                var updatefilenameselected1_1=$('#updatearchievescannedcopy_synopticformreport_firstpage').val();
-                var previouslyuploadedfileName1_1=$('#PreviouslyUploadedFileName_synopticformreport_firstpage').val();
-                if((updatefilenameselected1_1!="") && (previouslyuploadedfileName1_1!="")){  // returns true if the variable does NOT contain a valid number
-                    alert(" A file has been  Uploaded and also previously uploaded file");
-                    $('#updatearchievescannedcopy_synopticformreport_firstpage').val("");  //Clear the field.
-                    $("#updatearchievescannedcopy_synopticformreport_firstpage").focus();
-                    return false;
-                }
+                // //Check that the a file has been uploaded and also the previously Uploaded file
+                // var updatefilenameselected1_1=$('#updatearchievescannedcopy_synopticformreport_firstpage').val();
+                // var previouslyuploadedfileName1_1=$('#PreviouslyUploadedFileName_synopticformreport_firstpage').val();
+                // if((updatefilenameselected1_1!="") && (previouslyuploadedfileName1_1!="")){  // returns true if the variable does NOT contain a valid number
+                //     alert(" A file has been  Uploaded and also previously uploaded file");
+                //     $('#updatearchievescannedcopy_synopticformreport_firstpage').val("");  //Clear the field.
+                //     $("#updatearchievescannedcopy_synopticformreport_firstpage").focus();
+                //     return false;
+                // }
 
                 //Check that the a file has been uploaded
                 var updatefilenameselected2=$('#updatearchievescannedcopy_synopticformreport_secondpage').val();
@@ -707,7 +707,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 }
                 //Check that the a file has been uploaded and also the previously Uploaded file
-                var updatefilenameselected2_1=$('#updatearchievescannedcopy_synopticformreport_secondpage').val();
+              /*  var updatefilenameselected2_1=$('#updatearchievescannedcopy_synopticformreport_secondpage').val();
                 var previouslyuploadedfileName2_1=$('#PreviouslyUploadedFileName_synopticformreport_secondpage').val();
                 if((updatefilenameselected2_1!="") && (previouslyuploadedfileName2_1!="")){  // returns true if the variable does NOT contain a valid number
                     alert(" A file has been  Uploaded and also previously uploaded file");
@@ -715,7 +715,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                     $("#updatearchievescannedcopy_synopticformreport_secondpage").focus();
                     return false;
                 }
-
+*/
 
 
 

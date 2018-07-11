@@ -10,7 +10,10 @@ class ArchiveScannedObservationSlipFormDataCopy extends CI_Controller {
         $this->load->model('DbHandler');
         $this->load->library('session');
         $this->load->library('encrypt');
-
+        if(!$this->session->userdata('logged_in')){
+	   $this->session->set_flashdata('warning', 'Sorry, your session has expired.Please login again.');
+       redirect('/Welcome');
+	  }
     }
     public function index(){
         // $this->unsetflashdatainfo();
@@ -105,8 +108,8 @@ class ArchiveScannedObservationSlipFormDataCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
+        $config['file_name'] ='scannedObservationSlip' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
 
         $this->load->library('upload', $config);
 
@@ -115,7 +118,7 @@ class ArchiveScannedObservationSlipFormDataCopy extends CI_Controller {
             $status = 'error';
             echo   $msg = $this->upload->display_errors('', '');
         }
-        else if($this->upload->do_upload($file_element_name))
+        else //($this->upload->do_upload($file_element_name))
         {
             $data = $this->upload->data();
             $filename = $data['file_name'];
@@ -219,8 +222,8 @@ class ArchiveScannedObservationSlipFormDataCopy extends CI_Controller {
             $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
             $config['max_height'] = '768';
             $config['max_width'] = '1024';
-
             $config['remove_spaces'] = TRUE;
+            $config['file_name'] ='Updated_ObservationSlip' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
 
             $this->load->library('upload', $config);
 

@@ -260,7 +260,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <span class="input-group-addon"><i class = "pull-left"> Previously Uploaded File </i>
 									<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedDekadalFormDataReportCopy/ViewImageFromBrowser/<?php echo $idDetails->FileRef;?>" target = "blank"> <?php echo $idDetails->FileRef;?> </a>
 									</span>
-                                     <input type="text" name="PreviouslyUploadedFileName_dekadalformdatareportcopy" id="PreviouslyUploadedFileName_dekadalformdatareportcopy" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
+                                     <input type="hidden" name="PreviouslyUploadedFileName_dekadalformdatareportcopy" id="PreviouslyUploadedFileName_dekadalformdatareportcopy" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
 
                                 </div>
                             </div>
@@ -708,7 +708,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
 
                 //Check that the a file has been uploaded and also the previously Uploaded file
-                var updatefilenameselected=$('#updatearchievescannedcopy_dekadalformdatareportcopy').val();
+                /*var updatefilenameselected=$('#updatearchievescannedcopy_dekadalformdatareportcopy').val();
                 var previouslyuploadedfileName=$('#PreviouslyUploadedFileName_dekadalformdatareportcopy').val();
                 if((updatefilenameselected!="") && (previouslyuploadedfileName!="")){  // returns true if the variable does NOT contain a valid number
                     alert(" A file has been  Uploaded and also previously uploaded file");
@@ -716,7 +716,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                     $("#updatearchievescannedcopy_dekadalformdatareportcopy").focus();
                     return false;
                 }
-
+*/
                 //Check that Approved IS PICKED FROM A LIST
                 var approved=$('#approval').val();
                 if(approved==""){  // returns true if the variable does NOT contain a valid number

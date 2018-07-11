@@ -9,7 +9,11 @@ class ArchiveWeatherSummaryFormReportData extends CI_Controller {
         error_reporting(E_PARSE);
         $this->load->model('DbHandler');
         $this->load->library('session');
-        //$this->load->library('encrypt');
+        $this->load->library('encrypt');
+		if(!$this->session->userdata('logged_in')){
+	   $this->session->set_flashdata('warning', 'Sorry, your session has expired.Please login again.');
+       redirect('/Welcome');
+	  }
 
     }
     public function index(){
@@ -96,9 +100,9 @@ class ArchiveWeatherSummaryFormReportData extends CI_Controller {
 
         $station = firstcharuppercase(chgtolowercase($this->input->post('station_archiveweathersummaryformreportdata')));
 
-        $stationNumber = $this->input->post('stationNo_archiveweathersummaryformreportdata');
+        $stationNumber = $this->input->post('stationNo');
          $station_id= $this->DbHandler->identifyStationById($station,$stationNumber);
-
+      //exit($station.$stationNumber);
 
 
 
@@ -179,7 +183,7 @@ class ArchiveWeatherSummaryFormReportData extends CI_Controller {
 
 
         $insertArchiveWeatherSummaryFormReportDataIntoDB=array(
-            'Date'=>$date,'Station'=>$station_id,
+            'Date'=>$date,'station'=>$station_id,
             'AW_SubmittedBy' => $SubmittedBy ,'Approved'=>$Approved,
             'TEMP_MAX'=> $max, 'TEMP_MIN'=>$min,'SUNSHINE'=>$sunshine,
 

@@ -9,8 +9,8 @@ class UserLogin extends CI_Controller {
         error_reporting(E_PARSE);
         $this->load->model('DbHandler');
         $this->load->library('session');
-        //$this->load->library('encrypt');
-
+        $this->load->library('encrypt');
+        
 
     }
     public function index(){}
@@ -314,8 +314,8 @@ class UserLogin extends CI_Controller {
         $config['protocol'] = 'smtp';
         $config['smtp_host'] = 'ssl://smtp.gmail.com';
         $config['smtp_port'] = '465';
-        $config['smtp_user'] = 'antheamarthy@gmail.com';  //change it
-        $config['smtp_pass'] = 'steven186'; //change it
+        $config['smtp_user'] = 'wimeaictwdr@gmail.com';  //change it
+        $config['smtp_pass'] = '1c7wimearepo.'; //change it
         $config['charset'] = 'utf-8';
         $config['newline'] = "\r\n";
         $config['mailtype'] = 'html';

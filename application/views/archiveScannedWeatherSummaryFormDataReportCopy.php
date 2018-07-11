@@ -262,7 +262,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                     <span class="input-group-addon"><i class = "pull-left">Previously Uploaded File</i>
 									<a href="<?php echo base_url(); ?>/index.php/SearchArchivedScannedWeatherSummaryFormDataReportCopy/ViewImageFromBrowser/<?php echo $idDetails->FileRef;?>" target = "blank"><?php echo $idDetails->FileRef;?></a>
 									</span>
-                                    <input type="text" name="PreviouslyUploadedFileName_weathersummaryformdatareportcopy" id="PreviouslyUploadedFileName_weathersummaryformdatareportcopy" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
+                                    <input type="hidden" name="PreviouslyUploadedFileName_weathersummaryformdatareportcopy" id="PreviouslyUploadedFileName_weathersummaryformdatareportcopy" required class="form-control"  value="<?php echo $idDetails->FileRef;?>"  readonly="readonly" readonly class="form-control">
 
 
                                 </div>
@@ -634,14 +634,14 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 }
 
                 //Check that the a file has been uploaded and also the previously Uploaded file
-                var updatefilenameselected1=$('#updatearchievescannedcopy_weathersummaryformdatareportcopy').val();
+              /*  var updatefilenameselected1=$('#updatearchievescannedcopy_weathersummaryformdatareportcopy').val();
                 var previouslyuploadedfileName1=$('#PreviouslyUploadedFileName_weathersummaryformdatareportcopy').val();
                 if((updatefilenameselected1!="") && (previouslyuploadedfileName1!="")){  // returns true if the variable does NOT contain a valid number
                     alert(" A file has been  Uploaded and also previously uploaded file");
                     $('#updatearchievescannedcopy_weathersummaryformdatareportcopy').val("");  //Clear the field.
                     $("#updatearchievescannedcopy_weathersummaryformdatareportcopy").focus();
                     return false;
-                }
+                }*/
 
 
 

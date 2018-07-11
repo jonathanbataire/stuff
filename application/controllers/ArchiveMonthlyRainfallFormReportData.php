@@ -10,6 +10,10 @@ class ArchiveMonthlyRainfallFormReportData extends CI_Controller {
         $this->load->model('DbHandler');
         $this->load->library('session');
         $this->load->library('encrypt');
+	    if(!$this->session->userdata('logged_in')){
+	    $this->session->set_flashdata('warning', 'Sorry, your session has expired.Please login again.');
+       redirect('/Welcome');
+	  }
 
     }
     public function index(){
@@ -23,8 +27,10 @@ class ArchiveMonthlyRainfallFormReportData extends CI_Controller {
         //  var_dump($query);
         if ($query) {
             $data['archivedrainfalldata'] = $query;
+		
         } else {
             $data['archivedrainfalldata'] = array();
+			
         }
 
         //Get all Stations.
@@ -100,13 +106,14 @@ class ArchiveMonthlyRainfallFormReportData extends CI_Controller {
         $station = firstcharuppercase(chgtolowercase($this->input->post('station_archivedailymonthlyrainfalldata')));
 
         $stationNumber = $this->input->post('stationNo_archivedailymonthlyrainfalldata');
+        $station_id= $this->DbHandler->identifyStationById($station,$stationNumber);
 
         $rainfall = $this->input->post('rainfall_archivedailymonthlyrainfalldata');
         $approved="FALSE";
         $session_data = $this->session->userdata('logged_in');
         $name=$session_data['FirstName'].' '.$session_data['SurName'];
         $insertDailyPeriodicRainfallData=array('Date'=> $date,'Rainfall'=>$rainfall,
-            'station' => $station, 'station' => $stationNumber,
+            'station' => $station_id, 
             'Approved'=>$approved,'AR_SubmittedBy' => $name);
         // $this->DbHandler->insertData($insertDailyPeriodicRainfallData,'dailyperiodicrainfall'); //Array for data to insert then  the Table Name
         $insertsuccess= $this->DbHandler->insertData($insertDailyPeriodicRainfallData,'archivemonthlyrainfallformreportdata'); //Array for data to insert then  the Table Name

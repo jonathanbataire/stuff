@@ -10,7 +10,10 @@ class ArchiveScannedYearlyRainfallFormDataReportCopy extends CI_Controller {
         $this->load->model('DbHandler');
         $this->load->library('session');
         $this->load->library('encrypt');
-
+        if(!$this->session->userdata('logged_in')){
+	  $this->session->set_flashdata('warning', 'Sorry, your session has expired.Please login again.');
+       redirect('/Welcome');
+	  }
     }
     public function index(){
         // $this->unsetflashdatainfo();
@@ -103,8 +106,8 @@ class ArchiveScannedYearlyRainfallFormDataReportCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
+        $config['file_name'] ='AnnaulRainfallReport' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
 
         $this->load->library('upload', $config);
 
@@ -163,8 +166,8 @@ class ArchiveScannedYearlyRainfallFormDataReportCopy extends CI_Controller {
                 $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
                 $userlogs = array('User' => $name,
-                    'UserRole' => $userrole,'Action' => 'Added new Scanned Metar Form details',
-                    'Details' => $name . ' added new Scanned Metar Form details into the system ',
+                    'UserRole' => $userrole,'Action' => 'Added new Scanned annual Rainfall Form details',
+                    'Details' => $name . ' added new Scanned annual Rainfall Form details into the system ',
                     'StationName' => $userstation,
                     'StationNumber' => $userstationNo ,
                     'IP' => $this->input->ip_address());
@@ -172,7 +175,7 @@ class ArchiveScannedYearlyRainfallFormDataReportCopy extends CI_Controller {
                 // $this->DbHandler->saveUserLogs($userlogs);
 
 
-                $this->session->set_flashdata('success', 'New Scanned Metar Form details info was added successfully!');
+                $this->session->set_flashdata('success', 'New Scanned annual Rainfall Form details info was added successfully!');
                 $this->index();
 
             }
@@ -224,8 +227,8 @@ class ArchiveScannedYearlyRainfallFormDataReportCopy extends CI_Controller {
         $config['max_size'] = '2097152';  // Can be set to particular file size , here it is 2 MB(2048 Kb)
         $config['max_height'] = '768';
         $config['max_width'] = '1024';
-
         $config['remove_spaces'] = TRUE;
+        $config['file_name'] ='UpdatedAnnaulRainfallReportScan' .'-'.date("Y-m-d").'-'.$_FILES['userfile']['name'];
 
         $this->load->library('upload', $config);
 

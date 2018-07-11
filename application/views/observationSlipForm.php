@@ -41,12 +41,12 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
       verifyTime();
               var metarORspeci = document.getElementById('metar_speci').value;
               if(metarORspeci=="metar"){
-                document.getElementById('metartimeId').style.display="block";
+                document.getElementById('metartimeId').style.display="";
                 document.getElementById('specitimeId').style.display="none";
 
               }else if (metarORspeci=="speci") {
                 document.getElementById('metartimeId').style.display="none";
-                document.getElementById('specitimeId').style.display="block";
+                document.getElementById('specitimeId').style.display="";
 
 
               }else{
@@ -183,7 +183,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                       <input id="timepicker1" type="text" name="speci_time_observationslipform" id="time_observationslipform"  class="form-control compulsory">
                       <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                     </div>
-                    <span ng-hide="Timerequired" class="validator">Time required please</span>
+                    
 
                   <script type="text/javascript">
                               $('#timepicker1').timepicker();
@@ -2560,7 +2560,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 										   <?php if($userrole=='OC' && $observationslipdata->Approved=="TRUE" ){?>
 										    <td><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="FALSE" ><button class="btn btn-danger"  type="submit"  ><li class='fa fa-times'></li> Disapprove</button></form>
                                               </td> <?php }elseif($userrole=='OC' && $observationslipdata->Approved=="FALSE"){?>
-												   <td><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success"  type="submit"  ><li class='fa fa-check'></li> Approve</button></form>
+												   <td><form method="post" action="<?php echo base_url() . "index.php/ObservationSlipForm/update_approval";?>"> <input type="hidden" name="id" value="<?php echo $observationslipid; ?>" ><input type="hidden" name="approve" value="TRUE" ><button class="btn btn-success"  type="submit"  ><li class='fa fa-check'></li> Approve &nbsp;&nbsp;&nbsp;&nbsp;</button></form>
                                               </td>
 											 <?php }elseif(($userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer')&& $observationslipdata->Approved=="TRUE"){
 												 ?>
@@ -2651,11 +2651,11 @@ alert();
 
       var metarORspeci = document.getElementById('metar_speci').value;
       if(metarORspeci=="metar"){
-        document.getElementById('metartimeId').style.display="block";
+        document.getElementById('metartimeId').style.display="";
         document.getElementById('specitimeId').style.display="none";
       }else if (metarORspeci=="speci") {
         document.getElementById('metartimeId').style.display="none";
-        document.getElementById('specitimeId').style.display="block";
+        document.getElementById('specitimeId').style.display="";
       }else{
         alert("#003");
       }
@@ -5354,11 +5354,23 @@ alert();
             });
             );
     </script>
+<<<<<<< HEAD
 
 	
 
 
 
+||||||| merged common ancestors
+<<<<<<< HEAD
+
+	
+=======
+>>>>>>> dc8787437fe1b3d03f045af9e6ddb57ca07f8ea3
+
+
+
+=======
+>>>>>>> 0b5de7278fc36a34fbbf4f0b2a2e3260b6b7af58
 
 
 <?php require_once(APPPATH . 'views/footer.php'); ?>
