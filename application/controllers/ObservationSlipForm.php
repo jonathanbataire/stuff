@@ -57,9 +57,10 @@ $data["links"] = explode('&nbsp;',$str_links );
         $this->load->view('observationSlipForm', $data);
     }
 
+    
+
     public function getNotification(){
-        //$total_row = $this->DbHandler->getNotification();
-                $count = 14;
+        $count = $this->DbHandler->getNotification();
                 $data = array(
                 'unseen_notification' => $count
                 );
@@ -67,21 +68,8 @@ $data["links"] = explode('&nbsp;',$str_links );
     }
 
     public function getNotificationData(){
-        $output .= '<li>
-        <a href="#">
-        <strong>"comment_subject"</strong><br />
-        <small><em>"comment_text"</em></small>
-        </a>
-    </li>
-    <li class="divider"></li>
-        <li>
-            <a href="#">
-            <strong>"comment_subject"</strong><br />
-            <small><em>"comment_text"</em></small>
-            </a>
-        </li>
-        <li class="divider"></li>
-        ';
+        $output = $this->DbHandler->getNotificationData();
+
         $data = array(
             'notification'   => $output
             );
@@ -129,6 +117,23 @@ $data["links"] = explode('&nbsp;',$str_links );
 
         $this->load->view('observationSlipForm', $data);
     }
+
+    public function getPopupRecord(){
+        $data_id=$this->uri->segment(3);
+        $userid=$this->uri->segment(4);
+        $date=$this->uri->segment(5);
+        $query = $this->DbHandler->getPopupRecord($data_id);
+        $query1 = $this->DbHandler->updatePopupRecord($userid,$date);
+        if ($query && $query1) {
+
+            $data['observationslipformdata'] = $query;
+        } else {
+            $data['observationslipformdata'] = array();
+        }
+
+        $this->load->view('observationSlipForm', $data);
+    }
+
     public function showWebmobiledata(){
        // $this->unsetflashdatainfo();
        $session_data = $this->session->userdata('logged_in');
@@ -565,10 +570,8 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
                     $StationRegion=$session_data['StationRegion'];
                     $name=$session_data['FirstName'].' '.$session_data['SurName'];
         
-                    $userlogs = array('User' => $name,
-                        'UserRole' => $userrole,'Action' => 'Added Observation Slip info',
-                        'Details' => $name . ' added Observation Slip info into the system',
-                        'station' => $stationId,
+                    $userlogs = array('Userid' => $id,'Action' => 'Added ObservationSlip',
+                        'Details' => $name . ' added Observation Slip information into the system',
                         'IP' => $this->input->ip_address());
                     //  save user logs
                      $this->DbHandler->saveUserLogs($userlogs);
@@ -788,10 +791,8 @@ foreach ($updateObservationSlipFormData as $key => $value) {
         $StationRegion=$session_data['StationRegion'];
         $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
-        $userlogs = array('User' => $name,
-            'UserRole' => $userrole,'Action' => 'Updated Observation Slip info',
-            'Details' => $name . ' updated Observation Slip info into the system',
-            'station' => $userstationId,
+        $userlogs = array('Userid' => $id,'Action' => 'Updated Observation Slip',
+            'Details' => $name . ' Updated Observation Slip information in the system',
             'IP' => $this->input->ip_address());
         $updatesuccess=$this->DbHandler->updateData($updateObservationSlipFormData,"",'observationslip',$id,$userlogs);
 

@@ -10,6 +10,7 @@ class Users extends CI_Controller {
         $this->load->model('DbHandler');
         $this->load->library('session');
         $this->load->library('encrypt');
+        $this->load->library('user_agent');
 
 
     }
@@ -208,23 +209,23 @@ class Users extends CI_Controller {
                         //Create user Logs
                        }
                           else{ //User has been inserted but Email has not been sent
-                              $this->session->set_flashdata('error', 'Email not sent and user has not been inserted');
-                              $this->load->view('users');
+                              $this->session->set_flashdata('error','Email not sent and user has not been inserted');
+                              $this->index();
 
                           }
 
 
 
 
-                        $this->session->set_flashdata('success', 'New User info was added successfully and User Password has been sent to their email!');
-                        $this->load->view('users');
+                        $this->session->set_flashdata('success','New User info was added successfully and User Password has been sent to their email!');
+                        $this->index();
 
 
 
                     }//end of if failed to insert
                     //Failed to insert the user
                     else{
-                        $this->session->set_flashdata('error', '"Sorry, we encountered an issue User has not been inserted! ');
+                        $this->session->set_flashdata('error','"Sorry, we encountered an issue User has not been inserted! ');
                         $this->index();
                     }
 
@@ -359,16 +360,15 @@ class Users extends CI_Controller {
 
             $session_data = $this->session->userdata('logged_in');
             $userrole=$session_data['UserRole'];
+            $theid = $session_data['Userid'];
             $userstation=$session_data['UserStation'];
             $userstationNo=$session_data['StationNumber'];
             $StationRegion=$session_data['StationRegion'];
             $userstationId=$session_data['StationId'];
             $name=$session_data['FirstName'].' '.$session_data['SurName'];
 
-            $userlogs = array('User' => $name,
-            'UserRole' => $userrole,'Action' => 'Updated user details',
+            $userlogs = array('Userid' => $theid,'Action' => 'Updated user details',
             'Details' => $name . ' updated user details in the system ',
-            'station' => $userstationId ,
             'IP' => $this->input->ip_address());
         
         $updatesuccess=$this->DbHandler->updateUser($updateUserData, $updateUserData2,'systemusers',$id,$stationId,$userlogs);
@@ -466,6 +466,33 @@ class Users extends CI_Controller {
         $startdate=$this->input->post('startdate');
         $enddate=$this->input->post('enddate');
         exit($startdate.' - '.$enddate);
+    }
+
+    function getPopuplogs(){
+        $date = rawurldecode($this->uri->segment(4));
+        $userid = rawurldecode($this->uri->segment(3));
+        $result=$this->DbHandler->getPopuplogs($date,$userid);
+
+        /*foreach($result as $row){
+            echo $row->FirstName.' '.$row->SurName.','.$row->UserRole.'<br>';
+            echo $row->Action.' On '.$row->Date.'<br>';
+            break;
+        }
+        foreach($result as $row){
+            echo 'changed '.$row->field.' from '.$row->old_value.' to '.$row->new_value.'<br>';
+        }
+        exit('yeol');*/
+        if($result){
+            $data = array(
+                'result' => $result
+                );
+        }else{
+            $data = array(
+                'result' => 'none'
+                );
+        }
+       
+        echo json_encode($data);
     }
 
     public function activateUser() {

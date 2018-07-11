@@ -4,7 +4,7 @@ $userstation=$session_data['UserStation'];
 $userregion= $session_data['UserRegion'];
 $surname=$session_data['SurName'];
 $created=$session_data['CreationDate'];
-
+//$zx=$session_data['StationId'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -133,6 +133,7 @@ $created=$session_data['CreationDate'];
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </a>
+
 		 <a href="" class="logo" style="color:white;text-transform:uppercase;">
                  <!-- Add the class icon to your logo image or logo icon to add the margining -->
                 <?php
@@ -148,7 +149,7 @@ $created=$session_data['CreationDate'];
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="label label-pill label-danger count" style="border-radius:10px;"></span> 
                 <span class="glyphicon glyphicon-bell" style="font-size:18px;"></span></a>
-                <ul class="dropdown-menu"></ul>
+                <ul id="ips" class="dropdown-menu"></ul>
                 </li>
          </ul>
         <?php } ?>
@@ -399,12 +400,92 @@ $created=$session_data['CreationDate'];
         </section>
         <!-- /.sidebar -->
     </aside>
-    
+    <!-- Modal -->
+<div style="z-index:200;" id="myModal1"  data-backdrop="false" class="modal">
+
+<!-- Modal content-->
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Modal Header</h4>
+  </div>
+  <div class="modal-body">
+    <p>Some text in the modal.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  </div>
+</div>
+
+</div>
+
+<div id='popupwindow'>
+<div style="z-index:200;" id="myModal2"  data-backdrop="false" class="modal">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button  type="button" class="close" data-dismiss="modal">&times;
+                    </button><h3 id="title1" class="modal-title"></h3></div><div id="popbody" class="modal-body">
+                    </div><div id="footer"class="modal-footer">
+                    
+                </div></div></div>
+
+
+</div>
+
+
+</body>
+
+    </html>
     <script>
+
+        var myFunc = function (obj) {
+            var link = obj.getAttribute("href");
+            var content =  $('#popupwindow');
+        //alert(link);
+            $.ajax({
+            url: "<?php echo base_url(); ?>"+link,
+            type: "POST",
+            cache: false,
+            success: function(data)
+                        {
+                            $('#title1').empty();
+                            $('#popbody').empty();
+                            $('#footer').empty();
+                        var jsondata = JSON.parse(data);
+                            for(var key in jsondata.result) {
+                                
+                                $('#title1').append(jsondata.result[key].FirstName+' '+jsondata.result[key].SurName+', '+
+                                jsondata.result[key].UserRole);
+                                $('#popbody').append('<span style="font-size:14px;float:left"><em>No. '+
+                                jsondata.result[key].data_id+'</em></span><span style="font-size:18px;"><em><center>'+jsondata.result[key].Action+
+                                '</em></span><span style="font-size:14px;float:right"><em>'+
+                                jsondata.result[key].Date+'</em></span><br><br>');
+                                var baseurl= "<?php echo base_url(); ?>"+
+                                "index.php/ObservationSlipForm/getPopupRecord/"+jsondata.result[key].data_id+
+                                "/"+jsondata.result[key].Userid+"/"+jsondata.result[key].Date;
+                                    break;
+                            } 
+
+                            
+                            for(var key in jsondata.result) {
+                                $('#popbody').append('<p>Changed <em><b>'+jsondata.result[key].field+'</b></em> from &nbsp;&nbsp;<em><b>'
+                                +jsondata.result[key].old_value+
+                                '</b></em>&nbsp;&nbsp; to &nbsp;&nbsp;<em><b>'+jsondata.result[key].new_value+'</b></em></em></p>'); 
+                            } 
+                            $('#footer').append('<a  href="'+baseurl+'" class="btn btn-success">View</a>'+
+                            '&nbsp;&nbsp;<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>');
+                            $('#myModal2').modal('show');
+                        }
+        });
+        
+            
+            return false;
+        };
+
          var count;
                 $(document).ready(function(){
-                
-                function load_unseen_notification(view = '')
+        //$('#myModal1').modal('show');
+               function load_unseen_notification(view = '')
                 {
                 $.ajax({
                 url:"<?php echo base_url(); ?>"+"index.php/ObservationSlipForm/getNotification",
