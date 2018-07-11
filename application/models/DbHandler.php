@@ -949,7 +949,7 @@ return $this->db->count_all_results();
                     }
                 }
 
-      public function selectAll2conditionsOneNegative($value, $field,$tablename,$value2, $field2,$NoOfRecords,$pageNo,$total_row){ //$stationame ,field StationName
+      public function selectAll2conditionsOneNegative($value, $field,$tablename,$value2, $field2,$lowerLimit,$upperLimit){ //$stationame ,field StationName
          $session_data = $this->session->userdata('logged_in');
           $userrole=$session_data['UserRole'];
 		  $userid =$session_data['Userid'];
@@ -965,18 +965,16 @@ return $this->db->count_all_results();
 			 $this->db->join('stations as stationsdata', 'users.station = stationsdata.station_id');
 		     $this->db->where('stationsdata.'.$field, $value);
 		}
-         
+         $NoOfRecords = 336;
 
 
-          $lowerLimit=$total_row-($NoOfRecords*$pageNo);
-          $upperLimit=$lowerLimit+$NoOfRecords;
-
-          //$this->db->where("slip.id >", $lowerLimit);
-          //$this->db->where("slip.id <=", $upperLimit);
-           
+         if($lowerLimit!=NULL || $upperLimit!=NULL){
+		  $this->db->where("slip.O_CreationDate >=", $lowerLimit);
+          $this->db->where("slip.O_CreationDate <", $upperLimit);
+		 }
           $this->db->where_not_in('slip.'.$field2, $value2);
           $this->db->order_by("slip.O_CreationDate","DESC");
-        
+          $this->db->limit($NoOfRecords);
 
           $query = $this->db->get();
           if($query -> num_rows() > 0)
@@ -991,7 +989,7 @@ return $this->db->count_all_results();
           }
       }//Select all from the tables(ObservationSlip,MoreFormFields,ALL THE ARCHIVE TABLES) in the DB.
 
-    public function selectAll2conditions($value, $field,$tablename,$value2, $field2,$NoOfRecords,$pageNo,$total_row){ //$stationame ,field StationName
+    public function selectAll2conditions($value, $field,$tablename,$value2, $field2,$lowerLimit,$upperLimit){//$stationame ,field StationName
          $session_data = $this->session->userdata('logged_in');
         $userrole=$session_data['UserRole'];
           $userid =$session_data['Userid'];
@@ -1000,12 +998,13 @@ return $this->db->count_all_results();
         $this->db->from($tablename.' as slip');
         $this->db->join('stations as stationsdata', 'slip.station= stationsdata.station_id');
 
-          
-        $lowerLimit=$total_row-($NoOfRecords*$pageNo);
-        $upperLimit=$lowerLimit+$NoOfRecords;
-
-       //$this->db->where("slip.id >", $lowerLimit);
-       //$this->db->where("slip.id <=", $upperLimit);
+          $NoOfRecords= 336;
+        //$lowerLimit=$total_row-($NoOfRecords*$pageNo);
+        //$upperLimit=$lowerLimit+$NoOfRecords;
+           if($lowerLimit!=NULL || $upperLimit!=NULL){
+          $this->db->where("slip.O_CreationDate >=", $lowerLimit);
+          $this->db->where("slip.O_CreationDate <", $upperLimit);
+		   }
 		if($userrole=="ZonalOfficer"|| $userrole=="SeniorZonalOfficer"){
 			 $this->db->where('stationsdata.StationRegion', $region);
 		}else{
@@ -1027,7 +1026,7 @@ return $this->db->count_all_results();
             return false;
         }
     }
-    public function selectAll3conditionsOneNegative($value, $field,$tablename,$value2, $field2, $value3, $field3,$NoOfRecords,$pageNo,$total_row){ //$stationame ,field StationName
+    public function selectAll3conditionsOneNegative($value, $field,$tablename,$value2, $field2, $value3, $field3,$lowerLimit,$upperLimit){  //$stationame ,field StationName
         $this->db->select('*');
         $this->db->from($tablename.' as slip');
         $this->db->join('systemusers as users', 'slip.Userid= users.Userid');
@@ -1036,19 +1035,17 @@ return $this->db->count_all_results();
         $session_data = $this->session->userdata('logged_in');
         $userrole=$session_data['UserRole'];
         //$userid=$session_data['Userid'];//added
-
-        $lowerLimit=$total_row-($NoOfRecords*$pageNo);
-        $upperLimit=$lowerLimit+$NoOfRecords;
-
-      // $this->db->where("slip.id >", $lowerLimit);
-       //$this->db->where("slip.id <=", $upperLimit);
+         if($lowerLimit!=NULL || $upperLimit!=NULL){
+        $this->db->where("slip.O_CreationDate >=", $lowerLimit);
+        $this->db->where("slip.O_CreationDate <", $upperLimit);
+		 }
         $this->db->where('stationsdata.'.$field, $value);//stationname is user's station
         //$this->db->where('slip.'.$field2, $value2);//where Approved is 0
         $this->db->where_not_in('slip.'.$field3, $value3);//device type not in aws
         $this->db->where_not_in('slip.Approved', 'TRUE');
         //$this->db->where("slip.Userid", $userid);//added
         $this->db->order_by("slip.O_CreationDate","DESC");
-       
+       $this->db->limit(336);
         
         $query = $this->db->get();
         if($query -> num_rows() > 0)
