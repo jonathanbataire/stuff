@@ -1118,18 +1118,22 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
   </div>
 
   <!-- The Modal -->
-<div id="myModal" class="modal">
+  <div id="myModal"  data-backdrop="false" class="modal ">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-
-    <h3>Are you sure you want submit?</h3>
-    <button type="button" id="closex" class="close btn btn-sm"  style="float:left;"  onclick='goback()' >Back</button>
-    <button type="button" id="yesgo" class="close btn-success btn-sm" style="color:#006400; float:right;" onclick="gosubmit() ">Yes</button>
-
+<!-- Modal content-->
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Are you sure you want submit?</h4>
   </div>
+  <div class="modal-footer">
+  <button style="color:white;float:left;" type="button" id="closex" class="btn btn-primary" onclick='goback()' ><li class="glyphicon glyphicon-remove"></li> &nbsp; Back</button>
+    <button style="color:white;" type="button" id="yesgo" class="btn btn-primary" style="color:#006400; float:right;" onclick="gosubmit() "><li class="glyphicon glyphicon-ok"></li> &nbsp; Yes</button>
+  </div>
+</div>
 
 </div>
+
 		</form>
 	</div>
 
@@ -2251,6 +2255,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
     <span class="step"></span>
     <span class="step"></span>
   </div>
+
+
   <!-- The Modal -->
 <div id="myModal" class="modal">
 

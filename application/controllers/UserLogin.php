@@ -56,6 +56,8 @@ class UserLogin extends CI_Controller {
                     }
                     $usersessiondata = array(
                         'Userid' => $row->Userid,
+                        'Region' => $row->StationRegion,
+                        'ZonalRegion' => $row->region_zone,
                         'FirstName' => $row->FirstName,
                         'SurName' => $row->SurName,
                         'UserName' => $row->UserName,
@@ -100,11 +102,11 @@ class UserLogin extends CI_Controller {
 
                     //Store User logs.
                     //Create user Logs
-                    $userloginlogs = array('Date'=>date('Y-m-d H:i:s'),'User' => $name,'UserRole' => $session_data['UserRole'],
+                    $userloginlogs = array('Date'=>date('Y-m-d H:i:s'),'Userid' => $session_data['Userid'],
                          'Action' => 'Logged in',
-                        'Details' => $name . ' logged into the system ','StationName' => $session_data['UserStation'],
-                        'StationNumber' => $session_data['StationNumber'],
+                        'Details' => $name . ' logged into the system ',
                          'IP' => $this->input->ip_address());
+                    // $this->DbHandler->saveUserLogs($userloginlogs);
 
                     //Load the next page
                     if($userrole== "OC" || $userrole== "Observer" || $userrole=="ObserverDataEntrant")
@@ -148,6 +150,7 @@ class UserLogin extends CI_Controller {
 
         $session_data = $this->session->userdata('logged_in');
         $userrole=$session_data['UserRole'];
+        $id = $session_data['Userid'];
 		if($userrole=='ZonalOfficer'|| $userrole=='SeniorZonalOfficer'||$userrole=='DataOfficer'||$userrole=='SeniorDataOfficer'
 		||$userrole=='ManagerData'||$userrole=='ManagerStationNetworks'){
 			 $userstationId=0;
@@ -157,14 +160,12 @@ class UserLogin extends CI_Controller {
         $name=$session_data['FirstName'].' '.$session_data['SurName'];
 		
         
-        $userlogoutlogs = array('Date'=>date('Y-m-d H:i:s'),'User' => $name,
-                                 'UserRole' => $userrole,'Action' => 'Signed Out',
+        $userlogoutlogs = array('Date'=>date('Y-m-d H:i:s'),'Userid' => $id,'Action' => 'Signed Out',
                                   'Details' => $name . ' signed out of the system ',
-                                   'Station' => $userstationId ,
                                      'IP' => $this->input->ip_address());
         //  save user logs
         if($userrole!=NULL || $userrole!="")
-        $this->DbHandler->saveUserLogs($userlogoutlogs);
+        //$this->DbHandler->saveUserLogs($userlogoutlogs);
         //Destroy the Session.
         $this->session->unset_userdata('logged_in');
         //session_destroy();

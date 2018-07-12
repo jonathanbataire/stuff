@@ -41,7 +41,7 @@ class DbHandler extends CI_Model {
         if($res && $res != 0){
             $this->db->join('stations as stationsdata', 'user.station = stationsdata.station_id');
         }else{
-			 $this->db->join('stations as stationsdata', 'user.region_zone = stationsdata.StationRegion');
+			 $this->db->join('stations as stationsdata', 'user.region_zone = stationsdata.StationRegion','left');
 		}
         
         $this->db->where('user.UserName', $username);
@@ -801,6 +801,28 @@ return $this->db->count_all_results();
 
     }
 
+    public function SelectZonalStations($region){
+        
+        $this->db->select('*');
+        $this->db->from('stations');
+        $this->db->where('StationRegion',$region);
+        $this->db->order_by("StationName", "asc");
+        $query = $this->db->get();
+        if($query -> num_rows() > 0)
+        {
+            
+            $result = $query->result();  //$query -> result_array();
+            return $result;
+            //return $query->result();
+        }
+        else
+        {
+            //$results = $query->result();
+            return false;
+        }
+
+    }
+
 
     //Select all from the tables(Stations,Instruments,Elements,UserLogs) in the DB.
     //jovRi
@@ -836,8 +858,9 @@ return $this->db->count_all_results();
   }else{
     $this->db->select('*');
     $this->db->from($tablename.' as tab');//select from userlogs
-    $this->db->join('stations as stationsdata', 'tab.station= stationsdata.station_id');
-    $this->db->where_not_in('tab.station','0');
+    $this->db->join('systemusers as users','tab.Userid=users.Userid');
+    $this->db->join('stations as stationsdata', 'users.station= stationsdata.station_id');
+    $this->db->where_not_in('users.station','0');
     if($tablename=='stations' ){
         $this->db->where('tab.'.$field, $value);
     }else{
@@ -949,7 +972,26 @@ return $this->db->count_all_results();
                     }
                 }
 
-      public function selectAll2conditionsOneNegative($value, $field,$tablename,$value2, $field2,$lowerLimit,$upperLimit){ //$stationame ,field StationName
+          public function getPopupRecord($data_id){
+                    $this->db->select('*');
+                    $this->db->from('observationslip as slip');
+                    $this->db->join('systemusers as users', 'slip.Userid= users.Userid');
+                    $this->db->join('stations as stationsdata', 'users.station = stationsdata.station_id');
+                    $this->db->where('slip.id',$data_id); 
+                    $query = $this->db->get();
+                    if($query -> num_rows() > 0)
+                    {
+                        $result = $query->result(); 
+                        return $result;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+
+     public function selectAll2conditionsOneNegative($value, $field,$tablename,$value2, $field2,$lowerLimit,$upperLimit){ //$stationame ,field StationName
          $session_data = $this->session->userdata('logged_in');
           $userrole=$session_data['UserRole'];
 		  $userid =$session_data['Userid'];
@@ -1132,9 +1174,9 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
     $IP=$userlogs['IP'];
 
     $session_data = $this->session->userdata('logged_in');
-        $name=$session_data['Userid'];
-        $this->db->query("SET @var1= $name");
-        $this->db->query("SET @User= '$user'");
+        $updater_id=$session_data['Userid'];
+        //$this->db->query("SET @var1= $name");
+        $this->db->query("SET @Userid= '$updater_id'");
         $this->db->query("SET @UserRole= '$UserRole'");
         $this->db->query("SET @Action= '$Action'");
         $this->db->query("SET @Details='$Details'");
@@ -1191,11 +1233,139 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
     
     }
 
+    function updatePopupRecord($userid,$date){
+        $session_data = $this->session->userdata('logged_in');
+        $userrole=$session_data['UserRole'];
+        $date = rawurldecode($date);
+        $query=$this->getPopuplogs($date,$userid);
+        foreach($query as $row){
+            $statusflag = $row->status;break;
+        }
+        if($statusflag=='01'){$setflag='11';}
+        if($statusflag=='10'){$setflag='11';}
+        if($statusflag=='00' && $userrole=='OC'){$setflag='10';}
+        if($statusflag=='00' && $userrole=='ManagerData'){$setflag='01';}
+        else{$setflag==null;}
+        $updatedata=array('status'=>$setflag);
+            $this->db->where('Userid',$userid)
+                 ->where('Date',$date)
+                 ->update('userlogs',$updatedata);
+        if($this->db->affected_rows() > 0){
+            return true;
+        }else{
+            return false;
+        }
+        
+    } 
+
+    function getPopuplogs($date,$userid){
+
+        $this->db->select('*');
+          $this->db->from('userlogs as logs');
+          $this->db->join('systemusers as users','logs.Userid=users.Userid');
+          $this->db->where('logs.Date',$date);
+          $this->db->where('logs.Userid',$userid);
+          $query = $this->db->get();
+         if($query -> num_rows() >0)
+        {
+            $result = $query->result();
+            return $result;
+        }
+        else
+        {
+            return false;
+        }
+            
+    }
+
+    function getNotificationData(){
+        $session_data = $this->session->userdata('logged_in');
+                $userstationid=$session_data['StationId'];
+                $userid= $session_data['Userid'];
+                $userrole=$session_data['UserRole'];
+                $statusvalues4oc=array('01','00');
+                $statusvalues4manager=array('10','00');
+        $this->db->select('logs.Userid as userid,logs.Date as date,users.FirstName as FirstName,users.SurName as SurName,
+        users.UserRole as UserRole,logs.Action as Action');
+          $this->db->from('userlogs as logs');
+          $this->db->join('systemusers as users','logs.Userid=users.Userid');
+          $this->db->join('observationslip as slip','logs.data_id=slip.id');
+          if($userrole=='OC'){
+            $this->db->where_in('logs.status',$statusvalues4oc);
+          $this->db->where('slip.station',$userstationid);
+          }
+          else if($userrole=='ManagerData'){
+            $this->db->where_in('logs.status',$statusvalues4manager);
+            $this->db->where_in('users.UserRole',array('ZonalOfficer','SeniorZonalOfficer'));
+          }
+          $this->db->where_not_in('logs.Userid',$userid);
+          $this->db->group_by(array("logs.Userid", "logs.Date"));
+          $this->db->order_by('date','desc');
+          $this->db->limit(20);
+          $query = $this->db->get();
+          if($query -> num_rows() >0){
+            //data-toggle="modal" data-target="#myModal1"
+
+            $result = $query->result(); 
+            foreach ($result as $row){
+                $output .= '<li  >
+                <a onclick="myFunc(this);return false;" href="index.php/Users/getPopuplogs/'.rawurlencode($row->userid).'/'.rawurlencode($row->date).'">
+                <strong>'.$row->FirstName.' '.$row->SurName.', <em>'.$row->UserRole.'</em></strong><br />
+                <small><em>'.$row->Action.'</em></small>
+                </a>
+            </li>
+            <li class="divider"></li>
+                ';
+            }
+            return $output;
+
+          }else{
+              return false;
+          }
+    }
+
+    public function getNotification(){
+        $session_data = $this->session->userdata('logged_in');
+                $userstationid=$session_data['StationId'];
+                $userid= $session_data['Userid'];
+                $userrole= $session_data['UserRole'];
+        $counter = 0;$statusvalues4oc=array('01','00');
+        $statusvalues4manager=array('10','00');
+        $this->db->select('*');
+          $this->db->from('userlogs as logs');
+          $this->db->join('systemusers as users','logs.Userid=users.Userid');
+          $this->db->join('observationslip as slip','logs.data_id=slip.id');
+          if($userrole=='OC'){
+              $this->db->where_in('logs.status',$statusvalues4oc);
+              $this->db->where('slip.station',$userstationid);
+            }
+          else if($userrole=='ManagerData'){
+              $this->db->where_in('logs.status',$statusvalues4manager);
+              $this->db->where_in('users.UserRole',array('ZonalOfficer','SeniorZonalOfficer'));
+            }
+          
+          
+          $this->db->where_not_in('logs.Userid',$userid);
+          $this->db->group_by(array("logs.Userid", "logs.Date"));
+          $query = $this->db->get();
+          if($query -> num_rows() >0){
+
+            $result = $query->result(); 
+            foreach ($result as $row){
+                $counter++;
+            }
+            return $counter;
+
+          }else{
+              return 0;
+          }
+    }
+
     //Update the User
       //jovRi
 public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$id2,$userlogs){
 
-    $user=$userlogs['User'];
+    $user=$userlogs['Userid'];
     $UserRole=$userlogs['UserRole'];
     $Action=$userlogs['Action'];
     $Details=$userlogs['Details'];
@@ -1203,13 +1373,13 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
     $IP=$userlogs['IP'];
 
     $session_data = $this->session->userdata('logged_in');
-        $name=$session_data['Userid'];
-        $this->db->query("SET @var1= $name");
-        $this->db->query("SET @User= '$user'");
-        $this->db->query("SET @UserRole= '$UserRole'");
+        //$name=$session_data['Userid'];
+        //$this->db->query("SET @var1= $name");
+        $this->db->query("SET @Userid= '$user'");
+        //$this->db->query("SET @UserRole= '$UserRole'");
         $this->db->query("SET @Action= '$Action'");
         $this->db->query("SET @Details='$Details'");
-        $this->db->query("SET @station= $station");
+        //$this->db->query("SET @station= $station");
         $this->db->query("SET @IP= '$IP'");
         
         $this->db->where("Userid",$id);
@@ -1224,12 +1394,14 @@ public    function  updateUser($updateUserData,$updateUserData2,$tablename,$id,$
             return FALSE;
         }
     }
+    
     ///////////////////////////////////////////////////////
     //Delete for all Forms
   public  function  deleteData($tablename,$deleteFormDataId){ 
         if ($tablename=="stations"){  //$tablename and id of the record
            $deletesql = "DELETE FROM $tablename WHERE station_id =? ";
-		}else{
+        }
+        else{
 			 $deletesql = "DELETE FROM $tablename WHERE id =? ";
 		}
         // Run the query
