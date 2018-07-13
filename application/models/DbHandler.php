@@ -956,7 +956,7 @@ return $this->db->count_all_results();
                     }
                 }
 
-                public function selectAll($value, $field,$tablename,$NoOfRecords,$pageNo,$total_row){ //$stationame ,field StationName
+                public function selectAll($value, $field,$tablename,$lowerLimit,$upperLimit){ //$stationame ,field StationName
                     $this->db->select('*');
                     $this->db->from($tablename.' as slip');
                     $this->db->join('stations as stationsdata', 'slip.station= stationsdata.station_id');
@@ -964,12 +964,12 @@ return $this->db->count_all_results();
                     $session_data = $this->session->userdata('logged_in');
                     $userrole=$session_data['UserRole'];
 
-                    $lowerLimit=$total_row-($NoOfRecords*$pageNo);
-                    $upperLimit=$lowerLimit+$NoOfRecords;
-
-                    //$this->db->where("slip.id >", $lowerLimit);
-                    //$this->db->where("slip.id <=", $upperLimit);
-
+                    //$lowerLimit=$total_row-($NoOfRecords*$pageNo);
+                    //$upperLimit=$lowerLimit+$NoOfRecords;
+                      if($lowerLimit!=NULL || $upperLimit!=NULL){
+                    $this->db->where("slip.O_CreationDate >", $lowerLimit);
+                    $this->db->where("slip.O_CreationDate <=", $upperLimit);
+					  }
                     if($userrole=='Manager' || $userrole=='ManagerData'){
 
                     }elseif($userrole=='ZonalOfficer' || $userrole=='SeniorZonalOfficer'){
