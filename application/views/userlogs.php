@@ -15,7 +15,11 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 ?>
     <aside class="right-side" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
         <!-- Content Header (Page header) -->
-        
+        <section class="content-header">
+        <h1>
+            Userlogs
+            <small> Page</small>
+        </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li class="active">User logs</li>
