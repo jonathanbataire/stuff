@@ -36,10 +36,10 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                 <div class="box">
                     <div class="box-header">
                     </div>
-                    <div class="box-body table-responsive" style="overflow:auto;">
-                    <table id="example5" class="table table-bordered table-fixed table-striped">
+                    <div class="box-body table-responsive">
+                    <table id="example4" class="table table-bordered table-fixed table-striped">
                             <thead>
-                            <tr >
+                            <tr style="height: 90px;">
                                 <th>No.</th>
                                 <th>Date</th>
                                 <th>User Name</th>
@@ -55,7 +55,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                                 <?php
                                 $counter = 1;
                                 foreach($userlogsdata as $logs){ ?>
-                                    <tr>
+                                    <tr style="height: 60px;">
                                     <td ><?php echo $counter++;?></td>
                                       <td ><?php echo $logs->logdate;?></td>
                                       <td ><?php echo $logs->FirstName.' '.$logs->SurName;?></td>
