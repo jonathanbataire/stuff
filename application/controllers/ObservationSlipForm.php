@@ -121,6 +121,13 @@ $data["links"] = explode('&nbsp;',$str_links );
         $this->load->view('observationSlipForm', $data);
     }
 
+    function viewAllNotifications(){
+        
+
+        $this->load->view('observationSlipForm', $data);
+        
+    }
+
     public function getPopupRecord(){
         $data_id=$this->uri->segment(3);
         $userid=$this->uri->segment(4);
@@ -573,7 +580,7 @@ $TimeMarksRainRec =floatval( $this->input->post('timemarksRainRec_observationsli
                     $StationRegion=$session_data['StationRegion'];
                     $name=$session_data['FirstName'].' '.$session_data['SurName'];
         
-                    $userlogs = array('Userid' => $id,'Action' => 'Added ObservationSlip',
+                    $userlogs = array('Userid' => $id,'Action' => 'Added Observation Slip',
                         'Details' => $name . ' added Observation Slip information into the system',
                         'IP' => $this->input->ip_address());
                     //  save user logs

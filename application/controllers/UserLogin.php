@@ -106,7 +106,7 @@ class UserLogin extends CI_Controller {
                          'Action' => 'Logged in',
                         'Details' => $name . ' logged into the system ',
                          'IP' => $this->input->ip_address());
-                    // $this->DbHandler->saveUserLogs($userloginlogs);
+                    $this->DbHandler->saveUserLogs($userloginlogs);
 
                     //Load the next page
                     if($userrole== "OC" || $userrole== "Observer" || $userrole=="ObserverDataEntrant")
@@ -165,7 +165,7 @@ class UserLogin extends CI_Controller {
                                      'IP' => $this->input->ip_address());
         //  save user logs
         if($userrole!=NULL || $userrole!="")
-        //$this->DbHandler->saveUserLogs($userlogoutlogs);
+        $this->DbHandler->saveUserLogs($userlogoutlogs);
         //Destroy the Session.
         $this->session->unset_userdata('logged_in');
         //session_destroy();

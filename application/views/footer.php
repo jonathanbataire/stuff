@@ -228,6 +228,24 @@
             "irightColumns": 1
         }
         });
+        $("#example5").dataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": false,
+            "order": [[ 1, "asc" ]],
+            "aaSorting": [ [1,'asc'] ],
+			"scrollY":        "300px",
+            "scrollX":        true,
+           "scrollCollapse": true,
+            "paging":         true,
+            "fixedColumns":   {
+            "ileftColumns": 1,
+            "irightColumns": 1
+        }
+        });
         $("#example3").dataTable();
         $('#example2').dataTable({
             "bPaginate": false,

@@ -8,21 +8,14 @@ if($userrole== "ZonalOfficer" || $userrole== "SeniorZonalOfficer"){
     $user_station_region=$session_data['Region'];
 }
 $userstation=$session_data['UserStation'];
+$userstationid=$session_data['StationId'];
+
 $userstationNo=$session_data['StationNumber'];
 $name=$session_data['FirstName'].' '.$session_data['SurName'];
 ?>
-    <aside class="right-side">
+    <aside class="right-side" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                <small>
-                    <b>Name: <?php echo $name ; ?> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                        Role: <?php echo $userrole  ; ?>  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                        Station: <?php echo $userstation  ; ?>  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                        Station Number: <?php echo $userstationNo ; ?>  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                    </b>
-                </small>
-            </h1>
+        
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li class="active">User logs</li>
@@ -36,9 +29,64 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             
             
             <br>
-                    
-         <div class="row">
-         <form id="getuserlogs" action="<?php echo base_url(); ?>index.php/Users/GetUserLogs" method="post" enctype="multipart/form-data">
+            <div class="row">        
+        <?php if(is_array($userlogsdata)) {?>
+            <div class="col-xs-12">
+
+                <div class="box">
+                    <div class="box-header">
+                    </div>
+                    <div class="box-body table-responsive" style="overflow:auto;">
+                    <table id="example5" class="table table-bordered table-fixed table-striped">
+                            <thead>
+                            <tr >
+                                <th>No.</th>
+                                <th>Date</th>
+                                <th>User Name</th>
+                                <th>User Role</th>
+                                <th>Action Taken</th>
+                                <th>Details</th>
+                                <th>Station Name</th>
+                                <th>Station Number</th>
+                                <th>IP Address</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $counter = 1;
+                                foreach($userlogsdata as $logs){ ?>
+                                    <tr>
+                                    <td ><?php echo $counter++;?></td>
+                                      <td ><?php echo $logs->logdate;?></td>
+                                      <td ><?php echo $logs->FirstName.' '.$logs->SurName;?></td>
+                                      <td ><?php echo $logs->UserRole;?></td>
+                                      <td ><?php echo $action=$logs->Action;?></td>
+                                      <td><?php if($action =='Updated Observation Slip'){
+                                          echo 'Changed<b> '.$logs->field.'</b> from <b>'.$logs->old_value.
+                                          '</b> to <b>'.$logs->new_value.'</b>';
+                                      }else{
+                                        echo $logs->Details;
+                                      }
+                                      ?></td>
+                                      <td><?php echo $logs->StationName;?></td>
+                                      <td><?php echo $logs->StationNumber;?></td>
+                                      <td><?php echo $logs->IP;?></td>
+                                    </tr>
+
+                                <?php } 
+                                ?>
+                            </tbody>
+                    </table>
+                    <br><br>
+                        <a href="<?php echo base_url();?>index.php/Users/userlogs" class="btn btn-primary no-print"><i class="fa fa-success"></i>Back</a>
+                    </div><!-- /.box-body -->
+                </div><!-- box-->
+            </div>
+
+
+        <?php }else{ ?>
+
+                <form id="getuserlogs" action="<?php echo base_url(); ?>index.php/Users/GetUserLogs" method="post" enctype="multipart/form-data">
                 <?php if($userrole=='OC' || $userrole== "ZonalOfficer" || $userrole== "SeniorZonalOfficer"){ ?>
                 <div class="col-xs-6">
                         <div class="form-group">
@@ -73,7 +121,8 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
                             <div class="input-group">
 
                                 <span class="input-group-addon">Station</span>
-                                <input type="text" name="station" id="station" class="form-control" value="<?php echo $userstation;?>" placeholder="Please select station" readonly class="form-control"  >
+                                <input type="text" name="" id="" class="form-control" value="<?php echo $userstation;?>"  placeholder="Please select station" readonly class="form-control"  >
+                                <input type="hidden" name="station" id="station" value="<?php echo $userstationid;?>" >
                             </div>
                         </div>
                     </div>
@@ -103,9 +152,9 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						<select name="action"  id="action"  onkeyup=""  class="form-control"  
                         placeholder=" Enter Action" required>
 						<option value="">--Select Action-- </option>
-						<option value="Central">Add</option>
-						<option value="Eastern">Delete</option>
-						<option value="Western">Edit</option>
+						<option value="Added">Add</option>
+						<!--<option value="Eastern">Delete</option>-->
+						<option value="Updated">Edit</option>
 						<option value="login/logout">Login/Logout</option>
 					</select>
 				    </div>
@@ -119,11 +168,11 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 						<select name="typeofform"  id="typeofform"  onkeyup=""  class="form-control"  
                         placeholder=" Enter Type" required>
 						<option value="">--Select Type Of Form-- </option>
-						<option value="Observation Slip Form">Observation Slip Form</option>
-						<option value="Eastern">Weather Summary Form</option>
+						<option value="Observation Slip">Observation Slip Form</option>
+						<!--<option value="Eastern">Weather Summary Form</option>
 						<option value="Western">Metar Form</option>
 						<option value="Northern">Synoptic Form</option>
-                        <option value="Northern">Dekadal Form</option>
+                        <option value="Northern">Dekadal Form</option>-->
 					</select>
 				    </div>
                 </div>
@@ -143,7 +192,20 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
 				
 				<div align="center" class="col-xs-7">
                     <input type="submit"  id="submitjs" name="submitjs" class="btn btn-primary" value="Generate Report" >
-        <script>
+                    </div>
+				
+                </div>
+           </form>
+        <?php }?>
+         
+         
+       
+              
+         </div>
+        </section><!-- /.content -->
+    </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+    <script>
                     var starter=null;
                         var ender=null;
                         var nowstart=null;
@@ -253,21 +315,7 @@ $(function() {
   });
 });
 </script>
-                </div>
-				
-				 </div>
-            </form>
-         </div>
-        </section><!-- /.content -->
-    </aside><!-- /.right-side -->
-    </div><!-- ./wrapper -->
+
 
 
 <?php require_once(APPPATH . 'views/footer.php'); ?>
-<script type="text/javascript">
-            //Post metar form data into the DB
-            //Validate each field before inserting into the DB
-            
-           
-</script>
-

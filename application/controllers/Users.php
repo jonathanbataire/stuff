@@ -465,8 +465,20 @@ class Users extends CI_Controller {
         $typeofform=$this->input->post('typeofform');
         $startdate=$this->input->post('startdate');
         $enddate=$this->input->post('enddate');
-        exit($startdate.' - '.$enddate);
+
+        $result=$this->DbHandler->GetUserLogs($station,$action,$typeofform,$startdate,$enddate);
+        if ($result) {
+            $data['userlogsdata'] = $result;
+        } else {
+            $data['userlogsdata'] = array();
+        }
+
+        $this->load->view('userlogs', $data);
+       // print_r($result);
+        //exit($startdate.' - '.$enddate);
     }
+
+    
 
     function getPopuplogs(){
         $date = rawurldecode($this->uri->segment(4));

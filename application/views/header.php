@@ -154,8 +154,10 @@ $created=$session_data['CreationDate'];
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="label label-pill label-danger count" style="border-radius:10px;"></span> 
                 <span class="glyphicon glyphicon-bell" style="font-size:18px;"></span></a>
-                <ul id="ips" class="dropdown-menu"></ul>
+                <ul id="ips" class="dropdown-menu dropdown-menu1">
+                </ul>
                 </li>
+                
          </ul>
         <?php } ?>
         
@@ -443,7 +445,7 @@ $created=$session_data['CreationDate'];
     </html>
     <script>
 
-        var myFunc = function (obj) {
+        var getData = function (obj) {
             var link = obj.getAttribute("href");
             var content =  $('#popupwindow');
         //alert(link);
@@ -483,8 +485,6 @@ $created=$session_data['CreationDate'];
                         }
         });
         
-            
-            return false;
         };
 
          var count;
@@ -516,7 +516,7 @@ $created=$session_data['CreationDate'];
                     load_unseen_data();
                 }else{
                     var output = '<li><a href="#" class="text-bold text-italic">No New Notification Found</a></li>';
-                    $('.dropdown-menu').html(output);
+                    $('.dropdown-menu1.dropdown-menu').html(output);
                 }
                 
                 });
@@ -536,8 +536,20 @@ $created=$session_data['CreationDate'];
                 dataType:"json",
                 success:function(data)
                 {
-                    $('.dropdown-menu').html(data.notification);
+                    $('.dropdown-menu1.dropdown-menu').html(data.notification);
                 }
                 });
                 }
+
+                $(document).on('click', '#viewall', function(){
+                    $.ajax({
+                    url:"<?php echo base_url(); ?>"+"index.php/ObservationSlipForm/viewAllNotifications",
+                    method:"POST",
+                    dataType:"json",
+                    success:function(data)
+                    {
+                       
+                    }
+                    });
+                });
                 </script>

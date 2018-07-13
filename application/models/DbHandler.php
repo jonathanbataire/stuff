@@ -34,6 +34,38 @@ class DbHandler extends CI_Model {
         }
     }
 
+
+    function GetUserLogs($station,$action,$typeofform,$startdate,$enddate){
+        //exit($action.'...... '.$typeofform);
+        $this->db->select('*,logs.Date as logdate');
+        $this->db->from('userlogs as logs');
+        $this->db->join('systemusers as users','logs.Userid=users.Userid','left');
+        
+        
+                if($action=='login/logout'){
+                    $this->db->join('stations as station','users.station=station.station_id');
+                    $this->db->where_in('logs.Action',array('Signed Out','Logged in'));
+                    $this->db->where('station.station_id',$station);
+                }else{
+                    $this->db->join('stations as station','users.station=station.station_id','left');
+                    $this->db->join('observationslip as slip','slip.id=logs.data_id','left');
+                    $this->db->where('logs.Action',$action.' '.$typeofform);
+                    $this->db->where('slip.station',$station);
+                }
+                
+                $this->db->where('logs.Date >= ',$startdate);
+                $this->db->where('logs.Date <= ',$enddate);
+                $query=$this->db->get();
+            if($query -> num_rows() >0){
+                    $result = $query->result();
+                    return $result;
+                }
+                else
+                {
+                    return false;
+                }
+    }
+
     function getUserLogInDetails($username, $password,$res,$active) {
         $this->db->select('*');
         $this->db->from('systemusers as user');
@@ -972,6 +1004,42 @@ return $this->db->count_all_results();
                     }
                 }
 
+                function viewAllNotifications(){
+                    $session_data = $this->session->userdata('logged_in');
+                    $userrole=$session_data['UserRole'];
+                    $userstationid= $session_data['StationId'];
+                    $zonalregion = $session_data['ZonalRegion'];
+                    if($userrole=='OC'){
+                        $arr = array('01','00');
+                    }else if($userrole=='ManagerData'){
+                        $arr = array('10','00');
+                    }
+                    $this->db->select('*');
+                    $this->db->from('observationslip as slip');
+                    $this->db->join('systemusers as users', 'slip.Userid= users.Userid');
+                    $this->db->join('stations as stationsdata', 'users.station = stationsdata.station_id');
+                    $this->db->join('userlogs as logs','logs.data_id=slip.id');
+                    $this->db->where_in('logs',$arr);
+                    if($userrole =='OC'){
+                        $this->db->where('slip.station',$userstationid); 
+                    }else if($userrole =='ManagerData'){
+                        $this->db->where_in('users.UserRole',array('SeniorZonalOfficer','ZonalOfficer')); 
+                    }else if($userrole =='ZonalOfficer'){
+                        $this->db->where('stationsdata.StationRegion',$zonalregion);
+                    }
+                    
+                    $query = $this->db->get();
+                    if($query -> num_rows() > 0)
+                    {
+                        $result = $query->result(); 
+                        return $result;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
                 function getPopupRecord($data_id){
                     $this->db->select('*');
                     $this->db->from('observationslip as slip');
@@ -1312,12 +1380,13 @@ public   function  updateData($FormDataToUpdate,$FormDataToUpdate2, $tablename, 
             $result = $query->result(); 
             foreach ($result as $row){
                 $output .= '<li  >
-                <a onclick="myFunc(this);return false;" href="index.php/Users/getPopuplogs/'.rawurlencode($row->userid).'/'.rawurlencode($row->date).'">
+                <a onclick="getData(this);return false;" href="index.php/Users/getPopuplogs/'.rawurlencode($row->userid).'/'.rawurlencode($row->date).'">
                 <strong>'.$row->FirstName.' '.$row->SurName.', <em>'.$row->UserRole.'</em></strong><br />
                 <small><em>'.$row->Action.'</em></small>
                 </a>
             </li>
             <li class="divider"></li>
+            
                 ';
             }
             return $output;
