@@ -10,6 +10,8 @@ class ObservationSlipForm extends CI_Controller {
         $this->load->model('DbHandler');
         $this->load->library('session');
         $this->load->library('pagination');
+		$this->load->helper('url');
+        $this->load->library('user_agent');
 		 
       
       if(!$this->session->userdata('logged_in')){
@@ -18,38 +20,39 @@ class ObservationSlipForm extends CI_Controller {
 	  }
     }
     public function index(){
-      $session_data = $this->session->userdata('logged_in');
-      $userstation=$session_data['UserStation'];
+				  $session_data = $this->session->userdata('logged_in');
+				  $userstation=$session_data['UserStation'];
 
-$config = array();
-$config["base_url"] = base_url()."index.php/ObservationSlipForm/index";
-//index.php/ObservationSlipForm/index
-$total_row = $this->DbHandler->record_count('StationName',$userstation);
-$config["total_rows"] = $total_row;
-$config['use_page_numbers'] = TRUE;
-$config['cur_tag_open'] = '&nbsp;<a class="current">';
-$config['cur_tag_close'] = '</a>';
-$config['next_link'] = 'Next';
-$config['prev_link'] = 'Previous';
+			$from= $this->input->post('datefrom');
+				  $to=$this->input->post('dateto');
+				  $week=$this->input->post('week');
+				  $data['recentFormdateDate'] = array('to' => $to,'from' => $from,'week' => $week);
 
-$this->pagination->initialize($config);
+			//if($from=="" || $from==NULL || $to=="" || $to==NULL){
 
-if($this->uri->segment(3)){
-$page = ($this->uri->segment(3)) ;
-}
-else{
-$page = 1;
-}
+			 // $to=  date("Y-m-d");
+			  //$date=date_create($to);
+			  //$intermideateDate=date_sub($date,date_interval_create_from_date_string("7 days"));
+			  //$from=date_format($intermideateDate,"Y-m-d");
 
-$str_links = $this->pagination->create_links();
-$data["links"] = explode('&nbsp;',$str_links );
+			//}
+
+			$data['dateform_action'] = base_url()."index.php/ObservationSlipForm/";
+			if($this->uri->segment(3)){
+			$page = ($this->uri->segment(3)) ;
+			}
+			else{
+			$page = 1;
+			}
+
+		$str_links = $this->pagination->create_links();
+		$data["links"] = explode('&nbsp;',$str_links );
 
 
         if($userrole=="WeatherForecaster" || $userrole=="Observer" || $userrole=="ObserverDataEntrant" )
-        $query = $this->DbHandler->selectAll2conditions($userstation,'StationName','observationslip',0,"Approved",$config["per_page"],$page,$total_row);
+       $query = $this->DbHandler->selectAll2conditions($userstation,'StationName','observationslip',0,"Approved",$from,$to);
         else
-        $query = $this->DbHandler->selectAll($userstation,'StationName','observationslip',$config["per_page"],$page,$total_row);
-
+        $query = $this->DbHandler->selectAll($userstation,'StationName','observationslip',$from,$to);
         //  var_dump($query);
         if ($query) {
             $data['observationslipformdata'] = $query;
@@ -85,30 +88,30 @@ $data["links"] = explode('&nbsp;',$str_links );
        // $this->unsetflashdatainfo();
         $session_data = $this->session->userdata('logged_in');
         $userstation=$session_data['UserStation'];
+           
+				   if($this->uri->segment(3)){
+		$page = ($this->uri->segment(3)) ;
+		}
+		else{
+		$page = 1;
+		}
+      $from= $this->input->post('datefrom');
+        $to=$this->input->post('dateto');
+        $week=$this->input->post('week');
+        $data['recentFormdateDate'] = array('to' => $to,'from' => $from,'week' => $week);
 
-       $config = array();
-        $config["base_url"] = base_url() . "index.php/ObservationSlipForm/showAwsdata";
-        $total_row = $this->DbHandler->record_count_aws('StationName',$userstation);
-        $config["total_rows"] = $total_row;
-        $config["per_page"] = 1000;
-        $config['use_page_numbers'] = TRUE;
-        $config['num_links'] = 10;
-        $config['cur_tag_open'] = '&nbsp;<a class="current">';
-        $config['cur_tag_close'] = '</a>';
-        $config['next_link'] = 'Next';
-        $config['prev_link'] = 'Previous';
+       // if($from=="" || $from==NULL || $to=="" || $to==NULL){
 
-        if($this->uri->segment(3)){
-        $page = ($this->uri->segment(3)) ;
-        }
-        else{
-        $page = 1;
-        }
+          //$to=  date("Y-m-d");
+          //$date=date_create($to);
+          //$intermideateDate=date_sub($date,date_interval_create_from_date_string("7 days"));
+          //$from=date_format($intermideateDate,"Y-m-d");
 
-        $str_links = $this->pagination->create_links();
-        $data["links"] = explode('&nbsp;',$str_links );
+        //}
 
-        $query = $this->DbHandler->selectAll2conditions($userstation,'StationName','observationslip',"AWS","DeviceType",$config["per_page"],$page,$total_row);
+        $data['dateform_action'] = base_url()."index.php/ObservationSlipForm/showAwsdata/";
+
+       $query = $this->DbHandler->selectAll2conditions($userstation,'StationName','observationslip',"AWS","DeviceType",$from,$to);
 
         //  var_dump($query);
         if ($query) {
@@ -145,41 +148,40 @@ $data["links"] = explode('&nbsp;',$str_links );
     }
 
     public function showWebmobiledata(){
-       // $this->unsetflashdatainfo();
+       $this->unsetflashdatainfo();
+      $this->load->helper(array('form', 'url'));
        $session_data = $this->session->userdata('logged_in');
        $userstation=$session_data['UserStation'];
        $userrole=$session_data['UserRole'];
+	   if($this->uri->segment(3)){
+		$page = ($this->uri->segment(3)) ;
+		}
+		else{
+		$page = 1;
+		}
+	   
+      $from= $this->input->post('datefrom');
+      $to=$this->input->post('dateto');
+      $week=$this->input->post('week');
+      $data['recentFormdateDate'] = array('to' => $to,'from' => $from,'week' => $week);
 
-       $config = array();
-       $config["base_url"] = base_url() . "index.php/ObservationSlipForm/showWebmobiledata";
-       $total_row =$this->DbHandler->record_count_webmobile('StationName',$userstation);
-       $config["total_rows"] = $total_row;
+		//if($from=="" || $from==NULL || $to=="" || $to==NULL){
+
+		  //$to=  date("Y-m-d");
+		  //$date=date_create($to);
+		  //$intermideateDate=date_sub($date,date_interval_create_from_date_string("7 days"));
+		  //$from=date_format($intermideateDate,"Y-m-d");
+
+		//}
+
+		 $data['dateform_action'] = base_url()."index.php/ObservationSlipForm/showWebmobiledata/";
        
-       $config['use_page_numbers'] = TRUE;
-      
-       $config['cur_tag_open'] = '&nbsp;<a class="current">';
-       $config['cur_tag_close'] = '</a>';
-       $config['next_link'] = 'Next';
-       $config['prev_link'] = 'Previous';
-
-       $this->pagination->initialize($config);
-
-       if($this->uri->segment(3)){
-       $page = ($this->uri->segment(3)) ;
-       }
-       else{
-       $page = 1;
-       }
-
-       $str_links = $this->pagination->create_links();
-       $data["links"] = explode('&nbsp;',$str_links );
 
 
         if($userrole=="WeatherForecaster" || $userrole=="Observer" || $userrole=="ObserverDataEntrant" )
-        $query = $this->DbHandler->selectAll3conditionsOneNegative($userstation,'StationName','observationslip',0,"Approved","AWS","DeviceType",$config["per_page"],$page,$total_row);
+        $query = $this->DbHandler->selectAll3conditionsOneNegative($userstation,'StationName','observationslip',0,"Approved","AWS","DeviceType",$from,$to);
         else
-        $query = $this->DbHandler->selectAll2conditionsOneNegative($userstation,'StationName','observationslip',"AWS","DeviceType",$config["per_page"],$page,$total_row);
-
+        $query = $this->DbHandler->selectAll2conditionsOneNegative($userstation,'StationName','observationslip',"AWS","DeviceType",$from,$to);
         //  var_dump($query);
         if ($query) {
             $data['observationslipformdata'] = $query;

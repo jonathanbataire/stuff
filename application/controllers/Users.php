@@ -11,7 +11,11 @@ class Users extends CI_Controller {
         $this->load->library('session');
         $this->load->library('encrypt');
         $this->load->library('user_agent');
-
+       
+	   if(!$this->session->userdata('logged_in')){
+	  $this->session->set_flashdata('warning', 'Sorry, your session has expired.Please login again.');
+       redirect('/Welcome');
+	  }
 
     }
     public function index(){

@@ -2290,7 +2290,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
         <?php } ?>
 		
         <br><br>
-        <!--<form action="<?php echo $dateform_action; ?>" id="datepickForm" method="post"  enctype="multipart/form-data">
+        <form action="<?php echo $dateform_action; ?>" id="datepickForm" method="post"  enctype="multipart/form-data">
 
           <div class="col-xs-2">
             <div class="col-xs-2">
@@ -2309,7 +2309,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
               <div class="form-group">
                   <div class="input-group">
                       <span class="input-group-addon">From Date</span>
-                      <input type="text" name="datefrom" id="datefrom" value="<?php  echo $recentFormdateDate['from']? $recentFormdateDate['from']: date_format(date_sub(date_create(date("Y-m-d")),date_interval_create_from_date_string("7 days")),"Y-m-d"); ?>"  class="form-control summonth" style="background-color:smokewhite; color: black;" placeholder="Please select the date" readonly >
+                      <input type="text" name="datefrom" id="datefrom" value="<?php  echo $recentFormdateDate['from']; ?>"  class="form-control summonth" style="background-color:smokewhite; color: black;" placeholder="Please select the date" readonly >
                   </div>
               </div>
           </div>
@@ -2319,7 +2319,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
               <div class="form-group">
                   <div class="input-group">
                       <span class="input-group-addon"> To Date</span>
-                      <input type="text" name="dateto" id="dateto"  value="<?php echo $recentFormdateDate['to']? $recentFormdateDate['to']:date("Y-m-d");?>"   class="form-control summonth" style="background-color:smokewhite; color: black;" placeholder="Please select the date" readonly >
+                      <input type="text" name="dateto" id="dateto"  value="<?php echo $recentFormdateDate['to'];?>"   class="form-control summonth" style="background-color:smokewhite; color: black;" placeholder="Please select the date" readonly >
                   </div>
               </div>
           </div>
@@ -2327,7 +2327,7 @@ $name=$session_data['FirstName'].' '.$session_data['SurName'];
             <input type="submit" name="datesub"  id="datesub" style="visibility:hidden;" />
           </div>
 
-        </form>-->
+        </form>
         <div class="row">
             <div class="col-xs-12">
 
@@ -5354,23 +5354,6 @@ alert();
             });
             );
     </script>
-<<<<<<< HEAD
-
-	
-
-
-
-||||||| merged common ancestors
-<<<<<<< HEAD
-
-	
-=======
->>>>>>> dc8787437fe1b3d03f045af9e6ddb57ca07f8ea3
-
-
-
-=======
->>>>>>> 0b5de7278fc36a34fbbf4f0b2a2e3260b6b7af58
 
 
 <?php require_once(APPPATH . 'views/footer.php'); ?>
